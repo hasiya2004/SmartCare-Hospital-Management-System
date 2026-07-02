@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "patients")
 @AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "patient_id")),
         @AttributeOverride(name = "name", column = @Column(name = "full_name", nullable = false)),
         @AttributeOverride(name = "contactNumber", column = @Column(name = "contact_number"))
 })

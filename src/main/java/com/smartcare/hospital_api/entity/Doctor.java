@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "doctors")
 @AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "doctor_id")),
         @AttributeOverride(name = "name", column = @Column(name = "doctor_name", nullable = false)),
         @AttributeOverride(name = "contactNumber", column = @Column(name = "contact_number"))
 })

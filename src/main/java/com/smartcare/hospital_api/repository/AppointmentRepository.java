@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     boolean existsByDoctorAndAppointmentDateAndAppointmentTime(Doctor doctor, LocalDate date, LocalTime time);
-    List<Appointment> findByDoctor_DoctorIdAndAppointmentDate(Long doctorId, LocalDate date);
-    List<Appointment> findByPatient_PatientId(Long patientId);
+    List<Appointment> findByDoctor_IdAndAppointmentDate(Long doctorId, LocalDate date);
+    List<Appointment> findByPatient_Id(Long patientId);
 }

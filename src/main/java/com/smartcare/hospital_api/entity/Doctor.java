@@ -1,10 +1,13 @@
 package com.smartcare.hospital_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "doctors")
@@ -16,7 +19,9 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Doctor extends Person {
+
     private String qualification;
     private String specialization;
 
@@ -26,4 +31,13 @@ public class Doctor extends Person {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
+
+    // ---- Relationships (back side – ignored) ----
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    private List<Appointment> appointments;
+
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    private List<Treatment> treatments;
 }

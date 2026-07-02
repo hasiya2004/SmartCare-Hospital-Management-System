@@ -2,6 +2,7 @@ package com.smartcare.hospital_api.entity;
 
 import com.smartcare.hospital_api.enums.PaymentMethod;
 import com.smartcare.hospital_api.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,9 @@ import java.time.LocalDate;
 @Table(name = "bills")
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Bill {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bill_id")

@@ -1,6 +1,7 @@
 package com.smartcare.hospital_api.entity;
 
 import com.smartcare.hospital_api.enums.RoomType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "rooms")
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Room {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")

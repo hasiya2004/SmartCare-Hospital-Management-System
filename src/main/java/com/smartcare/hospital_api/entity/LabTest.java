@@ -1,6 +1,7 @@
 package com.smartcare.hospital_api.entity;
 
 import com.smartcare.hospital_api.enums.TestStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,9 @@ import java.time.LocalDate;
 @Table(name = "lab_tests")
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class LabTest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "lab_test_id")

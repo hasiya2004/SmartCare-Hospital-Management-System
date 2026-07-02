@@ -1,6 +1,7 @@
 package com.smartcare.hospital_api.entity;
 
 import com.smartcare.hospital_api.enums.AppointmentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,9 @@ import java.time.LocalTime;
 @Table(name = "appointments")
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Appointment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "appointment_id")

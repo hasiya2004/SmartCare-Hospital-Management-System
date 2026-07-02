@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartCare HMS · Dashboard with Charts</title>
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #f0f2f5; min-height: 100vh; }
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0b1a2e 0%, #1a2f44 100%);
+            color: #e2e8f0;
+            padding-top: 16px;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+        }
+        .sidebar .brand {
+            font-weight: 700;
+            font-size: 1.4rem;
+            padding: 0 20px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sidebar .brand i { color: #4f9cf7; margin-right: 10px; }
+        .sidebar .nav-link {
+            color: #b0c4de;
+            padding: 12px 20px;
+            margin: 2px 12px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .sidebar .nav-link i { font-size: 1.2rem; width: 28px; text-align: center; margin-right: 12px; }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background: rgba(79, 156, 247, 0.15);
+            color: #fff;
+        }
+        .sidebar .nav-link.active { background: #1e3a5f; color: #fff; }
+
+        .main-content { padding: 30px; }
+        .page-title { font-weight: 700; font-size: 1.8rem; color: #1a2f44; margin-bottom: 25px; }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border-left: 6px solid #4f9cf7;
+            transition: transform 0.15s;
+        }
+        .stat-card:hover { transform: translateY(-4px); }
+        .stat-card .icon { font-size: 2.2rem; color: #4f9cf7; opacity: 0.7; }
+        .stat-card .number { font-size: 2rem; font-weight: 700; color: #0b1a2e; }
+        .stat-card .label { color: #64748b; font-weight: 500; }
+
+        .chart-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            height: 100%;
+        }
+        .chart-card canvas {
+            max-height: 200px;
+            width: 100% !important;
+        }
+
+        .table-container {
+            background: #fff;
+            border-radius: 16px;
+            padding: 0 0 0 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            overflow-x: auto;
+        }
+        .badge-status { padding: 6px 12px; border-radius: 20px; font-weight: 500; font-size: 0.75rem; }
+
+        .quick-action-btn {
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: none;
+            width: 100%;
+            margin-top: 8px;
+        }
+        .quick-action-btn:hover { transform: scale(1.02); }
+
+        .btn-primary { background: #4f9cf7; border: none; }
+        .btn-primary:hover { background: #3b82f6; }
+        .btn-success { background: #10b981; border: none; }
+        .btn-success:hover { background: #059669; }
+        .btn-warning { background: #f59e0b; border: none; color: #fff; }
+        .btn-warning:hover { background: #d97706; color: #fff; }
+        .btn-danger { background: #ef4444; border: none; }
+        .btn-danger:hover { background: #dc2626; }
+
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; }
+        .form-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .form-card .form-label { font-weight: 600; }
+
+        @media (max-width: 768px) {
+            .sidebar { min-height: auto; position: relative; }
+            .main-content { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Toast -->
+<div class="toast-container">
+    <div id="liveToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true" style="min-width:300px;">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMessage"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-0">
+    <div class="row g-0">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-md-block sidebar">
+            <div class="position-sticky">
+                <div class="brand"><i class="bi bi-heart-pulse-fill"></i> SmartCare</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link active" onclick="loadDashboard()"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="loadPatients()"><i class="bi bi-people-fill"></i> Patients</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="loadDoctors()"><i class="bi bi-person-badge-fill"></i> Doctors</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="loadAppointments()"><i class="bi bi-calendar2-week-fill"></i> Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="loadAdmissions()"><i class="bi bi-hospital-fill"></i> Admissions</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="loadTreatments()"><i class="bi bi-prescription"></i> Treatments</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="loadLabTests()"><i class="bi bi-flask"></i> Lab Tests</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="loadBills()"><i class="bi bi-receipt-cutoff"></i> Bills &amp; Fees</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="loadRooms()"><i class="bi bi-door-open-fill"></i> Rooms</a></li>
+                </ul>
+                <div class="mt-4 px-3" style="position:absolute; bottom:20px;">
+                    <small class="text-white-50"><i class="bi bi-circle-fill text-success" style="font-size:8px;"></i> API v2.0</small>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-10 ms-sm-auto px-md-4 main-content">
+            <div id="contentArea"></div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // ======================================================================
+    //  HELPERS
+    // ======================================================================
+    async function apiCall(url, method = 'GET', body = null) {
+        const options = { method, headers: { 'Content-Type': 'application/json' } };
+        if (body) options.body = JSON.stringify(body);
+        const res = await fetch(url, options);
+        if (!res.ok) {
+            const txt = await res.text();
+            throw new Error(`HTTP ${res.status}: ${txt}`);
+        }
+        return res.json();
+    }
+
+    function showToast(msg, bg = 'success') {
+        const toast = document.getElementById('liveToast');
+        const body = document.getElementById('toastMessage');
+        body.textContent = msg;
+        toast.className = `toast align-items-center text-white border-0 bg-${bg}`;
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.show();
+    }
+
+    // ======================================================================
+    //  DASHBOARD WITH CHARTS
+    // ======================================================================
+    async function loadDashboard() {
+        try {
+            const [patients, doctors, appointments, bills, admissions, treatments] = await Promise.all([
+                apiCall('/api/patients'), apiCall('/api/doctors'), apiCall('/api/appointments'),
+                apiCall('/api/bills'), apiCall('/api/admissions'), apiCall('/api/treatments')
+            ]);
+
+            // Build data for charts
+            const genderCounts = { Male: 0, Female: 0, Other: 0 };
+            patients.forEach(p => { if (p.gender) genderCounts[p.gender] = (genderCounts[p.gender] || 0) + 1; });
+
+            const today = new Date();
+            const last7 = [];
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                last7.push(d.toISOString().split('T')[0]);
+            }
+            const apptCounts = last7.map(date => appointments.filter(a => a.appointmentDate === date).length);
+
+            const billStatus = { Pending: 0, Paid: 0, Partially_Paid: 0 };
+            bills.forEach(b => { if (b.paymentStatus) billStatus[b.paymentStatus] = (billStatus[b.paymentStatus] || 0) + 1; });
+
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title"><i class="bi bi-house-door-fill me-2 text-primary"></i>Dashboard</h1>
+                <div class="row g-4 mb-4">
+                    <div class="col-6 col-xl-2"><div class="stat-card"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-people"></i></span><span class="number">${patients.length}</span></div><div class="label">Patients</div></div></div>
+                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#10b981;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-person-badge"></i></span><span class="number">${doctors.length}</span></div><div class="label">Doctors</div></div></div>
+                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#f59e0b;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-calendar-check"></i></span><span class="number">${appointments.length}</span></div><div class="label">Appointments</div></div></div>
+                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#8b5cf6;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-receipt"></i></span><span class="number">${bills.length}</span></div><div class="label">Bills</div></div></div>
+                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#ec4899;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-hospital"></i></span><span class="number">${admissions.length}</span></div><div class="label">Admissions</div></div></div>
+                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#14b8a6;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-prescription"></i></span><span class="number">${treatments.length}</span></div><div class="label">Treatments</div></div></div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4"><div class="chart-card"><h6 class="fw-semibold"><i class="bi bi-gender-ambiguous me-1"></i>Patients by Gender</h6><canvas id="genderChart"></canvas></div></div>
+                    <div class="col-md-5"><div class="chart-card"><h6 class="fw-semibold"><i class="bi bi-calendar3 me-1"></i>Appointments (Last 7 Days)</h6><canvas id="apptChart"></canvas></div></div>
+                    <div class="col-md-3"><div class="chart-card"><h6 class="fw-semibold"><i class="bi bi-pie-chart me-1"></i>Bill Status</h6><canvas id="billChart"></canvas></div></div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-8">
+                        <div class="table-container p-3">
+                            <h5 class="fw-semibold"><i class="bi bi-clock-history me-2"></i>Recent Appointments</h5>
+                            <ul class="list-group list-group-flush" id="recentAppointments"></ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="chart-card p-3">
+                            <h5 class="fw-semibold"><i class="bi bi-lightning-charge-fill me-2"></i>Quick Actions</h5>
+                            <button class="quick-action-btn btn-primary" onclick="showAddPatient()"><i class="bi bi-plus-circle"></i> Add Patient</button>
+                            <button class="quick-action-btn btn-success" onclick="showBookAppointment()"><i class="bi bi-calendar-plus"></i> Book Appointment</button>
+                            <button class="quick-action-btn btn-warning" onclick="showAddBill()"><i class="bi bi-plus-circle"></i> Generate Bill</button>
+                            <button class="quick-action-btn btn-secondary" onclick="showAdmitPatient()"><i class="bi bi-plus-circle"></i> Admit Patient</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Render charts after DOM update
+            setTimeout(() => {
+                const ctx1 = document.getElementById('genderChart').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Male', 'Female', 'Other'],
+                        datasets: [{ data: [genderCounts.Male||0, genderCounts.Female||0, genderCounts.Other||0], backgroundColor: ['#4f9cf7','#f472b6','#a78bfa'] }]
+                    },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+                });
+
+                const ctx2 = document.getElementById('apptChart').getContext('2d');
+                new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: last7.map(d => d.slice(5)),
+                        datasets: [{ label: 'Appointments', data: apptCounts, backgroundColor: '#10b981', borderRadius: 6 }]
+                    },
+                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, stepSize: 1 } } }
+                });
+
+                const ctx3 = document.getElementById('billChart').getContext('2d');
+                new Chart(ctx3, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Pending', 'Paid', 'Partially Paid'],
+                        datasets: [{ data: [billStatus.Pending||0, billStatus.Paid||0, billStatus.Partially_Paid||0], backgroundColor: ['#f59e0b','#10b981','#8b5cf6'] }]
+                    },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+                });
+            }, 100);
+
+            const recent = appointments.slice(-5).reverse();
+            const list = document.getElementById('recentAppointments');
+            if (recent.length === 0) list.innerHTML = '<li class="list-group-item text-muted">No appointments yet.</li>';
+            else {
+                list.innerHTML = recent.map(a => `
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div><strong>${a.patient?.name || 'Unknown'}</strong> with <span class="text-primary">${a.doctor?.name || 'Unknown'}</span><br><small class="text-muted">${a.appointmentDate} at ${a.appointmentTime}</small></div>
+                        <span class="badge-status ${a.status === 'Cancelled' ? 'bg-danger' : 'bg-success'}">${a.status}</span>
+                    </li>
+                `).join('');
+            }
+        } catch (err) {
+            document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error loading dashboard: ${err.message}</div>`;
+        }
+    }
+
+    // ======================================================================
+    //  PATIENTS (Full CRUD)
+    // ======================================================================
+    async function loadPatients() {
+        try {
+            const patients = await apiCall('/api/patients');
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-people-fill me-2 text-primary"></i>Patients</span>
+                    <button class="btn btn-primary" onclick="showAddPatient()"><i class="bi bi-plus-lg"></i> New Patient</button>
+                </h1>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead><tr><th>ID</th><th>Name</th><th>Contact</th><th>Gender</th><th>DOB</th><th>Blood</th><th>Actions</th></tr></thead>
+                        <tbody>
+                            ${patients.map(p => `
+                                <tr>
+                                    <td>${p.id}</td>
+                                    <td><strong>${p.name}</strong></td>
+                                    <td>${p.contactNumber || '-'}</td>
+                                    <td>${p.gender}</td>
+                                    <td>${p.dateOfBirth}</td>
+                                    <td><span class="badge bg-secondary">${p.bloodGroup}</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="showEditPatient(${p.id})"><i class="bi bi-pencil"></i></button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deletePatient(${p.id})"><i class="bi bi-trash3"></i></button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    }
+
+    function showAddPatient() {
+        document.getElementById('contentArea').innerHTML = `
+            <h1 class="page-title"><i class="bi bi-person-plus-fill me-2 text-primary"></i>Add Patient</h1>
+            <div class="form-card">
+                <form id="patientForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Full Name *</label><input class="form-control" id="pName" required /></div>
+                        <div class="col-md-6"><label class="form-label">Contact</label><input class="form-control" id="pContact" /></div>
+                        <div class="col-md-6"><label class="form-label">Date of Birth</label><input type="date" class="form-control" id="pDob" /></div>
+                        <div class="col-md-6"><label class="form-label">Gender</label><select class="form-select" id="pGender"><option>Male</option><option>Female</option><option>Other</option></select></div>
+                        <div class="col-12"><label class="form-label">Address</label><input class="form-control" id="pAddress" /></div>
+                        <div class="col-md-6"><label class="form-label">Blood Group</label><input class="form-control" id="pBlood" /></div>
+                        <div class="col-md-6"><label class="form-label">Emergency Contact</label><input class="form-control" id="pEmergency" /></div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadPatients()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        document.getElementById('patientForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('pName').value,
+                contactNumber: document.getElementById('pContact').value,
+                dateOfBirth: document.getElementById('pDob').value,
+                gender: document.getElementById('pGender').value,
+                address: document.getElementById('pAddress').value,
+                bloodGroup: document.getElementById('pBlood').value,
+                emergencyContact: document.getElementById('pEmergency').value
+            };
+            try { await apiCall('/api/patients', 'POST', data); showToast('✅ Patient added!'); loadPatients(); }
+            catch (err) { showToast('❌ ' + err.message, 'danger'); }
+        });
+    }
+
+    async function showEditPatient(id) {
+        try {
+            const p = await apiCall(`/api/patients/${id}`);
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title"><i class="bi bi-pencil-square me-2 text-primary"></i>Edit Patient #${id}</h1>
+                <div class="form-card">
+                    <form id="editPatientForm">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" id="eName" value="${p.name}" required /></div>
+                            <div class="col-md-6"><label class="form-label">Contact</label><input class="form-control" id="eContact" value="${p.contactNumber||''}" /></div>
+                            <div class="col-md-6"><label class="form-label">DOB</label><input type="date" class="form-control" id="eDob" value="${p.dateOfBirth}" /></div>
+                            <div class="col-md-6"><label class="form-label">Gender</label><select class="form-select" id="eGender"><option ${p.gender==='Male'?'selected':''}>Male</option><option ${p.gender==='Female'?'selected':''}>Female</option><option ${p.gender==='Other'?'selected':''}>Other</option></select></div>
+                            <div class="col-12"><label class="form-label">Address</label><input class="form-control" id="eAddress" value="${p.address||''}" /></div>
+                            <div class="col-md-6"><label class="form-label">Blood Group</label><input class="form-control" id="eBlood" value="${p.bloodGroup||''}" /></div>
+                            <div class="col-md-6"><label class="form-label">Emergency</label><input class="form-control" id="eEmergency" value="${p.emergencyContact||''}" /></div>
+                        </div>
+                        <div class="mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Update</button>
+                            <button type="button" class="btn btn-secondary" onclick="loadPatients()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.getElementById('editPatientForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = {
+                    name: document.getElementById('eName').value,
+                    contactNumber: document.getElementById('eContact').value,
+                    dateOfBirth: document.getElementById('eDob').value,
+                    gender: document.getElementById('eGender').value,
+                    address: document.getElementById('eAddress').value,
+                    bloodGroup: document.getElementById('eBlood').value,
+                    emergencyContact: document.getElementById('eEmergency').value
+                };
+                try { await apiCall(`/api/patients/${id}`, 'PUT', data); showToast('✅ Updated!'); loadPatients(); }
+                catch (err) { showToast('❌ ' + err.message, 'danger'); }
+            });
+        } catch (err) { showToast('Error: ' + err.message, 'danger'); }
+    }
+
+    async function deletePatient(id) {
+        if (!confirm('Delete patient #' + id + '?')) return;
+        try { await apiCall(`/api/patients/${id}`, 'DELETE'); showToast('✅ Deleted'); loadPatients(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    // ======================================================================
+    //  DOCTORS
+    // ======================================================================
+    async function loadDoctors() {
+        try {
+            const docs = await apiCall('/api/doctors');
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-person-badge-fill me-2 text-primary"></i>Doctors</span>
+                    <button class="btn btn-primary" onclick="showAddDoctor()"><i class="bi bi-plus-lg"></i> Add Doctor</button>
+                </h1>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Contact</th><th>Fee</th><th>Actions</th></tr></thead>
+                        <tbody>${docs.map(d => `
+                            <tr>
+                                <td>${d.id}</td>
+                                <td><strong>${d.name}</strong></td>
+                                <td>${d.specialization}</td>
+                                <td>${d.contactNumber}</td>
+                                <td>$${d.consultationFee}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="showEditDoctor(${d.id})"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDoctor(${d.id})"><i class="bi bi-trash3"></i></button>
+                                </td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    }
+
+    function showAddDoctor() {
+        document.getElementById('contentArea').innerHTML = `
+            <h1 class="page-title"><i class="bi bi-person-plus-fill me-2 text-primary"></i>Add Doctor</h1>
+            <div class="form-card">
+                <form id="doctorForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" id="dName" required /></div>
+                        <div class="col-md-6"><label class="form-label">Contact</label><input class="form-control" id="dContact" /></div>
+                        <div class="col-md-6"><label class="form-label">Qualification</label><input class="form-control" id="dQual" /></div>
+                        <div class="col-md-6"><label class="form-label">Specialization</label><input class="form-control" id="dSpec" /></div>
+                        <div class="col-md-6"><label class="form-label">Fee ($)</label><input type="number" step="0.01" class="form-control" id="dFee" /></div>
+                        <div class="col-md-6"><label class="form-label">Dept ID</label><input class="form-control" id="dDept" /></div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadDoctors()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        document.getElementById('doctorForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('dName').value,
+                contactNumber: document.getElementById('dContact').value,
+                qualification: document.getElementById('dQual').value,
+                specialization: document.getElementById('dSpec').value,
+                consultationFee: parseFloat(document.getElementById('dFee').value) || 0,
+                department: { departmentId: parseInt(document.getElementById('dDept').value) || null }
+            };
+            try { await apiCall('/api/doctors', 'POST', data); showToast('✅ Doctor added!'); loadDoctors(); }
+            catch (err) { showToast('❌ ' + err.message, 'danger'); }
+        });
+    }
+
+    async function showEditDoctor(id) {
+        try {
+            const d = await apiCall(`/api/doctors/${id}`);
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title"><i class="bi bi-pencil-square me-2 text-primary"></i>Edit Doctor</h1>
+                <div class="form-card">
+                    <form id="editDoctorForm">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label>Name *</label><input class="form-control" id="edName" value="${d.name}" required /></div>
+                            <div class="col-md-6"><label>Contact</label><input class="form-control" id="edContact" value="${d.contactNumber||''}" /></div>
+                            <div class="col-md-6"><label>Qualification</label><input class="form-control" id="edQual" value="${d.qualification||''}" /></div>
+                            <div class="col-md-6"><label>Specialization</label><input class="form-control" id="edSpec" value="${d.specialization||''}" /></div>
+                            <div class="col-md-6"><label>Fee ($)</label><input type="number" step="0.01" class="form-control" id="edFee" value="${d.consultationFee}" /></div>
+                            <div class="col-md-6"><label>Dept ID</label><input class="form-control" id="edDept" value="${d.department?.departmentId||''}" /></div>
+                        </div>
+                        <div class="mt-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Update</button>
+                            <button type="button" class="btn btn-secondary" onclick="loadDoctors()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.getElementById('editDoctorForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = {
+                    name: document.getElementById('edName').value,
+                    contactNumber: document.getElementById('edContact').value,
+                    qualification: document.getElementById('edQual').value,
+                    specialization: document.getElementById('edSpec').value,
+                    consultationFee: parseFloat(document.getElementById('edFee').value) || 0,
+                    department: { departmentId: parseInt(document.getElementById('edDept').value) || null }
+                };
+                try { await apiCall(`/api/doctors/${id}`, 'PUT', data); showToast('✅ Updated!'); loadDoctors(); }
+                catch (err) { showToast('❌ ' + err.message, 'danger'); }
+            });
+        } catch (err) { showToast('Error: ' + err.message, 'danger'); }
+    }
+
+    async function deleteDoctor(id) {
+        if (!confirm('Delete doctor #' + id + '?')) return;
+        try { await apiCall(`/api/doctors/${id}`, 'DELETE'); showToast('✅ Deleted'); loadDoctors(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    // ======================================================================
+    //  APPOINTMENTS
+    // ======================================================================
+    function showBookAppointment() {
+        document.getElementById('contentArea').innerHTML = `
+            <h1 class="page-title"><i class="bi bi-calendar-plus-fill me-2 text-primary"></i>Book Appointment</h1>
+            <div class="form-card">
+                <form id="apptForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="apPatient" required /></div>
+                        <div class="col-md-6"><label class="form-label">Doctor ID *</label><input class="form-control" id="apDoctor" required /></div>
+                        <div class="col-md-6"><label class="form-label">Date *</label><input type="date" class="form-control" id="apDate" required /></div>
+                        <div class="col-md-6"><label class="form-label">Time *</label><input type="time" class="form-control" id="apTime" required /></div>
+                        <div class="col-md-6"><label class="form-label">Room ID (optional)</label><input class="form-control" id="apRoom" /></div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> Book</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadDashboard()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        document.getElementById('apptForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const patientId = document.getElementById('apPatient').value;
+            const doctorId = document.getElementById('apDoctor').value;
+            const date = document.getElementById('apDate').value;
+            const time = document.getElementById('apTime').value;
+            const roomId = document.getElementById('apRoom').value || '';
+            const url = `/api/appointments/book?patientId=${patientId}&doctorId=${doctorId}&date=${date}&time=${time}${roomId ? '&roomId='+roomId : ''}`;
+            try {
+                const res = await fetch(url, { method: 'POST' });
+                if (res.status === 409) { const err = await res.json(); showToast('❌ Conflict: ' + err.message, 'danger'); }
+                else if (res.ok) { showToast('✅ Booked!'); loadDashboard(); }
+                else { const t = await res.text(); showToast('❌ ' + t, 'danger'); }
+            } catch (err) { showToast('❌ ' + err.message, 'danger'); }
+        });
+    }
+
+    async function loadAppointments() {
+        try {
+            const appts = await apiCall('/api/appointments');
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-calendar2-week-fill me-2 text-primary"></i>Appointments</span>
+                    <button class="btn btn-success" onclick="showBookAppointment()"><i class="bi bi-plus-lg"></i> Book</button>
+                </h1>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody>${appts.map(a => `
+                            <tr>
+                                <td>${a.appointmentId}</td>
+                                <td>${a.patient?.name||'N/A'}</td>
+                                <td>${a.doctor?.name||'N/A'}</td>
+                                <td>${a.appointmentDate}</td>
+                                <td>${a.appointmentTime}</td>
+                                <td><span class="badge-status ${a.status==='Cancelled'?'bg-danger':'bg-success'}">${a.status}</span></td>
+                                <td>${a.status!=='Cancelled'?`<button class="btn btn-sm btn-outline-danger" onclick="cancelAppt(${a.appointmentId})"><i class="bi bi-x-circle"></i></button>`:'-'}</td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    }
+
+    async function cancelAppt(id) {
+        if (!confirm('Cancel appointment #' + id + '?')) return;
+        try { await apiCall(`/api/appointments/${id}/cancel`, 'PUT'); showToast('✅ Cancelled'); loadAppointments(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    // ======================================================================
+    //  ADMISSIONS
+    // ======================================================================
+    function showAdmitPatient() {
+        document.getElementById('contentArea').innerHTML = `
+            <h1 class="page-title"><i class="bi bi-hospital-fill me-2 text-primary"></i>Admit Patient</h1>
+            <div class="form-card">
+                <form id="admitForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="admPatient" required /></div>
+                        <div class="col-md-6"><label class="form-label">Room ID *</label><input class="form-control" id="admRoom" required /></div>
+                        <div class="col-md-6"><label class="form-label">Admit Date *</label><input type="date" class="form-control" id="admDate" required /></div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Admit</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadDashboard()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        document.getElementById('admitForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const patientId = document.getElementById('admPatient').value;
+            const roomId = document.getElementById('admRoom').value;
+            const date = document.getElementById('admDate').value;
+            try { await apiCall(`/api/admissions/admit?patientId=${patientId}&roomId=${roomId}&admitDate=${date}`, 'POST'); showToast('✅ Admitted!'); loadDashboard(); }
+            catch (err) { showToast('❌ ' + err.message, 'danger'); }
+        });
+    }
+
+    async function loadAdmissions() {
+        try {
+            const ads = await apiCall('/api/admissions');
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-hospital-fill me-2 text-primary"></i>Admissions</span>
+                    <button class="btn btn-primary" onclick="showAdmitPatient()"><i class="bi bi-plus-lg"></i> Admit</button>
+                </h1>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead><tr><th>ID</th><th>Patient</th><th>Room</th><th>Admit</th><th>Discharge</th><th>Action</th></tr></thead>
+                        <tbody>${ads.map(a => `
+                            <tr>
+                                <td>${a.admissionId}</td>
+                                <td>${a.patient?.name||'N/A'}</td>
+                                <td>${a.room?.roomNumber||'N/A'}</td>
+                                <td>${a.admitDate}</td>
+                                <td>${a.dischargeDate||'-'}</td>
+                                <td>${!a.dischargeDate?`<button class="btn btn-sm btn-warning" onclick="dischargePatient(${a.admissionId})"><i class="bi bi-check2-circle"></i></button>`:'-'}</td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    }
+
+    async function dischargePatient(id) {
+        const date = prompt('Enter discharge date (YYYY-MM-DD):', new Date().toISOString().split('T')[0]);
+        if (!date) return;
+        try { await apiCall(`/api/admissions/${id}/discharge?dischargeDate=${date}`, 'PUT'); showToast('✅ Discharged'); loadAdmissions(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    // ======================================================================
+    //  TREATMENTS
+    // ======================================================================
+    async function loadTreatments() {
+        try {
+            const tx = await apiCall('/api/treatments');
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-prescription me-2 text-primary"></i>Treatments</span>
+                    <button class="btn btn-primary" onclick="showAddTreatment()"><i class="bi bi-plus-lg"></i> Add</button>
+                </h1>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Diagnosis</th><th>Date</th><th>Action</th></tr></thead>
+                        <tbody>${tx.map(t => `
+                            <tr>
+                                <td>${t.treatmentId}</td>
+                                <td>${t.patient?.name||'N/A'}</td>
+                                <td>${t.doctor?.name||'N/A'}</td>
+                                <td>${t.diagnosis}</td>
+                                <td>${t.treatmentDate}</td>
+                                <td><button class="btn btn-sm btn-outline-danger" onclick="deleteTreatment(${t.treatmentId})"><i class="bi bi-trash3"></i></button></td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    }
+
+    function showAddTreatment() {
+        document.getElementById('contentArea').innerHTML = `
+            <h1 class="page-title"><i class="bi bi-prescription me-2 text-primary"></i>Add Treatment</h1>
+            <div class="form-card">
+                <form id="treatmentForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="txPatient" required /></div>
+                        <div class="col-md-6"><label class="form-label">Doctor ID *</label><input class="form-control" id="txDoctor" required /></div>
+                        <div class="col-md-12"><label class="form-label">Diagnosis *</label><input class="form-control" id="txDiagnosis" required /></div>
+                        <div class="col-md-12"><label class="form-label">Prescription</label><textarea class="form-control" id="txPresc" rows="2"></textarea></div>
+                        <div class="col-md-12"><label class="form-label">Notes</label><textarea class="form-control" id="txNotes" rows="2"></textarea></div>
+                        <div class="col-md-6"><label class="form-label">Date *</label><input type="date" class="form-control" id="txDate" required /></div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadTreatments()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        document.getElementById('treatmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                patient: { id: parseInt(document.getElementById('txPatient').value) },
+                doctor: { id: parseInt(document.getElementById('txDoctor').value) },
+                diagnosis: document.getElementById('txDiagnosis').value,
+                prescription: document.getElementById('txPresc').value,
+                treatmentNotes: document.getElementById('txNotes').value,
+                treatmentDate: document.getElementById('txDate').value
+            };
+            try { await apiCall('/api/treatments', 'POST', data); showToast('✅ Treatment added!'); loadTreatments(); }
+            catch (err) { showToast('❌ ' + err.message, 'danger'); }
+        });
+    }
+
+    async function deleteTreatment(id) {
+        if (!confirm('Delete treatment #' + id + '?')) return;
+        try { await apiCall(`/api/treatments/${id}`, 'DELETE'); showToast('✅ Deleted'); loadTreatments(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    // ======================================================================
+    //  LAB TESTS
+    // ======================================================================
+    async function loadLabTests() {
+        try {
+            const labs = await apiCall('/api/labtests');
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-flask me-2 text-primary"></i>Lab Tests</span>
+                    <button class="btn btn-primary" onclick="showAddLabTest()"><i class="bi bi-plus-lg"></i> Add</button>
+                </h1>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead><tr><th>ID</th><th>Patient</th><th>Test</th><th>Date</th><th>Status</th><th>Result</th><th>Actions</th></tr></thead>
+                        <tbody>${labs.map(l => `
+                            <tr>
+                                <td>${l.labTestId}</td>
+                                <td>${l.patient?.name||'N/A'}</td>
+                                <td>${l.testName}</td>
+                                <td>${l.testDate}</td>
+                                <td><span class="badge-status ${l.testStatus==='Completed'?'bg-success':'bg-warning'}">${l.testStatus}</span></td>
+                                <td>${l.testResult||'-'}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="updateLabResult(${l.labTestId})"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteLabTest(${l.labTestId})"><i class="bi bi-trash3"></i></button>
+                                </td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    }
+
+    function showAddLabTest() {
+        document.getElementById('contentArea').innerHTML = `
+            <h1 class="page-title"><i class="bi bi-flask me-2 text-primary"></i>Add Lab Test</h1>
+            <div class="form-card">
+                <form id="labForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="labPatient" required /></div>
+                        <div class="col-md-6"><label class="form-label">Test Name *</label><input class="form-control" id="labName" required /></div>
+                        <div class="col-md-6"><label class="form-label">Date *</label><input type="date" class="form-control" id="labDate" required /></div>
+                        <div class="col-md-6"><label class="form-label">Technician *</label><input class="form-control" id="labTech" required /></div>
+                        <div class="col-md-12"><label class="form-label">Result</label><textarea class="form-control" id="labResult" rows="2"></textarea></div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadLabTests()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        document.getElementById('labForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                patient: { id: parseInt(document.getElementById('labPatient').value) },
+                testName: document.getElementById('labName').value,
+                testDate: document.getElementById('labDate').value,
+                technicianName: document.getElementById('labTech').value,
+                testResult: document.getElementById('labResult').value
+            };
+            try { await apiCall('/api/labtests', 'POST', data); showToast('✅ Lab test added!'); loadLabTests(); }
+            catch (err) { showToast('❌ ' + err.message, 'danger'); }
+        });
+    }
+
+    async function updateLabResult(id) {
+        const result = prompt('Enter test result:');
+        if (result === null) return;
+        const status = confirm('Mark as Completed?') ? 'Completed' : 'Pending';
+        try { await apiCall(`/api/labtests/${id}/result?result=${encodeURIComponent(result)}&status=${status}`, 'PUT'); showToast('✅ Updated'); loadLabTests(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    async function deleteLabTest(id) {
+        if (!confirm('Delete lab test #' + id + '?')) return;
+        try { await apiCall(`/api/labtests/${id}`, 'DELETE'); showToast('✅ Deleted'); loadLabTests(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    // ======================================================================
+    //  BILLS & FEES
+    // ======================================================================
+    async function loadBills() {
+        try {
+            const bills = await apiCall('/api/bills');
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-receipt-cutoff me-2 text-primary"></i>Bills &amp; Fees</span>
+                    <button class="btn btn-primary" onclick="showAddBill()"><i class="bi bi-plus-lg"></i> Generate Bill</button>
+                </h1>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead><tr><th>ID</th><th>Patient</th><th>Consult</th><th>Room</th><th>Lab</th><th>Medicine</th><th>Total</th><th>Status</th><th>Method</th><th>Actions</th></tr></thead>
+                        <tbody>${bills.map(b => `
+                            <tr>
+                                <td>${b.billId}</td>
+                                <td>${b.patient?.name||'N/A'}</td>
+                                <td>$${b.consultationCharge||0}</td>
+                                <td>$${b.roomCharge||0}</td>
+                                <td>$${b.labCharge||0}</td>
+                                <td>$${b.medicineCharge||0}</td>
+                                <td><strong>$${b.totalAmount}</strong></td>
+                                <td><span class="badge-status ${b.paymentStatus==='Paid'?'bg-success':'bg-warning'}">${b.paymentStatus}</span></td>
+                                <td>${b.paymentMethod||'-'}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-success" onclick="updateBillPayment(${b.billId})"><i class="bi bi-credit-card"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteBill(${b.billId})"><i class="bi bi-trash3"></i></button>
+                                </td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    }
+
+    function showAddBill() {
+        document.getElementById('contentArea').innerHTML = `
+            <h1 class="page-title"><i class="bi bi-receipt me-2 text-primary"></i>Generate Bill</h1>
+            <div class="form-card">
+                <form id="billForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="billPatient" required /></div>
+                        <div class="col-md-6"><label class="form-label">Consultation ($)</label><input type="number" step="0.01" class="form-control" id="billConsult" value="0" /></div>
+                        <div class="col-md-6"><label class="form-label">Room ($)</label><input type="number" step="0.01" class="form-control" id="billRoom" value="0" /></div>
+                        <div class="col-md-6"><label class="form-label">Lab ($)</label><input type="number" step="0.01" class="form-control" id="billLab" value="0" /></div>
+                        <div class="col-md-6"><label class="form-label">Medicine ($)</label><input type="number" step="0.01" class="form-control" id="billMedicine" value="0" /></div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Generate</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadBills()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        document.getElementById('billForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const patientId = document.getElementById('billPatient').value;
+            const consultation = parseFloat(document.getElementById('billConsult').value) || 0;
+            const room = parseFloat(document.getElementById('billRoom').value) || 0;
+            const lab = parseFloat(document.getElementById('billLab').value) || 0;
+            const medicine = parseFloat(document.getElementById('billMedicine').value) || 0;
+            const url = `/api/bills/generate?patientId=${patientId}&consultation=${consultation}&room=${room}&lab=${lab}&medicine=${medicine}`;
+            try { await fetch(url, { method: 'POST' }); showToast('✅ Bill generated!'); loadBills(); }
+            catch (err) { showToast('❌ ' + err.message, 'danger'); }
+        });
+    }
+
+    async function updateBillPayment(id) {
+        const method = prompt('Payment Method (Cash / Card / Online):', 'Cash');
+        if (!method) return;
+        const status = confirm('Mark as Paid?') ? 'Paid' : 'Pending';
+        try { await apiCall(`/api/bills/${id}/payment?status=${status}&method=${method}`, 'PUT'); showToast('✅ Payment updated'); loadBills(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    async function deleteBill(id) {
+        if (!confirm('Delete bill #' + id + '?')) return;
+        try { await apiCall(`/api/bills/${id}`, 'DELETE'); showToast('✅ Deleted'); loadBills(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    // ======================================================================
+    //  ROOMS
+    // ======================================================================
+    async function loadRooms() {
+        try {
+            const rooms = await apiCall('/api/rooms');
+            document.getElementById('contentArea').innerHTML = `
+                <h1 class="page-title d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-door-open-fill me-2 text-primary"></i>Rooms</span>
+                    <button class="btn btn-primary" onclick="showAddRoom()"><i class="bi bi-plus-lg"></i> Add Room</button>
+                </h1>
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead><tr><th>ID</th><th>Room #</th><th>Type</th><th>Available</th><th>Actions</th></tr></thead>
+                        <tbody>${rooms.map(r => `
+                            <tr>
+                                <td>${r.roomId}</td>
+                                <td><strong>${r.roomNumber}</strong></td>
+                                <td>${r.roomType}</td>
+                                <td><span class="badge-status ${r.available?'bg-success':'bg-danger'}">${r.available?'Available':'Occupied'}</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="toggleRoom(${r.roomId}, ${!r.available})"><i class="bi bi-arrow-repeat"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteRoom(${r.roomId})"><i class="bi bi-trash3"></i></button>
+                                </td>
+                            </tr>
+                        `).join('')}</tbody>
+                    </table>
+                </div>
+            `;
+        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    }
+
+    function showAddRoom() {
+        document.getElementById('contentArea').innerHTML = `
+            <h1 class="page-title"><i class="bi bi-door-open me-2 text-primary"></i>Add Room</h1>
+            <div class="form-card">
+                <form id="roomForm">
+                    <div class="row g-3">
+                        <div class="col-md-6"><label class="form-label">Room Number *</label><input class="form-control" id="roomNum" required /></div>
+                        <div class="col-md-6"><label class="form-label">Type</label><select class="form-select" id="roomType"><option>General_Ward</option><option>Private_Room</option><option>ICU</option></select></div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadRooms()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        document.getElementById('roomForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = { roomNumber: document.getElementById('roomNum').value, roomType: document.getElementById('roomType').value };
+            try { await apiCall('/api/rooms', 'POST', data); showToast('✅ Room added!'); loadRooms(); }
+            catch (err) { showToast('❌ ' + err.message, 'danger'); }
+        });
+    }
+
+    async function toggleRoom(id, newStatus) {
+        try {
+            const room = await apiCall(`/api/rooms/${id}`);
+            room.available = newStatus;
+            await apiCall(`/api/rooms/${id}`, 'PUT', room);
+            showToast('✅ Room updated');
+            loadRooms();
+        } catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    async function deleteRoom(id) {
+        if (!confirm('Delete room #' + id + '?')) return;
+        try { await apiCall(`/api/rooms/${id}`, 'DELETE'); showToast('✅ Deleted'); loadRooms(); }
+        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    }
+
+    // ======================================================================
+    //  Load dashboard on page load
+    // ======================================================================
+    window.onload = loadDashboard;
+</script>
+</body>
+</html>

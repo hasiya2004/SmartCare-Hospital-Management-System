@@ -1,2 +1,1 @@
-# SmartCare-Hospital-Management-System
-Object-Oriented Software Solution for SmartCare HMS using Java and Spring Boot.
+SmartCare Hospital Management System is a comprehensive, full-featured web application designed to streamline and automate hospital operations. It manages patient records, doctor appointments, staff coordination, and administrative workflows efficiently, ensuring a seamless healthcare experience.

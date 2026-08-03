@@ -1,984 +1,554 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SmartCare HMS · Dashboard with Charts</title>
-    <!-- Bootstrap 5 + Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
-    <!-- Chart.js -->
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>SmartCare HMS &middot; Hospital Management System</title>
+    <meta name="description" content="SmartCare HMS - Modern Hospital Management System by Hasindu Senarathna"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <style>
-        * { font-family: 'Inter', sans-serif; }
-        body { background: #f0f2f5; min-height: 100vh; }
-        .sidebar {
-            min-height: 100vh;
-            background: linear-gradient(180deg, #0b1a2e 0%, #1a2f44 100%);
-            color: #e2e8f0;
-            padding-top: 16px;
-            box-shadow: 2px 0 12px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
+        :root{
+        --primary:#2563EB;--primary-light:#DBEAFE;--primary-dark:#1D4ED8;
+        --success:#10B981;--success-light:#D1FAE5;
+        --warning:#F59E0B;--warning-light:#FEF3C7;
+        --danger:#EF4444;--danger-light:#FEE2E2;
+        --purple:#8B5CF6;--purple-light:#EDE9FE;
+        --pink:#EC4899;--pink-light:#FCE7F3;
+        --teal:#14B8A6;--teal-light:#CCFBF1;
+        --text-primary:#0F172A;--text-secondary:#475569;--text-muted:#94A3B8;
+        --border:#E2E8F0;--bg-main:#F8FAFC;--bg-card:#FFFFFF;
+        --sidebar-width:260px;
+        --radius-sm:8px;--radius-md:12px;--radius-lg:16px;
+        --shadow-sm:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04);
+        --shadow-md:0 4px 16px rgba(15,23,42,.08),0 2px 6px rgba(15,23,42,.04);
+        --shadow-lg:0 10px 32px rgba(15,23,42,.10);
+        --tr:all 0.22s cubic-bezier(.4,0,.2,1);
         }
-        .sidebar .brand {
-            font-weight: 700;
-            font-size: 1.4rem;
-            padding: 0 20px 20px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .sidebar .brand i { color: #4f9cf7; margin-right: 10px; }
-        .sidebar .nav-link {
-            color: #b0c4de;
-            padding: 12px 20px;
-            margin: 2px 12px;
-            border-radius: 10px;
-            transition: all 0.2s ease;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        .sidebar .nav-link i { font-size: 1.2rem; width: 28px; text-align: center; margin-right: 12px; }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background: rgba(79, 156, 247, 0.15);
-            color: #fff;
-        }
-        .sidebar .nav-link.active { background: #1e3a5f; color: #fff; }
-
-        .main-content { padding: 30px; }
-        .page-title { font-weight: 700; font-size: 1.8rem; color: #1a2f44; margin-bottom: 25px; }
-
-        .stat-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            border-left: 6px solid #4f9cf7;
-            transition: transform 0.15s;
-        }
-        .stat-card:hover { transform: translateY(-4px); }
-        .stat-card .icon { font-size: 2.2rem; color: #4f9cf7; opacity: 0.7; }
-        .stat-card .number { font-size: 2rem; font-weight: 700; color: #0b1a2e; }
-        .stat-card .label { color: #64748b; font-weight: 500; }
-
-        .chart-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            height: 100%;
-        }
-        .chart-card canvas {
-            max-height: 200px;
-            width: 100% !important;
-        }
-
-        .table-container {
-            background: #fff;
-            border-radius: 16px;
-            padding: 0 0 0 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            overflow-x: auto;
-        }
-        .badge-status { padding: 6px 12px; border-radius: 20px; font-weight: 500; font-size: 0.75rem; }
-
-        .quick-action-btn {
-            border-radius: 12px;
-            padding: 14px 18px;
-            font-weight: 600;
-            transition: all 0.2s;
-            border: none;
-            width: 100%;
-            margin-top: 8px;
-        }
-        .quick-action-btn:hover { transform: scale(1.02); }
-
-        .btn-primary { background: #4f9cf7; border: none; }
-        .btn-primary:hover { background: #3b82f6; }
-        .btn-success { background: #10b981; border: none; }
-        .btn-success:hover { background: #059669; }
-        .btn-warning { background: #f59e0b; border: none; color: #fff; }
-        .btn-warning:hover { background: #d97706; color: #fff; }
-        .btn-danger { background: #ef4444; border: none; }
-        .btn-danger:hover { background: #dc2626; }
-
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; }
-        .form-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-        }
-        .form-card .form-label { font-weight: 600; }
-
-        @media (max-width: 768px) {
-            .sidebar { min-height: auto; position: relative; }
-            .main-content { padding: 16px; }
-        }
+        /* SPLASH */
+        #splash{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;animation:sFadeOut .6s ease 2.7s forwards}
+        .sp-logo{display:flex;align-items:center;gap:14px;animation:sUp .7s cubic-bezier(.34,1.56,.64,1) .2s both}
+        .sp-icon{width:68px;height:68px;background:var(--primary);border-radius:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(37,99,235,.35);animation:sPulse 1.4s ease-in-out .7s infinite alternate}
+        .sp-icon svg{width:38px;height:38px}
+        .sp-brand{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.5rem;font-weight:800;color:var(--text-primary);letter-spacing:-.5px}
+        .sp-brand span{color:var(--primary)}
+        .sp-tag{font-size:.9rem;color:var(--text-muted);animation:sUp .7s ease .5s both;letter-spacing:.3px}
+        .sp-bar-w{width:240px;height:4px;background:#E2E8F0;border-radius:99px;overflow:hidden;animation:sUp .7s ease .7s both}
+        .sp-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--teal));border-radius:99px;width:0;animation:sFill 2s cubic-bezier(.4,0,.2,1) .7s forwards}
+        .sp-dev{font-size:.8rem;color:#CBD5E1;animation:sUp .7s ease .95s both}
+        @keyframes sUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes sFadeOut{to{opacity:0;pointer-events:none;visibility:hidden}}
+        @keyframes sPulse{from{transform:scale(1);box-shadow:0 8px 24px rgba(37,99,235,.3)}to{transform:scale(1.07);box-shadow:0 14px 36px rgba(37,99,235,.48)}}
+        @keyframes sFill{from{width:0}to{width:100%}}
+        /* BASE */
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Inter',sans-serif;background:var(--bg-main);color:var(--text-primary);min-height:100vh;-webkit-font-smoothing:antialiased}
+        /* LAYOUT */
+        .app{display:flex;min-height:100vh}
+        /* SIDEBAR */
+        .sidebar{width:var(--sidebar-width);min-height:100vh;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;flex-shrink:0;box-shadow:var(--shadow-sm);z-index:100}
+        .s-head{padding:22px 20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+        .logo-i{width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(37,99,235,.25)}
+        .logo-i svg{width:22px;height:22px}
+        .logo-t{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:var(--text-primary);letter-spacing:-.3px;line-height:1.1}
+        .logo-t span{color:var(--primary)}
+        .logo-s{font-size:.65rem;color:var(--text-muted);font-weight:500;display:block;letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+        .s-nav{flex:1;padding:10px 12px;overflow-y:auto}
+        .nav-grp{font-size:.65rem;font-weight:600;color:var(--text-muted);letter-spacing:.8px;text-transform:uppercase;padding:12px 10px 5px}
+        .ni{list-style:none;margin-bottom:2px}
+        .nl{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);font-size:.875rem;font-weight:500;color:var(--text-secondary);cursor:pointer;transition:var(--tr);border:1px solid transparent;text-decoration:none}
+        .nl:hover{background:var(--bg-main);color:var(--text-primary)}
+        .nl.active{background:var(--primary-light);color:var(--primary);border-color:rgba(37,99,235,.12)}
+        .ni-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;background:transparent;transition:var(--tr)}
+        .nl.active .ni-icon{background:var(--primary);color:#fff}
+        .nl:hover:not(.active) .ni-icon{background:var(--border)}
+        .s-foot{padding:14px 20px;border-top:1px solid var(--border)}
+        .dev-c{background:var(--bg-main);border-radius:var(--radius-md);padding:12px 14px;display:flex;align-items:center;gap:10px}
+        .dev-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--primary) 0%,var(--teal) 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0}
+        .dev-nm{font-size:.8rem;font-weight:600;color:var(--text-primary);line-height:1.2}
+        .dev-rl{font-size:.7rem;color:var(--text-muted)}
+        .s-dot{width:7px;height:7px;border-radius:50%;background:var(--success);margin-left:auto;flex-shrink:0;box-shadow:0 0 0 2px rgba(16,185,129,.2)}
+        /* MAIN */
+        .main{flex:1;min-width:0;display:flex;flex-direction:column}
+        .topbar{background:#fff;border-bottom:1px solid var(--border);padding:0 28px;height:62px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+        .tb-bc{font-size:.8rem;color:var(--text-muted);display:flex;align-items:center;gap:6px}
+        .tb-bc-cur{color:var(--text-primary);font-weight:600}
+        .tb-acts{display:flex;align-items:center;gap:10px}
+        .tb-btn{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--bg-main);color:var(--text-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:var(--tr)}
+        .tb-btn:hover{background:var(--border);color:var(--text-primary)}
+        .tb-badge{background:var(--primary-light);color:var(--primary);font-size:.7rem;font-weight:600;padding:4px 10px;border-radius:99px;display:flex;align-items:center;gap:5px}
+        .ca{padding:28px;flex:1}
+        /* PAGE HEADER */
+        .ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+        .ph-l{display:flex;flex-direction:column;gap:2px}
+        .pg-t{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text-primary);letter-spacing:-.3px}
+        .pg-s{font-size:.82rem;color:var(--text-muted)}
+        /* STAT CARDS */
+        .sg{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:24px}
+        .sc{background:#fff;border-radius:var(--radius-lg);padding:18px 16px;border:1px solid var(--border);transition:var(--tr);position:relative;overflow:hidden}
+        .sc:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:transparent}
+        .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+        .sc.blue::before{background:var(--primary)}.sc.green::before{background:var(--success)}
+        .sc.amber::before{background:var(--warning)}.sc.purple::before{background:var(--purple)}
+        .sc.pink::before{background:var(--pink)}.sc.teal::before{background:var(--teal)}
+        .si{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:12px}
+        .si.blue{background:var(--primary-light);color:var(--primary)}.si.green{background:var(--success-light);color:var(--success)}
+        .si.amber{background:var(--warning-light);color:var(--warning)}.si.purple{background:var(--purple-light);color:var(--purple)}
+        .si.pink{background:var(--pink-light);color:var(--pink)}.si.teal{background:var(--teal-light);color:var(--teal)}
+        .sn{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.65rem;font-weight:700;color:var(--text-primary);line-height:1;margin-bottom:4px}
+        .sl{font-size:.74rem;font-weight:500;color:var(--text-muted)}
+        /* CARD */
+        .card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden}
+        .ch{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+        .ct{font-size:.88rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:8px}
+        .ct i{color:var(--primary)}
+        .cb{padding:20px}
+        .cw canvas{max-height:210px;width:100%!important}
+        /* TABLE */
+        .tc{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden}
+        .mt{width:100%;border-collapse:collapse}
+        .mt thead th{padding:10px 16px;font-size:.7rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;background:var(--bg-main);border-bottom:1px solid var(--border);white-space:nowrap}
+        .mt tbody td{padding:12px 16px;font-size:.84rem;color:var(--text-secondary);border-bottom:1px solid var(--border)}
+        .mt tbody tr:last-child td{border-bottom:none}
+        .mt tbody tr:hover{background:var(--bg-main)}
+        .tn{font-weight:600;color:var(--text-primary)}
+        /* BADGES */
+        .bp{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:.72rem;font-weight:600}
+        .bp::before{content:'';width:5px;height:5px;border-radius:50%}
+        .bs{background:var(--success-light);color:#065F46}.bs::before{background:var(--success)}
+        .bd{background:var(--danger-light);color:#991B1B}.bd::before{background:var(--danger)}
+        .bw{background:var(--warning-light);color:#92400E}.bw::before{background:var(--warning)}
+        .bb{background:var(--primary-light);color:#1E40AF}.bb::before{background:var(--primary)}
+        .bpu{background:var(--purple-light);color:#5B21B6}.bpu::before{background:var(--purple)}
+        /* QUICK ACTIONS */
+        .qa-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .qa-b{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:14px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg-main);cursor:pointer;transition:var(--tr);text-align:left}
+        .qa-b:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);border-color:var(--primary)}
+        .qa-i{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+        .qa-l{font-size:.78rem;font-weight:600;color:var(--text-primary)}
+        .qab .qa-i{background:var(--primary-light);color:var(--primary)}
+        .qag .qa-i{background:var(--success-light);color:var(--success)}
+        .qaa .qa-i{background:var(--warning-light);color:var(--warning)}
+        .qap .qa-i{background:var(--purple-light);color:var(--purple)}
+        /* RECENT */
+        .ri{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+        .ri:last-child{border-bottom:none}
+        .rav{width:36px;height:36px;border-radius:10px;background:var(--primary-light);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+        .rif{flex:1;min-width:0}
+        .rn{font-size:.84rem;font-weight:600;color:var(--text-primary)}
+        .rm{font-size:.74rem;color:var(--text-muted);margin-top:1px}
+        /* FORM */
+        .fs{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px}
+        .ft{font-size:.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+        .fl{font-size:.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:5px;display:block}
+        .fc,.fsel{background:var(--bg-main);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px;font-size:.875rem;color:var(--text-primary);width:100%;transition:var(--tr);font-family:'Inter',sans-serif}
+        .fc:focus,.fsel:focus{outline:none;border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+        textarea.fc{resize:vertical}
+        /* BUTTONS */
+        .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-size:.84rem;font-weight:600;cursor:pointer;border:1px solid transparent;transition:var(--tr);font-family:'Inter',sans-serif;white-space:nowrap}
+        .btn-p{background:var(--primary);color:#fff;border-color:var(--primary)}.btn-p:hover{background:var(--primary-dark);box-shadow:0 4px 12px rgba(37,99,235,.30)}
+        .btn-s{background:var(--success);color:#fff;border-color:var(--success)}.btn-s:hover{background:#059669;box-shadow:0 4px 12px rgba(16,185,129,.30)}
+        .btn-w{background:var(--warning);color:#fff;border-color:var(--warning)}.btn-w:hover{background:#D97706}
+        .btn-d{background:var(--danger);color:#fff;border-color:var(--danger)}.btn-d:hover{background:#DC2626}
+        .btn-o{background:transparent;border-color:var(--border);color:var(--text-secondary)}.btn-o:hover{background:var(--bg-main);border-color:var(--text-muted);color:var(--text-primary)}
+        .btn-g{background:transparent;border-color:transparent;color:var(--text-secondary)}.btn-g:hover{background:var(--bg-main);color:var(--text-primary)}
+        .btn-sm{padding:6px 10px;font-size:.78rem;border-radius:7px}
+        .btn-ic{width:32px;height:32px;padding:0;justify-content:center;border-radius:7px}
+        /* TOAST */
+        .tct{position:fixed;top:20px;right:20px;z-index:9998;display:flex;flex-direction:column;gap:8px}
+        .ti{background:#fff;border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);min-width:300px;max-width:380px;animation:tIn .35s cubic-bezier(.34,1.56,.64,1) both;font-size:.875rem}
+        .ti.rem{animation:tOut .3s ease forwards}
+        .t-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+        .ts .t-icon{background:var(--success-light);color:var(--success)}
+        .ter .t-icon{background:var(--danger-light);color:var(--danger)}
+        .t-msg{flex:1;font-weight:500;color:var(--text-primary)}
+        @keyframes tIn{from{opacity:0;transform:translateX(16px) scale(.96)}to{opacity:1;transform:translateX(0) scale(1)}}
+        @keyframes tOut{to{opacity:0;transform:translateX(16px) scale(.96)}}
+        /* CONTENT ANIM */
+        .ce{animation:cFade .35s ease both}
+        @keyframes cFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        /* EMPTY */
+        .es{text-align:center;padding:48px 20px}
+        .ei{width:60px;height:60px;background:var(--bg-main);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:var(--text-muted);margin:0 auto 14px}
+        .et{font-size:.88rem;font-weight:500;color:var(--text-muted)}
+        /* GRID */
+        .div{height:1px;background:var(--border);margin:20px 0}
+        .rg{display:grid;gap:16px}
+        .g2{grid-template-columns:1fr 1fr}
+        .g3{grid-template-columns:4fr 5fr 3fr}
+        .g82{grid-template-columns:8fr 4fr}
+        /* RESPONSIVE */
+        @media(max-width:1200px){.sg{grid-template-columns:repeat(3,1fr)}}
+        @media(max-width:900px){.g2,.g3,.g82{grid-template-columns:1fr}}
+        @media(max-width:768px){.sg{grid-template-columns:repeat(2,1fr)}.ca{padding:16px}}
+        @media(max-width:480px){.sg{grid-template-columns:1fr}}
+        ::-webkit-scrollbar{width:5px;height:5px}
+        ::-webkit-scrollbar-track{background:transparent}
+        ::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+        ::-webkit-scrollbar-thumb:hover{background:#CBD5E1}
     </style>
 </head>
 <body>
 
-<!-- Toast -->
-<div class="toast-container">
-    <div id="liveToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true" style="min-width:300px;">
-        <div class="d-flex">
-            <div class="toast-body" id="toastMessage"></div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+<!-- SPLASH -->
+<div id="splash">
+    <div class="sp-logo">
+        <div class="sp-icon">
+            <svg viewBox="0 0 40 40" fill="none"><rect x="16" y="4" width="8" height="32" rx="4" fill="white"/><rect x="4" y="16" width="32" height="8" rx="4" fill="white"/></svg>
         </div>
+        <div><div class="sp-brand">Smart<span>Care</span></div></div>
     </div>
+    <div class="sp-tag">Hospital Management System</div>
+    <div class="sp-bar-w"><div class="sp-bar"></div></div>
+    <div class="sp-dev">Developed by nukebird</div>
 </div>
 
-<div class="container-fluid px-0">
-    <div class="row g-0">
-        <!-- Sidebar -->
-        <nav class="col-md-2 d-md-block sidebar">
-            <div class="position-sticky">
-                <div class="brand"><i class="bi bi-heart-pulse-fill"></i> SmartCare</div>
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link active" onclick="loadDashboard()"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="loadPatients()"><i class="bi bi-people-fill"></i> Patients</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="loadDoctors()"><i class="bi bi-person-badge-fill"></i> Doctors</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="loadAppointments()"><i class="bi bi-calendar2-week-fill"></i> Appointments</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="loadAdmissions()"><i class="bi bi-hospital-fill"></i> Admissions</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="loadTreatments()"><i class="bi bi-prescription"></i> Treatments</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="loadLabTests()"><i class="bi bi-flask"></i> Lab Tests</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="loadBills()"><i class="bi bi-receipt-cutoff"></i> Bills &amp; Fees</a></li>
-                    <li class="nav-item"><a class="nav-link" onclick="loadRooms()"><i class="bi bi-door-open-fill"></i> Rooms</a></li>
-                </ul>
-                <div class="mt-4 px-3" style="position:absolute; bottom:20px;">
-                    <small class="text-white-50"><i class="bi bi-circle-fill text-success" style="font-size:8px;"></i> API v2.0</small>
-                </div>
+<!-- TOAST -->
+<div class="tct" id="tct"></div>
+
+<!-- APP -->
+<div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="s-head">
+            <div class="logo-i">
+                <svg viewBox="0 0 36 36" fill="none"><rect x="14" y="4" width="8" height="28" rx="4" fill="white"/><rect x="4" y="14" width="28" height="8" rx="4" fill="white"/></svg>
             </div>
+            <div>
+                <div class="logo-t">Smart<span>Care</span></div>
+                <div class="logo-s">HMS v2.0</div>
+            </div>
+        </div>
+        <nav class="s-nav">
+            <div class="nav-grp">Overview</div>
+            <ul style="list-style:none;padding:0">
+                <li class="ni"><a class="nl active" id="nv-db" onclick="nav('nv-db');loadDashboard()"><span class="ni-icon"><i class="bi bi-grid-fill"></i></span>Dashboard</a></li>
+            </ul>
+            <div class="nav-grp">Clinical</div>
+            <ul style="list-style:none;padding:0">
+                <li class="ni"><a class="nl" id="nv-pt" onclick="nav('nv-pt');loadPatients()"><span class="ni-icon"><i class="bi bi-people-fill"></i></span>Patients</a></li>
+                <li class="ni"><a class="nl" id="nv-dc" onclick="nav('nv-dc');loadDoctors()"><span class="ni-icon"><i class="bi bi-person-badge-fill"></i></span>Doctors</a></li>
+                <li class="ni"><a class="nl" id="nv-ap" onclick="nav('nv-ap');loadAppointments()"><span class="ni-icon"><i class="bi bi-calendar2-week-fill"></i></span>Appointments</a></li>
+                <li class="ni"><a class="nl" id="nv-ad" onclick="nav('nv-ad');loadAdmissions()"><span class="ni-icon"><i class="bi bi-hospital-fill"></i></span>Admissions</a></li>
+                <li class="ni"><a class="nl" id="nv-tr" onclick="nav('nv-tr');loadTreatments()"><span class="ni-icon"><i class="bi bi-prescription"></i></span>Treatments</a></li>
+                <li class="ni"><a class="nl" id="nv-lb" onclick="nav('nv-lb');loadLabTests()"><span class="ni-icon"><i class="bi bi-flask-fill"></i></span>Lab Tests</a></li>
+            </ul>
+            <div class="nav-grp">Finance &amp; Ops</div>
+            <ul style="list-style:none;padding:0">
+                <li class="ni"><a class="nl" id="nv-bl" onclick="nav('nv-bl');loadBills()"><span class="ni-icon"><i class="bi bi-receipt-cutoff"></i></span>Bills &amp; Fees</a></li>
+                <li class="ni"><a class="nl" id="nv-rm" onclick="nav('nv-rm');loadRooms()"><span class="ni-icon"><i class="bi bi-door-open-fill"></i></span>Rooms</a></li>
+            </ul>
         </nav>
+        <div class="s-foot">
+            <div class="dev-c">
+                <div class="dev-av">HS</div>
+                <div><div class="dev-nm">Hasindu Senarathna</div><div class="dev-rl">Developer</div></div>
+                <div class="s-dot"></div>
+            </div>
+        </div>
+    </aside>
 
-        <!-- Main Content -->
-        <main class="col-md-10 ms-sm-auto px-md-4 main-content">
-            <div id="contentArea"></div>
-        </main>
+    <!-- MAIN -->
+    <div class="main">
+        <div class="topbar">
+            <div class="tb-bc">
+                <span>SmartCare HMS</span>
+                <i class="bi bi-chevron-right" style="font-size:.6rem"></i>
+                <span class="tb-bc-cur" id="bcu">Dashboard</span>
+            </div>
+            <div class="tb-acts">
+                <span class="tb-badge"><i class="bi bi-circle-fill" style="font-size:6px;color:var(--success)"></i> API Connected</span>
+                <button class="tb-btn"><i class="bi bi-bell"></i></button>
+                <button class="tb-btn"><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+        <div class="ca"><div id="ca"></div></div>
     </div>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-    // ======================================================================
-    //  HELPERS
-    // ======================================================================
-    async function apiCall(url, method = 'GET', body = null) {
-        const options = { method, headers: { 'Content-Type': 'application/json' } };
-        if (body) options.body = JSON.stringify(body);
-        const res = await fetch(url, options);
-        if (!res.ok) {
-            const txt = await res.text();
-            throw new Error(`HTTP ${res.status}: ${txt}`);
-        }
-        return res.json();
+    // ── NAV ──────────────────────────────────────────
+    const NAV_LABELS={'nv-db':'Dashboard','nv-pt':'Patients','nv-dc':'Doctors','nv-ap':'Appointments','nv-ad':'Admissions','nv-tr':'Treatments','nv-lb':'Lab Tests','nv-bl':'Bills & Fees','nv-rm':'Rooms'};
+    function nav(id){document.querySelectorAll('.nl').forEach(l=>l.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');const bc=document.getElementById('bcu');if(bc)bc.textContent=NAV_LABELS[id]||'';}
+    function set(html){const a=document.getElementById('ca');a.innerHTML=html;a.classList.remove('ce');void a.offsetWidth;a.classList.add('ce');}
+
+    // ── TOAST ─────────────────────────────────────────
+    function toast(msg,type='s'){const c=document.getElementById('tct');const t=document.createElement('div');t.className=`ti t${type}`;t.innerHTML=`<div class="t-icon"><i class="bi bi-${type==='s'?'check-lg':'exclamation-lg'}"></i></div><div class="t-msg">${msg}</div>`;c.appendChild(t);setTimeout(()=>{t.classList.add('rem');setTimeout(()=>t.remove(),300);},3500);}
+
+    // ── API ───────────────────────────────────────────
+    async function api(url,method='GET',body=null){const opts={method,headers:{'Content-Type':'application/json'}};if(body)opts.body=JSON.stringify(body);const r=await fetch(url,opts);if(!r.ok){const t=await r.text();throw new Error(`HTTP ${r.status}: ${t}`);}return r.json();}
+    function errHtml(e){return `<div style="padding:48px;text-align:center"><div class="ei" style="margin:0 auto 14px"><i class="bi bi-exclamation-triangle"></i></div><div style="font-weight:600;margin-bottom:6px">Something went wrong</div><div style="font-size:.84rem;color:var(--text-muted)">${e.message}</div></div>`;}
+
+    // ── DASHBOARD ────────────────────────────────────
+    async function loadDashboard(){
+      nav('nv-db');
+      try{
+        const [patients,doctors,appointments,bills,admissions,treatments]=await Promise.all([
+          api('/api/patients'),api('/api/doctors'),api('/api/appointments'),
+          api('/api/bills'),api('/api/admissions'),api('/api/treatments')
+        ]);
+        const gc={Male:0,Female:0,Other:0};
+        patients.forEach(p=>{if(p.gender)gc[p.gender]=(gc[p.gender]||0)+1;});
+        const today=new Date(),last7=[];
+        for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);last7.push(d.toISOString().split('T')[0]);}
+        const ac=last7.map(date=>appointments.filter(a=>a.appointmentDate===date).length);
+        const bs={Pending:0,Paid:0,Partially_Paid:0};
+        bills.forEach(b=>{if(b.paymentStatus)bs[b.paymentStatus]=(bs[b.paymentStatus]||0)+1;});
+        const recent=appointments.slice(-5).reverse();
+        set(`
+    <div class="ph"><div class="ph-l"><div class="pg-t">Good morning, Hasindu &#x1F44B;</div><div class="pg-s">Here&#8217;s what&#8217;s happening in your hospital today.</div></div>
+    <button class="btn btn-o btn-sm" onclick="loadDashboard()"><i class="bi bi-arrow-clockwise"></i> Refresh</button></div>
+    <div class="sg">
+    <div class="sc blue"><div class="si blue"><i class="bi bi-people-fill"></i></div><div class="sn">${patients.length}</div><div class="sl">Patients</div></div>
+    <div class="sc green"><div class="si green"><i class="bi bi-person-badge-fill"></i></div><div class="sn">${doctors.length}</div><div class="sl">Doctors</div></div>
+    <div class="sc amber"><div class="si amber"><i class="bi bi-calendar-check-fill"></i></div><div class="sn">${appointments.length}</div><div class="sl">Appointments</div></div>
+    <div class="sc purple"><div class="si purple"><i class="bi bi-receipt-cutoff"></i></div><div class="sn">${bills.length}</div><div class="sl">Bills</div></div>
+    <div class="sc pink"><div class="si pink"><i class="bi bi-hospital-fill"></i></div><div class="sn">${admissions.length}</div><div class="sl">Admissions</div></div>
+    <div class="sc teal"><div class="si teal"><i class="bi bi-prescription"></i></div><div class="sn">${treatments.length}</div><div class="sl">Treatments</div></div>
+    </div>
+    <div class="rg g3" style="margin-bottom:16px">
+    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-bar-chart-fill"></i>Appointments &mdash; Last 7 Days</div></div><div class="cb cw"><canvas id="aC"></canvas></div></div>
+    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-gender-ambiguous"></i>Patients by Gender</div></div><div class="cb cw"><canvas id="gC"></canvas></div></div>
+    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-pie-chart-fill"></i>Bill Status</div></div><div class="cb cw"><canvas id="bC"></canvas></div></div>
+    </div>
+    <div class="rg g82">
+    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-clock-history"></i>Recent Appointments</div><button class="btn btn-g btn-sm" onclick="loadAppointments()">View all <i class="bi bi-arrow-right"></i></button></div><div class="cb" id="rA"></div></div>
+    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-lightning-fill"></i>Quick Actions</div></div><div class="cb"><div class="qa-g">
+    <button class="qa-b qab" onclick="showAddPatient()"><div class="qa-i"><i class="bi bi-person-plus-fill"></i></div><div class="qa-l">Add Patient</div></button>
+    <button class="qa-b qag" onclick="showBookAppointment()"><div class="qa-i"><i class="bi bi-calendar-plus-fill"></i></div><div class="qa-l">Book Appt.</div></button>
+    <button class="qa-b qaa" onclick="showAddBill()"><div class="qa-i"><i class="bi bi-receipt"></i></div><div class="qa-l">Generate Bill</div></button>
+    <button class="qa-b qap" onclick="showAdmitPatient()"><div class="qa-i"><i class="bi bi-hospital-fill"></i></div><div class="qa-l">Admit Patient</div></button>
+    </div></div></div>
+    </div>`);
+        setTimeout(()=>{
+          new Chart(document.getElementById('aC').getContext('2d'),{type:'bar',data:{labels:last7.map(d=>d.slice(5)),datasets:[{label:'Appts',data:ac,backgroundColor:'rgba(37,99,235,.1)',borderColor:'#2563EB',borderWidth:2,borderRadius:8}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'#F1F5F9'}},x:{grid:{display:false}}}}});
+          new Chart(document.getElementById('gC').getContext('2d'),{type:'pie',data:{labels:['Male','Female','Other'],datasets:[{data:[gc.Male||0,gc.Female||0,gc.Other||0],backgroundColor:['#2563EB','#EC4899','#8B5CF6'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14,font:{size:11,family:'Inter'}}}}}});
+          new Chart(document.getElementById('bC').getContext('2d'),{type:'doughnut',data:{labels:['Pending','Paid','Partial'],datasets:[{data:[bs.Pending||0,bs.Paid||0,bs.Partially_Paid||0],backgroundColor:['#F59E0B','#10B981','#8B5CF6'],borderWidth:0}]},options:{responsive:true,cutout:'65%',plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14,font:{size:11,family:'Inter'}}}}}});
+          const rc=document.getElementById('rA');
+          if(!recent.length){rc.innerHTML='<div class="es"><div class="ei"><i class="bi bi-calendar-x"></i></div><div class="et">No appointments yet</div></div>';}
+          else{rc.innerHTML=recent.map(a=>`<div class="ri"><div class="rav"><i class="bi bi-person"></i></div><div class="rif"><div class="rn">${a.patient?.name||'Unknown'}</div><div class="rm">with ${a.doctor?.name||'Unknown'} &middot; ${a.appointmentDate} ${a.appointmentTime}</div></div><span class="bp ${a.status==='Cancelled'?'bd':'bs'}">${a.status}</span></div>`).join('');}
+        },60);
+      }catch(e){set(errHtml(e));}
     }
 
-    function showToast(msg, bg = 'success') {
-        const toast = document.getElementById('liveToast');
-        const body = document.getElementById('toastMessage');
-        body.textContent = msg;
-        toast.className = `toast align-items-center text-white border-0 bg-${bg}`;
-        const bsToast = new bootstrap.Toast(toast);
-        bsToast.show();
+    // ── PATIENTS ──────────────────────────────────────
+    async function loadPatients(){
+      try{
+        const p=await api('/api/patients');
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Patients</div><div class="pg-s">${p.length} total records</div></div><button class="btn btn-p" onclick="showAddPatient()"><i class="bi bi-plus-lg"></i> New Patient</button></div>
+    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Name</th><th>Contact</th><th>Gender</th><th>DOB</th><th>Blood</th><th>Actions</th></tr></thead><tbody>${p.length?p.map(x=>`<tr><td><span class="bp bb">#${x.id}</span></td><td class="tn">${x.name}</td><td>${x.contactNumber||'&mdash;'}</td><td>${x.gender}</td><td>${x.dateOfBirth}</td><td><span class="bp bpu">${x.bloodGroup||'&mdash;'}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="showEditPatient(${x.id})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deletePatient(${x.id})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-people"></i></div><div class="et">No patients found</div></div></td></tr>`}</tbody></table></div>`);
+      }catch(e){set(errHtml(e));}
     }
-
-    // ======================================================================
-    //  DASHBOARD WITH CHARTS
-    // ======================================================================
-    async function loadDashboard() {
-        try {
-            const [patients, doctors, appointments, bills, admissions, treatments] = await Promise.all([
-                apiCall('/api/patients'), apiCall('/api/doctors'), apiCall('/api/appointments'),
-                apiCall('/api/bills'), apiCall('/api/admissions'), apiCall('/api/treatments')
-            ]);
-
-            // Build data for charts
-            const genderCounts = { Male: 0, Female: 0, Other: 0 };
-            patients.forEach(p => { if (p.gender) genderCounts[p.gender] = (genderCounts[p.gender] || 0) + 1; });
-
-            const today = new Date();
-            const last7 = [];
-            for (let i = 6; i >= 0; i--) {
-                const d = new Date(today);
-                d.setDate(d.getDate() - i);
-                last7.push(d.toISOString().split('T')[0]);
-            }
-            const apptCounts = last7.map(date => appointments.filter(a => a.appointmentDate === date).length);
-
-            const billStatus = { Pending: 0, Paid: 0, Partially_Paid: 0 };
-            bills.forEach(b => { if (b.paymentStatus) billStatus[b.paymentStatus] = (billStatus[b.paymentStatus] || 0) + 1; });
-
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title"><i class="bi bi-house-door-fill me-2 text-primary"></i>Dashboard</h1>
-                <div class="row g-4 mb-4">
-                    <div class="col-6 col-xl-2"><div class="stat-card"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-people"></i></span><span class="number">${patients.length}</span></div><div class="label">Patients</div></div></div>
-                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#10b981;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-person-badge"></i></span><span class="number">${doctors.length}</span></div><div class="label">Doctors</div></div></div>
-                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#f59e0b;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-calendar-check"></i></span><span class="number">${appointments.length}</span></div><div class="label">Appointments</div></div></div>
-                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#8b5cf6;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-receipt"></i></span><span class="number">${bills.length}</span></div><div class="label">Bills</div></div></div>
-                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#ec4899;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-hospital"></i></span><span class="number">${admissions.length}</span></div><div class="label">Admissions</div></div></div>
-                    <div class="col-6 col-xl-2"><div class="stat-card" style="border-left-color:#14b8a6;"><div class="d-flex justify-content-between"><span class="icon"><i class="bi bi-prescription"></i></span><span class="number">${treatments.length}</span></div><div class="label">Treatments</div></div></div>
-                </div>
-
-                <div class="row g-4 mb-4">
-                    <div class="col-md-4"><div class="chart-card"><h6 class="fw-semibold"><i class="bi bi-gender-ambiguous me-1"></i>Patients by Gender</h6><canvas id="genderChart"></canvas></div></div>
-                    <div class="col-md-5"><div class="chart-card"><h6 class="fw-semibold"><i class="bi bi-calendar3 me-1"></i>Appointments (Last 7 Days)</h6><canvas id="apptChart"></canvas></div></div>
-                    <div class="col-md-3"><div class="chart-card"><h6 class="fw-semibold"><i class="bi bi-pie-chart me-1"></i>Bill Status</h6><canvas id="billChart"></canvas></div></div>
-                </div>
-
-                <div class="row g-4">
-                    <div class="col-md-8">
-                        <div class="table-container p-3">
-                            <h5 class="fw-semibold"><i class="bi bi-clock-history me-2"></i>Recent Appointments</h5>
-                            <ul class="list-group list-group-flush" id="recentAppointments"></ul>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="chart-card p-3">
-                            <h5 class="fw-semibold"><i class="bi bi-lightning-charge-fill me-2"></i>Quick Actions</h5>
-                            <button class="quick-action-btn btn-primary" onclick="showAddPatient()"><i class="bi bi-plus-circle"></i> Add Patient</button>
-                            <button class="quick-action-btn btn-success" onclick="showBookAppointment()"><i class="bi bi-calendar-plus"></i> Book Appointment</button>
-                            <button class="quick-action-btn btn-warning" onclick="showAddBill()"><i class="bi bi-plus-circle"></i> Generate Bill</button>
-                            <button class="quick-action-btn btn-secondary" onclick="showAdmitPatient()"><i class="bi bi-plus-circle"></i> Admit Patient</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Render charts after DOM update
-            setTimeout(() => {
-                const ctx1 = document.getElementById('genderChart').getContext('2d');
-                new Chart(ctx1, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Male', 'Female', 'Other'],
-                        datasets: [{ data: [genderCounts.Male||0, genderCounts.Female||0, genderCounts.Other||0], backgroundColor: ['#4f9cf7','#f472b6','#a78bfa'] }]
-                    },
-                    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-                });
-
-                const ctx2 = document.getElementById('apptChart').getContext('2d');
-                new Chart(ctx2, {
-                    type: 'bar',
-                    data: {
-                        labels: last7.map(d => d.slice(5)),
-                        datasets: [{ label: 'Appointments', data: apptCounts, backgroundColor: '#10b981', borderRadius: 6 }]
-                    },
-                    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, stepSize: 1 } } }
-                });
-
-                const ctx3 = document.getElementById('billChart').getContext('2d');
-                new Chart(ctx3, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Pending', 'Paid', 'Partially Paid'],
-                        datasets: [{ data: [billStatus.Pending||0, billStatus.Paid||0, billStatus.Partially_Paid||0], backgroundColor: ['#f59e0b','#10b981','#8b5cf6'] }]
-                    },
-                    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-                });
-            }, 100);
-
-            const recent = appointments.slice(-5).reverse();
-            const list = document.getElementById('recentAppointments');
-            if (recent.length === 0) list.innerHTML = '<li class="list-group-item text-muted">No appointments yet.</li>';
-            else {
-                list.innerHTML = recent.map(a => `
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div><strong>${a.patient?.name || 'Unknown'}</strong> with <span class="text-primary">${a.doctor?.name || 'Unknown'}</span><br><small class="text-muted">${a.appointmentDate} at ${a.appointmentTime}</small></div>
-                        <span class="badge-status ${a.status === 'Cancelled' ? 'bg-danger' : 'bg-success'}">${a.status}</span>
-                    </li>
-                `).join('');
-            }
-        } catch (err) {
-            document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error loading dashboard: ${err.message}</div>`;
-        }
+    function showAddPatient(){
+      set(`<div class="ph"><div class="ph-l"><div class="pg-t">New Patient</div><div class="pg-s">Fill in patient details</div></div><button class="btn btn-o btn-sm" onclick="loadPatients()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><div class="ft">Personal Information</div><form id="pF"><div class="rg g2">
+    <div><label class="fl">Full Name *</label><input class="fc" id="pNm" placeholder="e.g. Kamal Perera" required></div>
+    <div><label class="fl">Contact</label><input class="fc" id="pCt" placeholder="+94 71 234 5678"></div>
+    <div><label class="fl">Date of Birth</label><input type="date" class="fc" id="pDb"></div>
+    <div><label class="fl">Gender</label><select class="fsel" id="pGn"><option>Male</option><option>Female</option><option>Other</option></select></div>
+    <div><label class="fl">Blood Group</label><input class="fc" id="pBl" placeholder="e.g. O+"></div>
+    <div><label class="fl">Emergency Contact</label><input class="fc" id="pEc"></div>
+    </div><div style="margin-top:14px"><label class="fl">Address</label><input class="fc" id="pAd" placeholder="Street, City"></div>
+    <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadPatients()">Cancel</button></div>
+    </form></div>`);
+      document.getElementById('pF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/patients','POST',{name:document.getElementById('pNm').value,contactNumber:document.getElementById('pCt').value,dateOfBirth:document.getElementById('pDb').value,gender:document.getElementById('pGn').value,address:document.getElementById('pAd').value,bloodGroup:document.getElementById('pBl').value,emergencyContact:document.getElementById('pEc').value});toast('Patient added!');loadPatients();}catch(e){toast(e.message,'er');}});
     }
-
-    // ======================================================================
-    //  PATIENTS (Full CRUD)
-    // ======================================================================
-    async function loadPatients() {
-        try {
-            const patients = await apiCall('/api/patients');
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-people-fill me-2 text-primary"></i>Patients</span>
-                    <button class="btn btn-primary" onclick="showAddPatient()"><i class="bi bi-plus-lg"></i> New Patient</button>
-                </h1>
-                <div class="table-container">
-                    <table class="table table-hover">
-                        <thead><tr><th>ID</th><th>Name</th><th>Contact</th><th>Gender</th><th>DOB</th><th>Blood</th><th>Actions</th></tr></thead>
-                        <tbody>
-                            ${patients.map(p => `
-                                <tr>
-                                    <td>${p.id}</td>
-                                    <td><strong>${p.name}</strong></td>
-                                    <td>${p.contactNumber || '-'}</td>
-                                    <td>${p.gender}</td>
-                                    <td>${p.dateOfBirth}</td>
-                                    <td><span class="badge bg-secondary">${p.bloodGroup}</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary" onclick="showEditPatient(${p.id})"><i class="bi bi-pencil"></i></button>
-                                        <button class="btn btn-sm btn-outline-danger" onclick="deletePatient(${p.id})"><i class="bi bi-trash3"></i></button>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    async function showEditPatient(id){
+      try{
+        const p=await api(`/api/patients/${id}`);
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Edit Patient</div><div class="pg-s">Record #${id}</div></div><button class="btn btn-o btn-sm" onclick="loadPatients()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><form id="epF"><div class="rg g2">
+    <div><label class="fl">Name *</label><input class="fc" id="epNm" value="${p.name}" required></div>
+    <div><label class="fl">Contact</label><input class="fc" id="epCt" value="${p.contactNumber||''}"></div>
+    <div><label class="fl">DOB</label><input type="date" class="fc" id="epDb" value="${p.dateOfBirth}"></div>
+    <div><label class="fl">Gender</label><select class="fsel" id="epGn"><option ${p.gender==='Male'?'selected':''}>Male</option><option ${p.gender==='Female'?'selected':''}>Female</option><option ${p.gender==='Other'?'selected':''}>Other</option></select></div>
+    <div><label class="fl">Blood</label><input class="fc" id="epBl" value="${p.bloodGroup||''}"></div>
+    <div><label class="fl">Emergency</label><input class="fc" id="epEc" value="${p.emergencyContact||''}"></div>
+    </div><div style="margin-top:14px"><label class="fl">Address</label><input class="fc" id="epAd" value="${p.address||''}"></div>
+    <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Update</button><button type="button" class="btn btn-o" onclick="loadPatients()">Cancel</button></div>
+    </form></div>`);
+        document.getElementById('epF').addEventListener('submit',async e=>{e.preventDefault();try{await api(`/api/patients/${id}`,'PUT',{name:document.getElementById('epNm').value,contactNumber:document.getElementById('epCt').value,dateOfBirth:document.getElementById('epDb').value,gender:document.getElementById('epGn').value,address:document.getElementById('epAd').value,bloodGroup:document.getElementById('epBl').value,emergencyContact:document.getElementById('epEc').value});toast('Updated!');loadPatients();}catch(e){toast(e.message,'er');}});
+      }catch(e){toast(e.message,'er');}
     }
+    async function deletePatient(id){if(!confirm(`Delete patient #${id}?`))return;try{await api(`/api/patients/${id}`,'DELETE');toast('Deleted');loadPatients();}catch(e){toast(e.message,'er');}}
 
-    function showAddPatient() {
-        document.getElementById('contentArea').innerHTML = `
-            <h1 class="page-title"><i class="bi bi-person-plus-fill me-2 text-primary"></i>Add Patient</h1>
-            <div class="form-card">
-                <form id="patientForm">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Full Name *</label><input class="form-control" id="pName" required /></div>
-                        <div class="col-md-6"><label class="form-label">Contact</label><input class="form-control" id="pContact" /></div>
-                        <div class="col-md-6"><label class="form-label">Date of Birth</label><input type="date" class="form-control" id="pDob" /></div>
-                        <div class="col-md-6"><label class="form-label">Gender</label><select class="form-select" id="pGender"><option>Male</option><option>Female</option><option>Other</option></select></div>
-                        <div class="col-12"><label class="form-label">Address</label><input class="form-control" id="pAddress" /></div>
-                        <div class="col-md-6"><label class="form-label">Blood Group</label><input class="form-control" id="pBlood" /></div>
-                        <div class="col-md-6"><label class="form-label">Emergency Contact</label><input class="form-control" id="pEmergency" /></div>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
-                        <button type="button" class="btn btn-secondary" onclick="loadPatients()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        document.getElementById('patientForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = {
-                name: document.getElementById('pName').value,
-                contactNumber: document.getElementById('pContact').value,
-                dateOfBirth: document.getElementById('pDob').value,
-                gender: document.getElementById('pGender').value,
-                address: document.getElementById('pAddress').value,
-                bloodGroup: document.getElementById('pBlood').value,
-                emergencyContact: document.getElementById('pEmergency').value
-            };
-            try { await apiCall('/api/patients', 'POST', data); showToast('✅ Patient added!'); loadPatients(); }
-            catch (err) { showToast('❌ ' + err.message, 'danger'); }
-        });
+    // ── DOCTORS ───────────────────────────────────────
+    async function loadDoctors(){
+      try{
+        const d=await api('/api/doctors');
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Doctors</div><div class="pg-s">${d.length} records</div></div><button class="btn btn-p" onclick="showAddDoctor()"><i class="bi bi-plus-lg"></i> Add Doctor</button></div>
+    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Contact</th><th>Fee</th><th>Actions</th></tr></thead><tbody>${d.length?d.map(x=>`<tr><td><span class="bp bb">#${x.id}</span></td><td class="tn">${x.name}</td><td>${x.specialization}</td><td>${x.contactNumber}</td><td><span class="bp bs">$${x.consultationFee}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="showEditDoctor(${x.id})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteDoctor(${x.id})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="es"><div class="ei"><i class="bi bi-person-badge"></i></div><div class="et">No doctors</div></div></td></tr>`}</tbody></table></div>`);
+      }catch(e){set(errHtml(e));}
     }
-
-    async function showEditPatient(id) {
-        try {
-            const p = await apiCall(`/api/patients/${id}`);
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title"><i class="bi bi-pencil-square me-2 text-primary"></i>Edit Patient #${id}</h1>
-                <div class="form-card">
-                    <form id="editPatientForm">
-                        <div class="row g-3">
-                            <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" id="eName" value="${p.name}" required /></div>
-                            <div class="col-md-6"><label class="form-label">Contact</label><input class="form-control" id="eContact" value="${p.contactNumber||''}" /></div>
-                            <div class="col-md-6"><label class="form-label">DOB</label><input type="date" class="form-control" id="eDob" value="${p.dateOfBirth}" /></div>
-                            <div class="col-md-6"><label class="form-label">Gender</label><select class="form-select" id="eGender"><option ${p.gender==='Male'?'selected':''}>Male</option><option ${p.gender==='Female'?'selected':''}>Female</option><option ${p.gender==='Other'?'selected':''}>Other</option></select></div>
-                            <div class="col-12"><label class="form-label">Address</label><input class="form-control" id="eAddress" value="${p.address||''}" /></div>
-                            <div class="col-md-6"><label class="form-label">Blood Group</label><input class="form-control" id="eBlood" value="${p.bloodGroup||''}" /></div>
-                            <div class="col-md-6"><label class="form-label">Emergency</label><input class="form-control" id="eEmergency" value="${p.emergencyContact||''}" /></div>
-                        </div>
-                        <div class="mt-4 d-flex gap-2">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Update</button>
-                            <button type="button" class="btn btn-secondary" onclick="loadPatients()">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            `;
-            document.getElementById('editPatientForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const data = {
-                    name: document.getElementById('eName').value,
-                    contactNumber: document.getElementById('eContact').value,
-                    dateOfBirth: document.getElementById('eDob').value,
-                    gender: document.getElementById('eGender').value,
-                    address: document.getElementById('eAddress').value,
-                    bloodGroup: document.getElementById('eBlood').value,
-                    emergencyContact: document.getElementById('eEmergency').value
-                };
-                try { await apiCall(`/api/patients/${id}`, 'PUT', data); showToast('✅ Updated!'); loadPatients(); }
-                catch (err) { showToast('❌ ' + err.message, 'danger'); }
-            });
-        } catch (err) { showToast('Error: ' + err.message, 'danger'); }
+    function showAddDoctor(){
+      set(`<div class="ph"><div class="ph-l"><div class="pg-t">Add Doctor</div></div><button class="btn btn-o btn-sm" onclick="loadDoctors()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><form id="dF"><div class="rg g2">
+    <div><label class="fl">Name *</label><input class="fc" id="dNm" required></div>
+    <div><label class="fl">Contact</label><input class="fc" id="dCt"></div>
+    <div><label class="fl">Qualification</label><input class="fc" id="dQl" placeholder="MBBS, MD"></div>
+    <div><label class="fl">Specialization</label><input class="fc" id="dSp"></div>
+    <div><label class="fl">Fee ($)</label><input type="number" step="0.01" class="fc" id="dFe"></div>
+    <div><label class="fl">Dept ID</label><input class="fc" id="dDp"></div>
+    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadDoctors()">Cancel</button></div>
+    </form></div>`);
+      document.getElementById('dF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/doctors','POST',{name:document.getElementById('dNm').value,contactNumber:document.getElementById('dCt').value,qualification:document.getElementById('dQl').value,specialization:document.getElementById('dSp').value,consultationFee:parseFloat(document.getElementById('dFe').value)||0,department:{departmentId:parseInt(document.getElementById('dDp').value)||null}});toast('Doctor added!');loadDoctors();}catch(e){toast(e.message,'er');}});
     }
-
-    async function deletePatient(id) {
-        if (!confirm('Delete patient #' + id + '?')) return;
-        try { await apiCall(`/api/patients/${id}`, 'DELETE'); showToast('✅ Deleted'); loadPatients(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    async function showEditDoctor(id){
+      try{
+        const d=await api(`/api/doctors/${id}`);
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Edit Doctor</div><div class="pg-s">Record #${id}</div></div><button class="btn btn-o btn-sm" onclick="loadDoctors()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><form id="edF"><div class="rg g2">
+    <div><label class="fl">Name *</label><input class="fc" id="edNm" value="${d.name}" required></div>
+    <div><label class="fl">Contact</label><input class="fc" id="edCt" value="${d.contactNumber||''}"></div>
+    <div><label class="fl">Qualification</label><input class="fc" id="edQl" value="${d.qualification||''}"></div>
+    <div><label class="fl">Specialization</label><input class="fc" id="edSp" value="${d.specialization||''}"></div>
+    <div><label class="fl">Fee ($)</label><input type="number" step="0.01" class="fc" id="edFe" value="${d.consultationFee}"></div>
+    <div><label class="fl">Dept ID</label><input class="fc" id="edDp" value="${d.department?.departmentId||''}"></div>
+    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Update</button><button type="button" class="btn btn-o" onclick="loadDoctors()">Cancel</button></div>
+    </form></div>`);
+        document.getElementById('edF').addEventListener('submit',async e=>{e.preventDefault();try{await api(`/api/doctors/${id}`,'PUT',{name:document.getElementById('edNm').value,contactNumber:document.getElementById('edCt').value,qualification:document.getElementById('edQl').value,specialization:document.getElementById('edSp').value,consultationFee:parseFloat(document.getElementById('edFe').value)||0,department:{departmentId:parseInt(document.getElementById('edDp').value)||null}});toast('Updated!');loadDoctors();}catch(e){toast(e.message,'er');}});
+      }catch(e){toast(e.message,'er');}
     }
+    async function deleteDoctor(id){if(!confirm(`Delete doctor #${id}?`))return;try{await api(`/api/doctors/${id}`,'DELETE');toast('Deleted');loadDoctors();}catch(e){toast(e.message,'er');}}
 
-    // ======================================================================
-    //  DOCTORS
-    // ======================================================================
-    async function loadDoctors() {
-        try {
-            const docs = await apiCall('/api/doctors');
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-person-badge-fill me-2 text-primary"></i>Doctors</span>
-                    <button class="btn btn-primary" onclick="showAddDoctor()"><i class="bi bi-plus-lg"></i> Add Doctor</button>
-                </h1>
-                <div class="table-container">
-                    <table class="table table-hover">
-                        <thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Contact</th><th>Fee</th><th>Actions</th></tr></thead>
-                        <tbody>${docs.map(d => `
-                            <tr>
-                                <td>${d.id}</td>
-                                <td><strong>${d.name}</strong></td>
-                                <td>${d.specialization}</td>
-                                <td>${d.contactNumber}</td>
-                                <td>$${d.consultationFee}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary" onclick="showEditDoctor(${d.id})"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteDoctor(${d.id})"><i class="bi bi-trash3"></i></button>
-                                </td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>
-                </div>
-            `;
-        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    // ── APPOINTMENTS ──────────────────────────────────
+    function showBookAppointment(){
+      nav('nv-ap');
+      set(`<div class="ph"><div class="ph-l"><div class="pg-t">Book Appointment</div></div><button class="btn btn-o btn-sm" onclick="loadAppointments()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><form id="aF"><div class="rg g2">
+    <div><label class="fl">Patient ID *</label><input class="fc" id="aPt" required></div>
+    <div><label class="fl">Doctor ID *</label><input class="fc" id="aDc" required></div>
+    <div><label class="fl">Date *</label><input type="date" class="fc" id="aDt" required></div>
+    <div><label class="fl">Time *</label><input type="time" class="fc" id="aTm" required></div>
+    <div><label class="fl">Room ID (optional)</label><input class="fc" id="aRm"></div>
+    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-s"><i class="bi bi-calendar-check"></i> Book</button><button type="button" class="btn btn-o" onclick="loadAppointments()">Cancel</button></div>
+    </form></div>`);
+      document.getElementById('aF').addEventListener('submit',async e=>{e.preventDefault();const pid=document.getElementById('aPt').value,did=document.getElementById('aDc').value,dt=document.getElementById('aDt').value,tm=document.getElementById('aTm').value,rm=document.getElementById('aRm').value;const url=`/api/appointments/book?patientId=${pid}&doctorId=${did}&date=${dt}&time=${tm}${rm?'&roomId='+rm:''}`;try{const r=await fetch(url,{method:'POST'});if(r.status===409){const j=await r.json();toast('Conflict: '+j.message,'er');}else if(r.ok){toast('Booked!');loadAppointments();}else{const t=await r.text();toast(t,'er');}}catch(e){toast(e.message,'er');}});
     }
-
-    function showAddDoctor() {
-        document.getElementById('contentArea').innerHTML = `
-            <h1 class="page-title"><i class="bi bi-person-plus-fill me-2 text-primary"></i>Add Doctor</h1>
-            <div class="form-card">
-                <form id="doctorForm">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Name *</label><input class="form-control" id="dName" required /></div>
-                        <div class="col-md-6"><label class="form-label">Contact</label><input class="form-control" id="dContact" /></div>
-                        <div class="col-md-6"><label class="form-label">Qualification</label><input class="form-control" id="dQual" /></div>
-                        <div class="col-md-6"><label class="form-label">Specialization</label><input class="form-control" id="dSpec" /></div>
-                        <div class="col-md-6"><label class="form-label">Fee ($)</label><input type="number" step="0.01" class="form-control" id="dFee" /></div>
-                        <div class="col-md-6"><label class="form-label">Dept ID</label><input class="form-control" id="dDept" /></div>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
-                        <button type="button" class="btn btn-secondary" onclick="loadDoctors()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        document.getElementById('doctorForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = {
-                name: document.getElementById('dName').value,
-                contactNumber: document.getElementById('dContact').value,
-                qualification: document.getElementById('dQual').value,
-                specialization: document.getElementById('dSpec').value,
-                consultationFee: parseFloat(document.getElementById('dFee').value) || 0,
-                department: { departmentId: parseInt(document.getElementById('dDept').value) || null }
-            };
-            try { await apiCall('/api/doctors', 'POST', data); showToast('✅ Doctor added!'); loadDoctors(); }
-            catch (err) { showToast('❌ ' + err.message, 'danger'); }
-        });
+    async function loadAppointments(){
+      try{
+        const a=await api('/api/appointments');
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Appointments</div><div class="pg-s">${a.length} records</div></div><button class="btn btn-s" onclick="showBookAppointment()"><i class="bi bi-plus-lg"></i> Book</button></div>
+    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr></thead><tbody>${a.length?a.map(x=>`<tr><td><span class="bp bb">#${x.appointmentId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.doctor?.name||'N/A'}</td><td>${x.appointmentDate}</td><td>${x.appointmentTime}</td><td><span class="bp ${x.status==='Cancelled'?'bd':'bs'}">${x.status}</span></td><td>${x.status!=='Cancelled'?`<button class="btn btn-d btn-sm" onclick="cancelAppt(${x.appointmentId})"><i class="bi bi-x-circle"></i> Cancel</button>`:'-'}</td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-calendar-x"></i></div><div class="et">No appointments</div></div></td></tr>`}</tbody></table></div>`);
+      }catch(e){set(errHtml(e));}
     }
+    async function cancelAppt(id){if(!confirm(`Cancel #${id}?`))return;try{await api(`/api/appointments/${id}/cancel`,'PUT');toast('Cancelled');loadAppointments();}catch(e){toast(e.message,'er');}}
 
-    async function showEditDoctor(id) {
-        try {
-            const d = await apiCall(`/api/doctors/${id}`);
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title"><i class="bi bi-pencil-square me-2 text-primary"></i>Edit Doctor</h1>
-                <div class="form-card">
-                    <form id="editDoctorForm">
-                        <div class="row g-3">
-                            <div class="col-md-6"><label>Name *</label><input class="form-control" id="edName" value="${d.name}" required /></div>
-                            <div class="col-md-6"><label>Contact</label><input class="form-control" id="edContact" value="${d.contactNumber||''}" /></div>
-                            <div class="col-md-6"><label>Qualification</label><input class="form-control" id="edQual" value="${d.qualification||''}" /></div>
-                            <div class="col-md-6"><label>Specialization</label><input class="form-control" id="edSpec" value="${d.specialization||''}" /></div>
-                            <div class="col-md-6"><label>Fee ($)</label><input type="number" step="0.01" class="form-control" id="edFee" value="${d.consultationFee}" /></div>
-                            <div class="col-md-6"><label>Dept ID</label><input class="form-control" id="edDept" value="${d.department?.departmentId||''}" /></div>
-                        </div>
-                        <div class="mt-4 d-flex gap-2">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Update</button>
-                            <button type="button" class="btn btn-secondary" onclick="loadDoctors()">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            `;
-            document.getElementById('editDoctorForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const data = {
-                    name: document.getElementById('edName').value,
-                    contactNumber: document.getElementById('edContact').value,
-                    qualification: document.getElementById('edQual').value,
-                    specialization: document.getElementById('edSpec').value,
-                    consultationFee: parseFloat(document.getElementById('edFee').value) || 0,
-                    department: { departmentId: parseInt(document.getElementById('edDept').value) || null }
-                };
-                try { await apiCall(`/api/doctors/${id}`, 'PUT', data); showToast('✅ Updated!'); loadDoctors(); }
-                catch (err) { showToast('❌ ' + err.message, 'danger'); }
-            });
-        } catch (err) { showToast('Error: ' + err.message, 'danger'); }
+    // ── ADMISSIONS ────────────────────────────────────
+    function showAdmitPatient(){
+      nav('nv-ad');
+      set(`<div class="ph"><div class="ph-l"><div class="pg-t">Admit Patient</div></div><button class="btn btn-o btn-sm" onclick="loadAdmissions()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><form id="admF"><div class="rg g2">
+    <div><label class="fl">Patient ID *</label><input class="fc" id="admPt" required></div>
+    <div><label class="fl">Room ID *</label><input class="fc" id="admRm" required></div>
+    <div><label class="fl">Admit Date *</label><input type="date" class="fc" id="admDt" required></div>
+    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-hospital"></i> Admit</button><button type="button" class="btn btn-o" onclick="loadAdmissions()">Cancel</button></div>
+    </form></div>`);
+      document.getElementById('admF').addEventListener('submit',async e=>{e.preventDefault();try{await api(`/api/admissions/admit?patientId=${document.getElementById('admPt').value}&roomId=${document.getElementById('admRm').value}&admitDate=${document.getElementById('admDt').value}`,'POST');toast('Admitted!');loadAdmissions();}catch(e){toast(e.message,'er');}});
     }
-
-    async function deleteDoctor(id) {
-        if (!confirm('Delete doctor #' + id + '?')) return;
-        try { await apiCall(`/api/doctors/${id}`, 'DELETE'); showToast('✅ Deleted'); loadDoctors(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    async function loadAdmissions(){
+      try{
+        const a=await api('/api/admissions');
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Admissions</div><div class="pg-s">${a.length} records</div></div><button class="btn btn-p" onclick="showAdmitPatient()"><i class="bi bi-plus-lg"></i> Admit</button></div>
+    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Room</th><th>Admit</th><th>Discharge</th><th>Status</th><th>Action</th></tr></thead><tbody>${a.length?a.map(x=>`<tr><td><span class="bp bb">#${x.admissionId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.room?.roomNumber||'N/A'}</td><td>${x.admitDate}</td><td>${x.dischargeDate||'&mdash;'}</td><td><span class="bp ${x.dischargeDate?'bs':'bw'}">${x.dischargeDate?'Discharged':'Admitted'}</span></td><td>${!x.dischargeDate?`<button class="btn btn-w btn-sm" onclick="dischargePatient(${x.admissionId})"><i class="bi bi-check2-circle"></i> Discharge</button>`:'-'}</td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-hospital"></i></div><div class="et">No admissions</div></div></td></tr>`}</tbody></table></div>`);
+      }catch(e){set(errHtml(e));}
     }
+    async function dischargePatient(id){const dt=prompt('Discharge date (YYYY-MM-DD):',new Date().toISOString().split('T')[0]);if(!dt)return;try{await api(`/api/admissions/${id}/discharge?dischargeDate=${dt}`,'PUT');toast('Discharged');loadAdmissions();}catch(e){toast(e.message,'er');}}
 
-    // ======================================================================
-    //  APPOINTMENTS
-    // ======================================================================
-    function showBookAppointment() {
-        document.getElementById('contentArea').innerHTML = `
-            <h1 class="page-title"><i class="bi bi-calendar-plus-fill me-2 text-primary"></i>Book Appointment</h1>
-            <div class="form-card">
-                <form id="apptForm">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="apPatient" required /></div>
-                        <div class="col-md-6"><label class="form-label">Doctor ID *</label><input class="form-control" id="apDoctor" required /></div>
-                        <div class="col-md-6"><label class="form-label">Date *</label><input type="date" class="form-control" id="apDate" required /></div>
-                        <div class="col-md-6"><label class="form-label">Time *</label><input type="time" class="form-control" id="apTime" required /></div>
-                        <div class="col-md-6"><label class="form-label">Room ID (optional)</label><input class="form-control" id="apRoom" /></div>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> Book</button>
-                        <button type="button" class="btn btn-secondary" onclick="loadDashboard()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        document.getElementById('apptForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const patientId = document.getElementById('apPatient').value;
-            const doctorId = document.getElementById('apDoctor').value;
-            const date = document.getElementById('apDate').value;
-            const time = document.getElementById('apTime').value;
-            const roomId = document.getElementById('apRoom').value || '';
-            const url = `/api/appointments/book?patientId=${patientId}&doctorId=${doctorId}&date=${date}&time=${time}${roomId ? '&roomId='+roomId : ''}`;
-            try {
-                const res = await fetch(url, { method: 'POST' });
-                if (res.status === 409) { const err = await res.json(); showToast('❌ Conflict: ' + err.message, 'danger'); }
-                else if (res.ok) { showToast('✅ Booked!'); loadDashboard(); }
-                else { const t = await res.text(); showToast('❌ ' + t, 'danger'); }
-            } catch (err) { showToast('❌ ' + err.message, 'danger'); }
-        });
+    // ── TREATMENTS ────────────────────────────────────
+    async function loadTreatments(){
+      try{
+        const t=await api('/api/treatments');
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Treatments</div><div class="pg-s">${t.length} records</div></div><button class="btn btn-p" onclick="showAddTreatment()"><i class="bi bi-plus-lg"></i> Add</button></div>
+    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Diagnosis</th><th>Date</th><th>Action</th></tr></thead><tbody>${t.length?t.map(x=>`<tr><td><span class="bp bb">#${x.treatmentId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.doctor?.name||'N/A'}</td><td>${x.diagnosis}</td><td>${x.treatmentDate}</td><td><button class="btn btn-d btn-sm btn-ic" onclick="deleteTreatment(${x.treatmentId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="es"><div class="ei"><i class="bi bi-prescription"></i></div><div class="et">No treatments</div></div></td></tr>`}</tbody></table></div>`);
+      }catch(e){set(errHtml(e));}
     }
-
-    async function loadAppointments() {
-        try {
-            const appts = await apiCall('/api/appointments');
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-calendar2-week-fill me-2 text-primary"></i>Appointments</span>
-                    <button class="btn btn-success" onclick="showBookAppointment()"><i class="bi bi-plus-lg"></i> Book</button>
-                </h1>
-                <div class="table-container">
-                    <table class="table table-hover">
-                        <thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr></thead>
-                        <tbody>${appts.map(a => `
-                            <tr>
-                                <td>${a.appointmentId}</td>
-                                <td>${a.patient?.name||'N/A'}</td>
-                                <td>${a.doctor?.name||'N/A'}</td>
-                                <td>${a.appointmentDate}</td>
-                                <td>${a.appointmentTime}</td>
-                                <td><span class="badge-status ${a.status==='Cancelled'?'bg-danger':'bg-success'}">${a.status}</span></td>
-                                <td>${a.status!=='Cancelled'?`<button class="btn btn-sm btn-outline-danger" onclick="cancelAppt(${a.appointmentId})"><i class="bi bi-x-circle"></i></button>`:'-'}</td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>
-                </div>
-            `;
-        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    function showAddTreatment(){
+      set(`<div class="ph"><div class="ph-l"><div class="pg-t">Add Treatment</div></div><button class="btn btn-o btn-sm" onclick="loadTreatments()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><form id="tF"><div class="rg g2">
+    <div><label class="fl">Patient ID *</label><input class="fc" id="txPt" required></div>
+    <div><label class="fl">Doctor ID *</label><input class="fc" id="txDc" required></div>
+    <div><label class="fl">Date *</label><input type="date" class="fc" id="txDt" required></div>
+    <div><label class="fl">Diagnosis *</label><input class="fc" id="txDg" required></div>
+    </div><div style="margin-top:14px"><label class="fl">Prescription</label><textarea class="fc" id="txPr" rows="2"></textarea></div>
+    <div style="margin-top:12px"><label class="fl">Notes</label><textarea class="fc" id="txNo" rows="2"></textarea></div>
+    <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadTreatments()">Cancel</button></div>
+    </form></div>`);
+      document.getElementById('tF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/treatments','POST',{patient:{id:parseInt(document.getElementById('txPt').value)},doctor:{id:parseInt(document.getElementById('txDc').value)},diagnosis:document.getElementById('txDg').value,prescription:document.getElementById('txPr').value,treatmentNotes:document.getElementById('txNo').value,treatmentDate:document.getElementById('txDt').value});toast('Treatment added!');loadTreatments();}catch(e){toast(e.message,'er');}});
     }
+    async function deleteTreatment(id){if(!confirm(`Delete #${id}?`))return;try{await api(`/api/treatments/${id}`,'DELETE');toast('Deleted');loadTreatments();}catch(e){toast(e.message,'er');}}
 
-    async function cancelAppt(id) {
-        if (!confirm('Cancel appointment #' + id + '?')) return;
-        try { await apiCall(`/api/appointments/${id}/cancel`, 'PUT'); showToast('✅ Cancelled'); loadAppointments(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    // ── LAB TESTS ─────────────────────────────────────
+    async function loadLabTests(){
+      try{
+        const l=await api('/api/labtests');
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Lab Tests</div><div class="pg-s">${l.length} records</div></div><button class="btn btn-p" onclick="showAddLabTest()"><i class="bi bi-plus-lg"></i> Add</button></div>
+    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Test</th><th>Date</th><th>Status</th><th>Result</th><th>Actions</th></tr></thead><tbody>${l.length?l.map(x=>`<tr><td><span class="bp bb">#${x.labTestId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.testName}</td><td>${x.testDate}</td><td><span class="bp ${x.testStatus==='Completed'?'bs':'bw'}">${x.testStatus}</span></td><td>${x.testResult||'&mdash;'}</td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="updateLabResult(${x.labTestId})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteLabTest(${x.labTestId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-flask"></i></div><div class="et">No lab tests</div></div></td></tr>`}</tbody></table></div>`);
+      }catch(e){set(errHtml(e));}
     }
-
-    // ======================================================================
-    //  ADMISSIONS
-    // ======================================================================
-    function showAdmitPatient() {
-        document.getElementById('contentArea').innerHTML = `
-            <h1 class="page-title"><i class="bi bi-hospital-fill me-2 text-primary"></i>Admit Patient</h1>
-            <div class="form-card">
-                <form id="admitForm">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="admPatient" required /></div>
-                        <div class="col-md-6"><label class="form-label">Room ID *</label><input class="form-control" id="admRoom" required /></div>
-                        <div class="col-md-6"><label class="form-label">Admit Date *</label><input type="date" class="form-control" id="admDate" required /></div>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Admit</button>
-                        <button type="button" class="btn btn-secondary" onclick="loadDashboard()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        document.getElementById('admitForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const patientId = document.getElementById('admPatient').value;
-            const roomId = document.getElementById('admRoom').value;
-            const date = document.getElementById('admDate').value;
-            try { await apiCall(`/api/admissions/admit?patientId=${patientId}&roomId=${roomId}&admitDate=${date}`, 'POST'); showToast('✅ Admitted!'); loadDashboard(); }
-            catch (err) { showToast('❌ ' + err.message, 'danger'); }
-        });
+    function showAddLabTest(){
+      set(`<div class="ph"><div class="ph-l"><div class="pg-t">Add Lab Test</div></div><button class="btn btn-o btn-sm" onclick="loadLabTests()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><form id="lF"><div class="rg g2">
+    <div><label class="fl">Patient ID *</label><input class="fc" id="lbPt" required></div>
+    <div><label class="fl">Test Name *</label><input class="fc" id="lbNm" required></div>
+    <div><label class="fl">Date *</label><input type="date" class="fc" id="lbDt" required></div>
+    <div><label class="fl">Technician *</label><input class="fc" id="lbTc" required></div>
+    </div><div style="margin-top:14px"><label class="fl">Result</label><textarea class="fc" id="lbRs" rows="2"></textarea></div>
+    <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadLabTests()">Cancel</button></div>
+    </form></div>`);
+      document.getElementById('lF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/labtests','POST',{patient:{id:parseInt(document.getElementById('lbPt').value)},testName:document.getElementById('lbNm').value,testDate:document.getElementById('lbDt').value,technicianName:document.getElementById('lbTc').value,testResult:document.getElementById('lbRs').value});toast('Lab test added!');loadLabTests();}catch(e){toast(e.message,'er');}});
     }
+    async function updateLabResult(id){const r=prompt('Result:');if(r===null)return;const s=confirm('Mark Completed?')?'Completed':'Pending';try{await api(`/api/labtests/${id}/result?result=${encodeURIComponent(r)}&status=${s}`,'PUT');toast('Updated');loadLabTests();}catch(e){toast(e.message,'er');}}
+    async function deleteLabTest(id){if(!confirm(`Delete #${id}?`))return;try{await api(`/api/labtests/${id}`,'DELETE');toast('Deleted');loadLabTests();}catch(e){toast(e.message,'er');}}
 
-    async function loadAdmissions() {
-        try {
-            const ads = await apiCall('/api/admissions');
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-hospital-fill me-2 text-primary"></i>Admissions</span>
-                    <button class="btn btn-primary" onclick="showAdmitPatient()"><i class="bi bi-plus-lg"></i> Admit</button>
-                </h1>
-                <div class="table-container">
-                    <table class="table table-hover">
-                        <thead><tr><th>ID</th><th>Patient</th><th>Room</th><th>Admit</th><th>Discharge</th><th>Action</th></tr></thead>
-                        <tbody>${ads.map(a => `
-                            <tr>
-                                <td>${a.admissionId}</td>
-                                <td>${a.patient?.name||'N/A'}</td>
-                                <td>${a.room?.roomNumber||'N/A'}</td>
-                                <td>${a.admitDate}</td>
-                                <td>${a.dischargeDate||'-'}</td>
-                                <td>${!a.dischargeDate?`<button class="btn btn-sm btn-warning" onclick="dischargePatient(${a.admissionId})"><i class="bi bi-check2-circle"></i></button>`:'-'}</td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>
-                </div>
-            `;
-        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    // ── BILLS ─────────────────────────────────────────
+    async function loadBills(){
+      try{
+        const b=await api('/api/bills');
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Bills &amp; Fees</div><div class="pg-s">${b.length} records</div></div><button class="btn btn-p" onclick="showAddBill()"><i class="bi bi-plus-lg"></i> Generate Bill</button></div>
+    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Consult</th><th>Room</th><th>Lab</th><th>Meds</th><th>Total</th><th>Status</th><th>Method</th><th>Actions</th></tr></thead><tbody>${b.length?b.map(x=>`<tr><td><span class="bp bb">#${x.billId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>$${x.consultationCharge||0}</td><td>$${x.roomCharge||0}</td><td>$${x.labCharge||0}</td><td>$${x.medicineCharge||0}</td><td><strong>$${x.totalAmount}</strong></td><td><span class="bp ${x.paymentStatus==='Paid'?'bs':'bw'}">${x.paymentStatus}</span></td><td>${x.paymentMethod||'&mdash;'}</td><td style="display:flex;gap:6px"><button class="btn btn-s btn-sm btn-ic" onclick="updateBillPayment(${x.billId})"><i class="bi bi-credit-card"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteBill(${x.billId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="10"><div class="es"><div class="ei"><i class="bi bi-receipt"></i></div><div class="et">No bills</div></div></td></tr>`}</tbody></table></div>`);
+      }catch(e){set(errHtml(e));}
     }
-
-    async function dischargePatient(id) {
-        const date = prompt('Enter discharge date (YYYY-MM-DD):', new Date().toISOString().split('T')[0]);
-        if (!date) return;
-        try { await apiCall(`/api/admissions/${id}/discharge?dischargeDate=${date}`, 'PUT'); showToast('✅ Discharged'); loadAdmissions(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
+    function showAddBill(){
+      set(`<div class="ph"><div class="ph-l"><div class="pg-t">Generate Bill</div></div><button class="btn btn-o btn-sm" onclick="loadBills()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><div class="ft">Billing Details</div><form id="bF"><div class="rg g2">
+    <div><label class="fl">Patient ID *</label><input class="fc" id="bPt" required></div>
+    <div><label class="fl">Consultation ($)</label><input type="number" step="0.01" class="fc" id="bCo" value="0"></div>
+    <div><label class="fl">Room ($)</label><input type="number" step="0.01" class="fc" id="bRo" value="0"></div>
+    <div><label class="fl">Lab ($)</label><input type="number" step="0.01" class="fc" id="bLa" value="0"></div>
+    <div><label class="fl">Medicine ($)</label><input type="number" step="0.01" class="fc" id="bMe" value="0"></div>
+    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-receipt"></i> Generate</button><button type="button" class="btn btn-o" onclick="loadBills()">Cancel</button></div>
+    </form></div>`);
+      document.getElementById('bF').addEventListener('submit',async e=>{e.preventDefault();try{await fetch(`/api/bills/generate?patientId=${document.getElementById('bPt').value}&consultation=${parseFloat(document.getElementById('bCo').value)||0}&room=${parseFloat(document.getElementById('bRo').value)||0}&lab=${parseFloat(document.getElementById('bLa').value)||0}&medicine=${parseFloat(document.getElementById('bMe').value)||0}`,{method:'POST'});toast('Bill generated!');loadBills();}catch(e){toast(e.message,'er');}});
     }
+    async function updateBillPayment(id){const m=prompt('Method (Cash/Card/Online):','Cash');if(!m)return;const s=confirm('Mark Paid?')?'Paid':'Pending';try{await api(`/api/bills/${id}/payment?status=${s}&method=${m}`,'PUT');toast('Payment updated');loadBills();}catch(e){toast(e.message,'er');}}
+    async function deleteBill(id){if(!confirm(`Delete bill #${id}?`))return;try{await api(`/api/bills/${id}`,'DELETE');toast('Deleted');loadBills();}catch(e){toast(e.message,'er');}}
 
-    // ======================================================================
-    //  TREATMENTS
-    // ======================================================================
-    async function loadTreatments() {
-        try {
-            const tx = await apiCall('/api/treatments');
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-prescription me-2 text-primary"></i>Treatments</span>
-                    <button class="btn btn-primary" onclick="showAddTreatment()"><i class="bi bi-plus-lg"></i> Add</button>
-                </h1>
-                <div class="table-container">
-                    <table class="table table-hover">
-                        <thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Diagnosis</th><th>Date</th><th>Action</th></tr></thead>
-                        <tbody>${tx.map(t => `
-                            <tr>
-                                <td>${t.treatmentId}</td>
-                                <td>${t.patient?.name||'N/A'}</td>
-                                <td>${t.doctor?.name||'N/A'}</td>
-                                <td>${t.diagnosis}</td>
-                                <td>${t.treatmentDate}</td>
-                                <td><button class="btn btn-sm btn-outline-danger" onclick="deleteTreatment(${t.treatmentId})"><i class="bi bi-trash3"></i></button></td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>
-                </div>
-            `;
-        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
+    // ── ROOMS ─────────────────────────────────────────
+    async function loadRooms(){
+      try{
+        const r=await api('/api/rooms');
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Rooms</div><div class="pg-s">${r.length} rooms</div></div><button class="btn btn-p" onclick="showAddRoom()"><i class="bi bi-plus-lg"></i> Add Room</button></div>
+    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Room No.</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody>${r.length?r.map(x=>`<tr><td><span class="bp bb">#${x.roomId}</span></td><td class="tn">${x.roomNumber}</td><td>${x.roomType}</td><td><span class="bp ${x.available?'bs':'bd'}">${x.available?'Available':'Occupied'}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm" onclick="toggleRoom(${x.roomId},${!x.available})"><i class="bi bi-arrow-repeat"></i> Toggle</button><button class="btn btn-d btn-sm btn-ic" onclick="deleteRoom(${x.roomId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="5"><div class="es"><div class="ei"><i class="bi bi-door-open"></i></div><div class="et">No rooms</div></div></td></tr>`}</tbody></table></div>`);
+      }catch(e){set(errHtml(e));}
     }
-
-    function showAddTreatment() {
-        document.getElementById('contentArea').innerHTML = `
-            <h1 class="page-title"><i class="bi bi-prescription me-2 text-primary"></i>Add Treatment</h1>
-            <div class="form-card">
-                <form id="treatmentForm">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="txPatient" required /></div>
-                        <div class="col-md-6"><label class="form-label">Doctor ID *</label><input class="form-control" id="txDoctor" required /></div>
-                        <div class="col-md-12"><label class="form-label">Diagnosis *</label><input class="form-control" id="txDiagnosis" required /></div>
-                        <div class="col-md-12"><label class="form-label">Prescription</label><textarea class="form-control" id="txPresc" rows="2"></textarea></div>
-                        <div class="col-md-12"><label class="form-label">Notes</label><textarea class="form-control" id="txNotes" rows="2"></textarea></div>
-                        <div class="col-md-6"><label class="form-label">Date *</label><input type="date" class="form-control" id="txDate" required /></div>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
-                        <button type="button" class="btn btn-secondary" onclick="loadTreatments()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        document.getElementById('treatmentForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = {
-                patient: { id: parseInt(document.getElementById('txPatient').value) },
-                doctor: { id: parseInt(document.getElementById('txDoctor').value) },
-                diagnosis: document.getElementById('txDiagnosis').value,
-                prescription: document.getElementById('txPresc').value,
-                treatmentNotes: document.getElementById('txNotes').value,
-                treatmentDate: document.getElementById('txDate').value
-            };
-            try { await apiCall('/api/treatments', 'POST', data); showToast('✅ Treatment added!'); loadTreatments(); }
-            catch (err) { showToast('❌ ' + err.message, 'danger'); }
-        });
+    function showAddRoom(){
+      set(`<div class="ph"><div class="ph-l"><div class="pg-t">Add Room</div></div><button class="btn btn-o btn-sm" onclick="loadRooms()"><i class="bi bi-arrow-left"></i> Back</button></div>
+    <div class="fs"><form id="rF"><div class="rg g2">
+    <div><label class="fl">Room Number *</label><input class="fc" id="rmNm" placeholder="e.g. 101" required></div>
+    <div><label class="fl">Type</label><select class="fsel" id="rmTp"><option>General_Ward</option><option>Private_Room</option><option>ICU</option></select></div>
+    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadRooms()">Cancel</button></div>
+    </form></div>`);
+      document.getElementById('rF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/rooms','POST',{roomNumber:document.getElementById('rmNm').value,roomType:document.getElementById('rmTp').value});toast('Room added!');loadRooms();}catch(e){toast(e.message,'er');}});
     }
+    async function toggleRoom(id,newStatus){try{const room=await api(`/api/rooms/${id}`);room.available=newStatus;await api(`/api/rooms/${id}`,'PUT',room);toast('Room updated');loadRooms();}catch(e){toast(e.message,'er');}}
+    async function deleteRoom(id){if(!confirm(`Delete room #${id}?`))return;try{await api(`/api/rooms/${id}`,'DELETE');toast('Deleted');loadRooms();}catch(e){toast(e.message,'er');}}
 
-    async function deleteTreatment(id) {
-        if (!confirm('Delete treatment #' + id + '?')) return;
-        try { await apiCall(`/api/treatments/${id}`, 'DELETE'); showToast('✅ Deleted'); loadTreatments(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
-    }
-
-    // ======================================================================
-    //  LAB TESTS
-    // ======================================================================
-    async function loadLabTests() {
-        try {
-            const labs = await apiCall('/api/labtests');
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-flask me-2 text-primary"></i>Lab Tests</span>
-                    <button class="btn btn-primary" onclick="showAddLabTest()"><i class="bi bi-plus-lg"></i> Add</button>
-                </h1>
-                <div class="table-container">
-                    <table class="table table-hover">
-                        <thead><tr><th>ID</th><th>Patient</th><th>Test</th><th>Date</th><th>Status</th><th>Result</th><th>Actions</th></tr></thead>
-                        <tbody>${labs.map(l => `
-                            <tr>
-                                <td>${l.labTestId}</td>
-                                <td>${l.patient?.name||'N/A'}</td>
-                                <td>${l.testName}</td>
-                                <td>${l.testDate}</td>
-                                <td><span class="badge-status ${l.testStatus==='Completed'?'bg-success':'bg-warning'}">${l.testStatus}</span></td>
-                                <td>${l.testResult||'-'}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary" onclick="updateLabResult(${l.labTestId})"><i class="bi bi-pencil"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteLabTest(${l.labTestId})"><i class="bi bi-trash3"></i></button>
-                                </td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>
-                </div>
-            `;
-        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
-    }
-
-    function showAddLabTest() {
-        document.getElementById('contentArea').innerHTML = `
-            <h1 class="page-title"><i class="bi bi-flask me-2 text-primary"></i>Add Lab Test</h1>
-            <div class="form-card">
-                <form id="labForm">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="labPatient" required /></div>
-                        <div class="col-md-6"><label class="form-label">Test Name *</label><input class="form-control" id="labName" required /></div>
-                        <div class="col-md-6"><label class="form-label">Date *</label><input type="date" class="form-control" id="labDate" required /></div>
-                        <div class="col-md-6"><label class="form-label">Technician *</label><input class="form-control" id="labTech" required /></div>
-                        <div class="col-md-12"><label class="form-label">Result</label><textarea class="form-control" id="labResult" rows="2"></textarea></div>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
-                        <button type="button" class="btn btn-secondary" onclick="loadLabTests()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        document.getElementById('labForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = {
-                patient: { id: parseInt(document.getElementById('labPatient').value) },
-                testName: document.getElementById('labName').value,
-                testDate: document.getElementById('labDate').value,
-                technicianName: document.getElementById('labTech').value,
-                testResult: document.getElementById('labResult').value
-            };
-            try { await apiCall('/api/labtests', 'POST', data); showToast('✅ Lab test added!'); loadLabTests(); }
-            catch (err) { showToast('❌ ' + err.message, 'danger'); }
-        });
-    }
-
-    async function updateLabResult(id) {
-        const result = prompt('Enter test result:');
-        if (result === null) return;
-        const status = confirm('Mark as Completed?') ? 'Completed' : 'Pending';
-        try { await apiCall(`/api/labtests/${id}/result?result=${encodeURIComponent(result)}&status=${status}`, 'PUT'); showToast('✅ Updated'); loadLabTests(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
-    }
-
-    async function deleteLabTest(id) {
-        if (!confirm('Delete lab test #' + id + '?')) return;
-        try { await apiCall(`/api/labtests/${id}`, 'DELETE'); showToast('✅ Deleted'); loadLabTests(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
-    }
-
-    // ======================================================================
-    //  BILLS & FEES
-    // ======================================================================
-    async function loadBills() {
-        try {
-            const bills = await apiCall('/api/bills');
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-receipt-cutoff me-2 text-primary"></i>Bills &amp; Fees</span>
-                    <button class="btn btn-primary" onclick="showAddBill()"><i class="bi bi-plus-lg"></i> Generate Bill</button>
-                </h1>
-                <div class="table-container">
-                    <table class="table table-hover">
-                        <thead><tr><th>ID</th><th>Patient</th><th>Consult</th><th>Room</th><th>Lab</th><th>Medicine</th><th>Total</th><th>Status</th><th>Method</th><th>Actions</th></tr></thead>
-                        <tbody>${bills.map(b => `
-                            <tr>
-                                <td>${b.billId}</td>
-                                <td>${b.patient?.name||'N/A'}</td>
-                                <td>$${b.consultationCharge||0}</td>
-                                <td>$${b.roomCharge||0}</td>
-                                <td>$${b.labCharge||0}</td>
-                                <td>$${b.medicineCharge||0}</td>
-                                <td><strong>$${b.totalAmount}</strong></td>
-                                <td><span class="badge-status ${b.paymentStatus==='Paid'?'bg-success':'bg-warning'}">${b.paymentStatus}</span></td>
-                                <td>${b.paymentMethod||'-'}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-success" onclick="updateBillPayment(${b.billId})"><i class="bi bi-credit-card"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteBill(${b.billId})"><i class="bi bi-trash3"></i></button>
-                                </td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>
-                </div>
-            `;
-        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
-    }
-
-    function showAddBill() {
-        document.getElementById('contentArea').innerHTML = `
-            <h1 class="page-title"><i class="bi bi-receipt me-2 text-primary"></i>Generate Bill</h1>
-            <div class="form-card">
-                <form id="billForm">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Patient ID *</label><input class="form-control" id="billPatient" required /></div>
-                        <div class="col-md-6"><label class="form-label">Consultation ($)</label><input type="number" step="0.01" class="form-control" id="billConsult" value="0" /></div>
-                        <div class="col-md-6"><label class="form-label">Room ($)</label><input type="number" step="0.01" class="form-control" id="billRoom" value="0" /></div>
-                        <div class="col-md-6"><label class="form-label">Lab ($)</label><input type="number" step="0.01" class="form-control" id="billLab" value="0" /></div>
-                        <div class="col-md-6"><label class="form-label">Medicine ($)</label><input type="number" step="0.01" class="form-control" id="billMedicine" value="0" /></div>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Generate</button>
-                        <button type="button" class="btn btn-secondary" onclick="loadBills()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        document.getElementById('billForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const patientId = document.getElementById('billPatient').value;
-            const consultation = parseFloat(document.getElementById('billConsult').value) || 0;
-            const room = parseFloat(document.getElementById('billRoom').value) || 0;
-            const lab = parseFloat(document.getElementById('billLab').value) || 0;
-            const medicine = parseFloat(document.getElementById('billMedicine').value) || 0;
-            const url = `/api/bills/generate?patientId=${patientId}&consultation=${consultation}&room=${room}&lab=${lab}&medicine=${medicine}`;
-            try { await fetch(url, { method: 'POST' }); showToast('✅ Bill generated!'); loadBills(); }
-            catch (err) { showToast('❌ ' + err.message, 'danger'); }
-        });
-    }
-
-    async function updateBillPayment(id) {
-        const method = prompt('Payment Method (Cash / Card / Online):', 'Cash');
-        if (!method) return;
-        const status = confirm('Mark as Paid?') ? 'Paid' : 'Pending';
-        try { await apiCall(`/api/bills/${id}/payment?status=${status}&method=${method}`, 'PUT'); showToast('✅ Payment updated'); loadBills(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
-    }
-
-    async function deleteBill(id) {
-        if (!confirm('Delete bill #' + id + '?')) return;
-        try { await apiCall(`/api/bills/${id}`, 'DELETE'); showToast('✅ Deleted'); loadBills(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
-    }
-
-    // ======================================================================
-    //  ROOMS
-    // ======================================================================
-    async function loadRooms() {
-        try {
-            const rooms = await apiCall('/api/rooms');
-            document.getElementById('contentArea').innerHTML = `
-                <h1 class="page-title d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-door-open-fill me-2 text-primary"></i>Rooms</span>
-                    <button class="btn btn-primary" onclick="showAddRoom()"><i class="bi bi-plus-lg"></i> Add Room</button>
-                </h1>
-                <div class="table-container">
-                    <table class="table table-hover">
-                        <thead><tr><th>ID</th><th>Room #</th><th>Type</th><th>Available</th><th>Actions</th></tr></thead>
-                        <tbody>${rooms.map(r => `
-                            <tr>
-                                <td>${r.roomId}</td>
-                                <td><strong>${r.roomNumber}</strong></td>
-                                <td>${r.roomType}</td>
-                                <td><span class="badge-status ${r.available?'bg-success':'bg-danger'}">${r.available?'Available':'Occupied'}</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary" onclick="toggleRoom(${r.roomId}, ${!r.available})"><i class="bi bi-arrow-repeat"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteRoom(${r.roomId})"><i class="bi bi-trash3"></i></button>
-                                </td>
-                            </tr>
-                        `).join('')}</tbody>
-                    </table>
-                </div>
-            `;
-        } catch (err) { document.getElementById('contentArea').innerHTML = `<div class="alert alert-danger">Error: ${err.message}</div>`; }
-    }
-
-    function showAddRoom() {
-        document.getElementById('contentArea').innerHTML = `
-            <h1 class="page-title"><i class="bi bi-door-open me-2 text-primary"></i>Add Room</h1>
-            <div class="form-card">
-                <form id="roomForm">
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label">Room Number *</label><input class="form-control" id="roomNum" required /></div>
-                        <div class="col-md-6"><label class="form-label">Type</label><select class="form-select" id="roomType"><option>General_Ward</option><option>Private_Room</option><option>ICU</option></select></div>
-                    </div>
-                    <div class="mt-4 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg"></i> Save</button>
-                        <button type="button" class="btn btn-secondary" onclick="loadRooms()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        document.getElementById('roomForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = { roomNumber: document.getElementById('roomNum').value, roomType: document.getElementById('roomType').value };
-            try { await apiCall('/api/rooms', 'POST', data); showToast('✅ Room added!'); loadRooms(); }
-            catch (err) { showToast('❌ ' + err.message, 'danger'); }
-        });
-    }
-
-    async function toggleRoom(id, newStatus) {
-        try {
-            const room = await apiCall(`/api/rooms/${id}`);
-            room.available = newStatus;
-            await apiCall(`/api/rooms/${id}`, 'PUT', room);
-            showToast('✅ Room updated');
-            loadRooms();
-        } catch (err) { showToast('❌ ' + err.message, 'danger'); }
-    }
-
-    async function deleteRoom(id) {
-        if (!confirm('Delete room #' + id + '?')) return;
-        try { await apiCall(`/api/rooms/${id}`, 'DELETE'); showToast('✅ Deleted'); loadRooms(); }
-        catch (err) { showToast('❌ ' + err.message, 'danger'); }
-    }
-
-    // ======================================================================
-    //  Load dashboard on page load
-    // ======================================================================
-    window.onload = loadDashboard;
+    // ── INIT ──────────────────────────────────────────
+    window.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{loadDashboard();},2800);});
 </script>
 </body>
 </html>

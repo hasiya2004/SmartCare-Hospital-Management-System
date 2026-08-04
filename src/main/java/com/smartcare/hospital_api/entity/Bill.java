@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
+import org.hibernate.annotations.Formula;
 @Entity
 @Table(name = "bills")
 @Data
@@ -40,8 +40,11 @@ public class Bill {
     @Column(name = "medicine_charge", nullable = false)
     private BigDecimal medicineCharge = BigDecimal.ZERO;
 
-    @Column(name = "total_amount", insertable = false, updatable = false)
-    private BigDecimal totalAmount;
+     /* @Column(name = "total_amount", insertable = false, updatable = false)
+    private BigDecimal totalAmount; */
+
+     @Formula("consultation_charge + room_charge + lab_charge + medicine_charge")
+     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", nullable = false)

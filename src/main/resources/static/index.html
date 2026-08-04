@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>SmartCare HMS &middot; Hospital Management System</title>
-    <meta name="description" content="SmartCare HMS - Modern Hospital Management System by Hasindu Senarathna"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <meta name="description" content="SmartCare HMS - Modern Hospital Management System"/>
+    <link href="https://fonts.googleapis.com/css?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -32,11 +32,11 @@
         .sp-logo{display:flex;align-items:center;gap:14px;animation:sUp .7s cubic-bezier(.34,1.56,.64,1) .2s both}
         .sp-icon{width:68px;height:68px;background:var(--primary);border-radius:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 28px rgba(37,99,235,.35);animation:sPulse 1.4s ease-in-out .7s infinite alternate}
         .sp-icon svg{width:38px;height:38px}
-        .sp-brand{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.5rem;font-weight:800;color:var(--text-primary);letter-spacing:-.5px}
+        .sp-brand{font-family:'Plus Jakarta Sans', sans-serif;font-size:2.5rem;font-weight:800;color:var(--text-primary);letter-spacing:-.5px}
         .sp-brand span{color:var(--primary)}
         .sp-tag{font-size:.9rem;color:var(--text-muted);animation:sUp .7s ease .5s both;letter-spacing:.3px}
         .sp-bar-w{width:240px;height:4px;background:#E2E8F0;border-radius:99px;overflow:hidden;animation:sUp .7s ease .7s both}
-        .sp-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--teal));border-radius:99px;width:0;animation:sFill 2s cubic-bezier(.4,0,.2,1) .7s forwards}
+        .sp-bar{height:100%;background:linear-gradient(90deg, var(--primary), var(--teal));border-radius:99px;width:0;animation:sFill 2s cubic-bezier(.4,0,.2,1) .7s forwards}
         .sp-dev{font-size:.8rem;color:#CBD5E1;animation:sUp .7s ease .95s both}
         @keyframes sUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes sFadeOut{to{opacity:0;pointer-events:none;visibility:hidden}}
@@ -44,7 +44,7 @@
         @keyframes sFill{from{width:0}to{width:100%}}
         /* BASE */
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Inter',sans-serif;background:var(--bg-main);color:var(--text-primary);min-height:100vh;-webkit-font-smoothing:antialiased}
+        body{font-family:'Inter', sans-serif;background:var(--bg-main);color:var(--text-primary);min-height:100vh;-webkit-font-smoothing:antialiased}
         /* LAYOUT */
         .app{display:flex;min-height:100vh}
         /* SIDEBAR */
@@ -52,7 +52,7 @@
         .s-head{padding:22px 20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
         .logo-i{width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(37,99,235,.25)}
         .logo-i svg{width:22px;height:22px}
-        .logo-t{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.15rem;font-weight:800;color:var(--text-primary);letter-spacing:-.3px;line-height:1.1}
+        .logo-t{font-family:'Plus Jakarta Sans', sans-serif;font-size:1.15rem;font-weight:800;color:var(--text-primary);letter-spacing:-.3px;line-height:1.1}
         .logo-t span{color:var(--primary)}
         .logo-s{font-size:.65rem;color:var(--text-muted);font-weight:500;display:block;letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
         .s-nav{flex:1;padding:10px 12px;overflow-y:auto}
@@ -66,7 +66,7 @@
         .nl:hover:not(.active) .ni-icon{background:var(--border)}
         .s-foot{padding:14px 20px;border-top:1px solid var(--border)}
         .dev-c{background:var(--bg-main);border-radius:var(--radius-md);padding:12px 14px;display:flex;align-items:center;gap:10px}
-        .dev-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--primary) 0%,var(--teal) 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0}
+        .dev-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg, var(--primary) 0%, var(--teal) 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0}
         .dev-nm{font-size:.8rem;font-weight:600;color:var(--text-primary);line-height:1.2}
         .dev-rl{font-size:.7rem;color:var(--text-muted)}
         .s-dot{width:7px;height:7px;border-radius:50%;background:var(--success);margin-left:auto;flex-shrink:0;box-shadow:0 0 0 2px rgba(16,185,129,.2)}
@@ -83,13 +83,13 @@
         /* PAGE HEADER */
         .ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
         .ph-l{display:flex;flex-direction:column;gap:2px}
-        .pg-t{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text-primary);letter-spacing:-.3px}
+        .pg-t{font-family:'Plus Jakarta Sans', sans-serif;font-size:1.5rem;font-weight:700;color:var(--text-primary);letter-spacing:-.3px}
         .pg-s{font-size:.82rem;color:var(--text-muted)}
         /* STAT CARDS */
         .sg{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:24px}
         .sc{background:#fff;border-radius:var(--radius-lg);padding:18px 16px;border:1px solid var(--border);transition:var(--tr);position:relative;overflow:hidden}
         .sc:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:transparent}
-        .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+        .sc::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
         .sc.blue::before{background:var(--primary)}.sc.green::before{background:var(--success)}
         .sc.amber::before{background:var(--warning)}.sc.purple::before{background:var(--purple)}
         .sc.pink::before{background:var(--pink)}.sc.teal::before{background:var(--teal)}
@@ -97,7 +97,7 @@
         .si.blue{background:var(--primary-light);color:var(--primary)}.si.green{background:var(--success-light);color:var(--success)}
         .si.amber{background:var(--warning-light);color:var(--warning)}.si.purple{background:var(--purple-light);color:var(--purple)}
         .si.pink{background:var(--pink-light);color:var(--pink)}.si.teal{background:var(--teal-light);color:var(--teal)}
-        .sn{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.65rem;font-weight:700;color:var(--text-primary);line-height:1;margin-bottom:4px}
+        .sn{font-family:'Plus Jakarta Sans', sans-serif;font-size:1.65rem;font-weight:700;color:var(--text-primary);line-height:1;margin-bottom:4px}
         .sl{font-size:.74rem;font-weight:500;color:var(--text-muted)}
         /* CARD */
         .card{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden}
@@ -105,7 +105,7 @@
         .ct{font-size:.88rem;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:8px}
         .ct i{color:var(--primary)}
         .cb{padding:20px}
-        .cw canvas{max-height:210px;width:100%!important}
+        .cw canvas{max-height:210px;width:100% !important}
         /* TABLE */
         .tc{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);overflow:hidden}
         .mt{width:100%;border-collapse:collapse}
@@ -116,7 +116,7 @@
         .tn{font-weight:600;color:var(--text-primary)}
         /* BADGES */
         .bp{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:.72rem;font-weight:600}
-        .bp::before{content:'';width:5px;height:5px;border-radius:50%}
+        .bp::before{content:"";width:5px;height:5px;border-radius:50%}
         .bs{background:var(--success-light);color:#065F46}.bs::before{background:var(--success)}
         .bd{background:var(--danger-light);color:#991B1B}.bd::before{background:var(--danger)}
         .bw{background:var(--warning-light);color:#92400E}.bw::before{background:var(--warning)}
@@ -143,11 +143,11 @@
         .fs{background:#fff;border-radius:var(--radius-lg);border:1px solid var(--border);padding:28px}
         .ft{font-size:.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
         .fl{font-size:.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:5px;display:block}
-        .fc,.fsel{background:var(--bg-main);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px;font-size:.875rem;color:var(--text-primary);width:100%;transition:var(--tr);font-family:'Inter',sans-serif}
-        .fc:focus,.fsel:focus{outline:none;border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+        .fc,.fsel{background:var(--bg-main);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 12px;font-size:.875rem;color:var(--text-primary);width:100%;transition:var(--tr);font-family:'Inter', sans-serif}
+        .fc:focus, .fsel:focus {outline:none;border-color:var(--primary);background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.1)}
         textarea.fc{resize:vertical}
         /* BUTTONS */
-        .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-size:.84rem;font-weight:600;cursor:pointer;border:1px solid transparent;transition:var(--tr);font-family:'Inter',sans-serif;white-space:nowrap}
+        .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-size:.84rem;font-weight:600;cursor:pointer;border:1px solid transparent;transition:var(--tr);font-family:'Inter', sans-serif;white-space:nowrap}
         .btn-p{background:var(--primary);color:#fff;border-color:var(--primary)}.btn-p:hover{background:var(--primary-dark);box-shadow:0 4px 12px rgba(37,99,235,.30)}
         .btn-s{background:var(--success);color:#fff;border-color:var(--success)}.btn-s:hover{background:#059669;box-shadow:0 4px 12px rgba(16,185,129,.30)}
         .btn-w{background:var(--warning);color:#fff;border-color:var(--warning)}.btn-w:hover{background:#D97706}
@@ -180,10 +180,10 @@
         .g3{grid-template-columns:4fr 5fr 3fr}
         .g82{grid-template-columns:8fr 4fr}
         /* RESPONSIVE */
-        @media(max-width:1200px){.sg{grid-template-columns:repeat(3,1fr)}}
-        @media(max-width:900px){.g2,.g3,.g82{grid-template-columns:1fr}}
-        @media(max-width:768px){.sg{grid-template-columns:repeat(2,1fr)}.ca{padding:16px}}
-        @media(max-width:480px){.sg{grid-template-columns:1fr}}
+        @media (max-width: 1200px){.sg{grid-template-columns:repeat(3,1fr)}}
+        @media (max-width:900px){.g2,.g3,.g82{grid-template-columns:1fr}}
+        @media (max-width:768px){.sg{grid-template-columns:repeat(2,1fr)}.ca{padding:16px}}
+        @media (max-width:480px){.sg{grid-template-columns:1fr}}
         ::-webkit-scrollbar{width:5px;height:5px}
         ::-webkit-scrollbar-track{background:transparent}
         ::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
@@ -191,7 +191,6 @@
     </style>
 </head>
 <body>
-
 <!-- SPLASH -->
 <div id="splash">
     <div class="sp-logo">
@@ -202,7 +201,7 @@
     </div>
     <div class="sp-tag">Hospital Management System</div>
     <div class="sp-bar-w"><div class="sp-bar"></div></div>
-    <div class="sp-dev">Developed by nukebird</div>
+    <div class="sp-dev">Developed by Hasindu Senarathna</div>
 </div>
 
 <!-- TOAST -->
@@ -224,21 +223,21 @@
         <nav class="s-nav">
             <div class="nav-grp">Overview</div>
             <ul style="list-style:none;padding:0">
-                <li class="ni"><a class="nl active" id="nv-db" onclick="nav('nv-db');loadDashboard()"><span class="ni-icon"><i class="bi bi-grid-fill"></i></span>Dashboard</a></li>
+                <li class="ni"><a class="nl active" id="nv-db" onclick="nav('nv-db'); loadDashboard()"><span class="ni-icon"><i class="bi bi-grid-fill"></i></span>Dashboard</a></li>
             </ul>
             <div class="nav-grp">Clinical</div>
             <ul style="list-style:none;padding:0">
-                <li class="ni"><a class="nl" id="nv-pt" onclick="nav('nv-pt');loadPatients()"><span class="ni-icon"><i class="bi bi-people-fill"></i></span>Patients</a></li>
-                <li class="ni"><a class="nl" id="nv-dc" onclick="nav('nv-dc');loadDoctors()"><span class="ni-icon"><i class="bi bi-person-badge-fill"></i></span>Doctors</a></li>
-                <li class="ni"><a class="nl" id="nv-ap" onclick="nav('nv-ap');loadAppointments()"><span class="ni-icon"><i class="bi bi-calendar2-week-fill"></i></span>Appointments</a></li>
-                <li class="ni"><a class="nl" id="nv-ad" onclick="nav('nv-ad');loadAdmissions()"><span class="ni-icon"><i class="bi bi-hospital-fill"></i></span>Admissions</a></li>
-                <li class="ni"><a class="nl" id="nv-tr" onclick="nav('nv-tr');loadTreatments()"><span class="ni-icon"><i class="bi bi-prescription"></i></span>Treatments</a></li>
-                <li class="ni"><a class="nl" id="nv-lb" onclick="nav('nv-lb');loadLabTests()"><span class="ni-icon"><i class="bi bi-flask-fill"></i></span>Lab Tests</a></li>
+                <li class="ni"><a class="nl" id="nv-pt" onclick="nav('nv-pt'); loadPatients()"><span class="ni-icon"><i class="bi bi-people-fill"></i></span>Patients</a></li>
+                <li class="ni"><a class="nl" id="nv-dc" onclick="nav('nv-dc'); loadDoctors()"><span class="ni-icon"><i class="bi bi-person-badge-fill"></i></span>Doctors</a></li>
+                <li class="ni"><a class="nl" id="nv-ap" onclick="nav('nv-ap'); loadAppointments()"><span class="ni-icon"><i class="bi bi-calendar2-week-fill"></i></span>Appointments</a></li>
+                <li class="ni"><a class="nl" id="nv-ad" onclick="nav('nv-ad'); loadAdmissions()"><span class="ni-icon"><i class="bi bi-hospital-fill"></i></span>Admissions</a></li>
+                <li class="ni"><a class="nl" id="nv-tr" onclick="nav('nv-tr'); loadTreatments()"><span class="ni-icon"><i class="bi bi-prescription"></i></span>Treatments</a></li>
+                <li class="ni"><a class="nl" id="nv-lb" onclick="nav('nv-lb'); loadLabTests()"><span class="ni-icon"><i class="bi bi-flask-fill"></i></span>Lab Tests</a></li>
             </ul>
             <div class="nav-grp">Finance &amp; Ops</div>
             <ul style="list-style:none;padding:0">
-                <li class="ni"><a class="nl" id="nv-bl" onclick="nav('nv-bl');loadBills()"><span class="ni-icon"><i class="bi bi-receipt-cutoff"></i></span>Bills &amp; Fees</a></li>
-                <li class="ni"><a class="nl" id="nv-rm" onclick="nav('nv-rm');loadRooms()"><span class="ni-icon"><i class="bi bi-door-open-fill"></i></span>Rooms</a></li>
+                <li class="ni"><a class="nl" id="nv-bl" onclick="nav('nv-bl'); loadBills()"><span class="ni-icon"><i class="bi bi-receipt-cutoff"></i></span>Bills &amp; Fees</a></li>
+                <li class="ni"><a class="nl" id="nv-rm" onclick="nav('nv-rm'); loadRooms()"><span class="ni-icon"><i class="bi bi-door-open-fill"></i></span>Rooms</a></li>
             </ul>
         </nav>
         <div class="s-foot">
@@ -270,284 +269,333 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // ── NAV ──────────────────────────────────────────
-    const NAV_LABELS={'nv-db':'Dashboard','nv-pt':'Patients','nv-dc':'Doctors','nv-ap':'Appointments','nv-ad':'Admissions','nv-tr':'Treatments','nv-lb':'Lab Tests','nv-bl':'Bills & Fees','nv-rm':'Rooms'};
-    function nav(id){document.querySelectorAll('.nl').forEach(l=>l.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');const bc=document.getElementById('bcu');if(bc)bc.textContent=NAV_LABELS[id]||'';}
-    function set(html){const a=document.getElementById('ca');a.innerHTML=html;a.classList.remove('ce');void a.offsetWidth;a.classList.add('ce');}
+    // NAV
+    const NAV_LABELS={'nv-db':'Dashboard', 'nv-pt':'Patients','nv-dc':'Doctors', 'nv-ap':'Appointments', 'nv-ad': 'Admissions','nv-tr':'Treatments','nv-lb':'Lab Tests','nv-bl':'Bills & Fees','nv-rm':'Rooms'};
+    function nav(id){document.querySelectorAll('.nl').forEach(l=>l.classList.remove('active')); const el=document.getElementById(id);if(el)el.classList.add('active'); const bc=document.getElementById('bcu');if(bc)bc.textContent=NAV_LABELS[id] ||'';}
+    function set(html){const a=document.getElementById('ca');a.innerHTML=html;a.classList.remove('ce'); void a.offsetWidth;a.classList.add('ce');}
 
-    // ── TOAST ─────────────────────────────────────────
-    function toast(msg,type='s'){const c=document.getElementById('tct');const t=document.createElement('div');t.className=`ti t${type}`;t.innerHTML=`<div class="t-icon"><i class="bi bi-${type==='s'?'check-lg':'exclamation-lg'}"></i></div><div class="t-msg">${msg}</div>`;c.appendChild(t);setTimeout(()=>{t.classList.add('rem');setTimeout(()=>t.remove(),300);},3500);}
+    // TOAST
+    function toast(msg,type='s'){const c=document.getElementById('tct'); const t=document.createElement('div');t.className=`ti t${type}`;t.innerHTML=`<div class="t-icon"><i class="bi bi-${type==='s'?'check-lg':'exclamation-lg'}"></i></div><div class="t-msg">${msg}</div>`;c.appendChild(t); setTimeout(()=>{t.classList.add('rem'); setTimeout(()=>t.remove(),300);},3500);}
 
-    // ── API ───────────────────────────────────────────
-    async function api(url,method='GET',body=null){const opts={method,headers:{'Content-Type':'application/json'}};if(body)opts.body=JSON.stringify(body);const r=await fetch(url,opts);if(!r.ok){const t=await r.text();throw new Error(`HTTP ${r.status}: ${t}`);}return r.json();}
+    // API
+    async function api (url, method='GET',body=null){const opts={method, headers: {'Content-Type':'application/json'}};if(body)opts.body=JSON.stringify(body); const r=await fetch(url,opts);if(!r.ok){const t=await r.text(); throw new Error(`HTTP ${r.status}: ${t}`);}return r.json();}
     function errHtml(e){return `<div style="padding:48px;text-align:center"><div class="ei" style="margin:0 auto 14px"><i class="bi bi-exclamation-triangle"></i></div><div style="font-weight:600;margin-bottom:6px">Something went wrong</div><div style="font-size:.84rem;color:var(--text-muted)">${e.message}</div></div>`;}
 
-    // ── DASHBOARD ────────────────────────────────────
+    // DASHBOARD
     async function loadDashboard(){
       nav('nv-db');
       try{
-        const [patients,doctors,appointments,bills,admissions,treatments]=await Promise.all([
-          api('/api/patients'),api('/api/doctors'),api('/api/appointments'),
-          api('/api/bills'),api('/api/admissions'),api('/api/treatments')
+        const results = await Promise.allSettled([
+          api('/api/patients'),
+          api('/api/doctors'),
+          api('/api/appointments'),
+          api('/api/bills'),
+          api('/api/admissions'),
+          api('/api/treatments')
         ]);
+
+        const patients = results[0].status === 'fulfilled' ? results[0].value : [];
+        const doctors = results[1].status === 'fulfilled' ? results[1].value : [];
+        const appointments = results[2].status === 'fulfilled' ? results[2].value : [];
+        const bills = results[3].status === 'fulfilled' ? results[3].value : [];
+        const admissions = results[4].status === 'fulfilled' ? results[4].value : [];
+        const treatments = results[5].status === 'fulfilled' ? results[5].value : [];
+
         const gc={Male:0,Female:0,Other:0};
         patients.forEach(p=>{if(p.gender)gc[p.gender]=(gc[p.gender]||0)+1;});
+
         const today=new Date(),last7=[];
-        for(let i=6;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-i);last7.push(d.toISOString().split('T')[0]);}
+        for(let i=6;i>=0;i--){
+          const d=new Date(today);
+          d.setDate(d.getDate()-i);
+          last7.push(d.toISOString().split('T')[0]);
+        }
         const ac=last7.map(date=>appointments.filter(a=>a.appointmentDate===date).length);
         const bs={Pending:0,Paid:0,Partially_Paid:0};
         bills.forEach(b=>{if(b.paymentStatus)bs[b.paymentStatus]=(bs[b.paymentStatus]||0)+1;});
         const recent=appointments.slice(-5).reverse();
+
         set(`
-    <div class="ph"><div class="ph-l"><div class="pg-t">Good morning, Hasindu &#x1F44B;</div><div class="pg-s">Here&#8217;s what&#8217;s happening in your hospital today.</div></div>
-    <button class="btn btn-o btn-sm" onclick="loadDashboard()"><i class="bi bi-arrow-clockwise"></i> Refresh</button></div>
-    <div class="sg">
-    <div class="sc blue"><div class="si blue"><i class="bi bi-people-fill"></i></div><div class="sn">${patients.length}</div><div class="sl">Patients</div></div>
-    <div class="sc green"><div class="si green"><i class="bi bi-person-badge-fill"></i></div><div class="sn">${doctors.length}</div><div class="sl">Doctors</div></div>
-    <div class="sc amber"><div class="si amber"><i class="bi bi-calendar-check-fill"></i></div><div class="sn">${appointments.length}</div><div class="sl">Appointments</div></div>
-    <div class="sc purple"><div class="si purple"><i class="bi bi-receipt-cutoff"></i></div><div class="sn">${bills.length}</div><div class="sl">Bills</div></div>
-    <div class="sc pink"><div class="si pink"><i class="bi bi-hospital-fill"></i></div><div class="sn">${admissions.length}</div><div class="sl">Admissions</div></div>
-    <div class="sc teal"><div class="si teal"><i class="bi bi-prescription"></i></div><div class="sn">${treatments.length}</div><div class="sl">Treatments</div></div>
-    </div>
-    <div class="rg g3" style="margin-bottom:16px">
-    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-bar-chart-fill"></i>Appointments &mdash; Last 7 Days</div></div><div class="cb cw"><canvas id="aC"></canvas></div></div>
-    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-gender-ambiguous"></i>Patients by Gender</div></div><div class="cb cw"><canvas id="gC"></canvas></div></div>
-    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-pie-chart-fill"></i>Bill Status</div></div><div class="cb cw"><canvas id="bC"></canvas></div></div>
-    </div>
-    <div class="rg g82">
-    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-clock-history"></i>Recent Appointments</div><button class="btn btn-g btn-sm" onclick="loadAppointments()">View all <i class="bi bi-arrow-right"></i></button></div><div class="cb" id="rA"></div></div>
-    <div class="card"><div class="ch"><div class="ct"><i class="bi bi-lightning-fill"></i>Quick Actions</div></div><div class="cb"><div class="qa-g">
-    <button class="qa-b qab" onclick="showAddPatient()"><div class="qa-i"><i class="bi bi-person-plus-fill"></i></div><div class="qa-l">Add Patient</div></button>
-    <button class="qa-b qag" onclick="showBookAppointment()"><div class="qa-i"><i class="bi bi-calendar-plus-fill"></i></div><div class="qa-l">Book Appt.</div></button>
-    <button class="qa-b qaa" onclick="showAddBill()"><div class="qa-i"><i class="bi bi-receipt"></i></div><div class="qa-l">Generate Bill</div></button>
-    <button class="qa-b qap" onclick="showAdmitPatient()"><div class="qa-i"><i class="bi bi-hospital-fill"></i></div><div class="qa-l">Admit Patient</div></button>
-    </div></div></div>
-    </div>`);
+        <div class="ph"><div class="ph-l"><div class="pg-t">Good morning, Hasindu &#x1F44B;</div><div class="pg-s">Here&#8217;s what&#8217;s happening in your hospital today.</div></div>
+        <button class="btn btn-o btn-sm" onclick="loadDashboard()"><i class="bi bi-arrow-clockwise"></i> Refresh</button></div>
+        <div class="sg">
+        <div class="sc blue"><div class="si blue"><i class="bi bi-people-fill"></i></div><div class="sn">${patients.length}</div><div class="sl">Patients</div></div>
+        <div class="sc green"><div class="si green"><i class="bi bi-person-badge-fill"></i></div><div class="sn">${doctors.length}</div><div class="sl">Doctors</div></div>
+        <div class="sc amber"><div class="si amber"><i class="bi bi-calendar-check-fill"></i></div><div class="sn">${appointments.length}</div><div class="sl">Appointments</div></div>
+        <div class="sc purple"><div class="si purple"><i class="bi bi-receipt-cutoff"></i></div><div class="sn">${bills.length}</div><div class="sl">Bills</div></div>
+        <div class="sc pink"><div class="si pink"><i class="bi bi-hospital-fill"></i></div><div class="sn">${admissions.length}</div><div class="sl">Admissions</div></div>
+        <div class="sc teal"><div class="si teal"><i class="bi bi-prescription"></i></div><div class="sn">${treatments.length}</div><div class="sl">Treatments</div></div>
+        </div>
+        <div class="rg g3" style="margin-bottom:16px">
+        <div class="card"><div class="ch"><div class="ct"><i class="bi bi-bar-chart-fill"></i>Appointments &mdash; Last 7 Days</div></div><div class="cb cw"><canvas id="aC"></canvas></div></div>
+        <div class="card"><div class="ch"><div class="ct"><i class="bi bi-gender-ambiguous"></i>Patients by Gender</div></div><div class="cb cw"><canvas id="gC"></canvas></div></div>
+        <div class="card"><div class="ch"><div class="ct"><i class="bi bi-pie-chart-fill"></i>Bill Status</div></div><div class="cb cw"><canvas id="bC"></canvas></div></div>
+        </div>
+        <div class="rg g82">
+        <div class="card"><div class="ch"><div class="ct"><i class="bi bi-clock-history"></i>Recent Appointments</div><button class="btn btn-g btn-sm" onclick="loadAppointments()">View all <i class="bi bi-arrow-right"></i></button></div><div class="cb" id="rA"></div></div>
+        <div class="card"><div class="ch"><div class="ct"><i class="bi bi-lightning-fill"></i>Quick Actions</div></div><div class="cb"><div class="qa-g">
+        <button class="qa-b qab" onclick="showAddPatient()"><div class="qa-i"><i class="bi bi-person-plus-fill"></i></div><div class="qa-l">Add Patient</div></button>
+        <button class="qa-b qag" onclick="showBookAppointment()"><div class="qa-i"><i class="bi bi-calendar-plus-fill"></i></div><div class="qa-l">Book Appt.</div></button>
+        <button class="qa-b qaa" onclick="showAddBill()"><div class="qa-i"><i class="bi bi-receipt"></i></div><div class="qa-l">Generate Bill</div></button>
+        <button class="qa-b qap" onclick="showAdmitPatient()"><div class="qa-i"><i class="bi bi-hospital-fill"></i></div><div class="qa-l">Admit Patient</div></button>
+        </div></div></div>
+        </div>`);
+
         setTimeout(()=>{
-          new Chart(document.getElementById('aC').getContext('2d'),{type:'bar',data:{labels:last7.map(d=>d.slice(5)),datasets:[{label:'Appts',data:ac,backgroundColor:'rgba(37,99,235,.1)',borderColor:'#2563EB',borderWidth:2,borderRadius:8}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'#F1F5F9'}},x:{grid:{display:false}}}}});
-          new Chart(document.getElementById('gC').getContext('2d'),{type:'pie',data:{labels:['Male','Female','Other'],datasets:[{data:[gc.Male||0,gc.Female||0,gc.Other||0],backgroundColor:['#2563EB','#EC4899','#8B5CF6'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14,font:{size:11,family:'Inter'}}}}}});
-          new Chart(document.getElementById('bC').getContext('2d'),{type:'doughnut',data:{labels:['Pending','Paid','Partial'],datasets:[{data:[bs.Pending||0,bs.Paid||0,bs.Partially_Paid||0],backgroundColor:['#F59E0B','#10B981','#8B5CF6'],borderWidth:0}]},options:{responsive:true,cutout:'65%',plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14,font:{size:11,family:'Inter'}}}}}});
-          const rc=document.getElementById('rA');
-          if(!recent.length){rc.innerHTML='<div class="es"><div class="ei"><i class="bi bi-calendar-x"></i></div><div class="et">No appointments yet</div></div>';}
-          else{rc.innerHTML=recent.map(a=>`<div class="ri"><div class="rav"><i class="bi bi-person"></i></div><div class="rif"><div class="rn">${a.patient?.name||'Unknown'}</div><div class="rm">with ${a.doctor?.name||'Unknown'} &middot; ${a.appointmentDate} ${a.appointmentTime}</div></div><span class="bp ${a.status==='Cancelled'?'bd':'bs'}">${a.status}</span></div>`).join('');}
+        new Chart(document.getElementById('aC').getContext('2d'),{type:'bar',data:{labels:last7.map(d=>d.slice(5)),datasets:[{label:'Appts',data:ac,backgroundColor:'rgba(37,99,235,.1)',borderColor:'#2563EB',borderWidth:2,borderRadius:8}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'#F1F5F9'}},x:{grid:{display:false}}}}});
+        new Chart(document.getElementById('gC').getContext('2d'),{type:'pie',data:{labels:['Male','Female','Other'],datasets:[{data:[gc.Male||0,gc.Female||0,gc.Other||0],backgroundColor:['#2563EB','#EC4899','#8B5CF6'],borderWidth:0}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14,font:{size:11,family:'Inter'}}}}}});
+        new Chart(document.getElementById('bC').getContext('2d'),{type:'doughnut',data:{labels:['Pending','Paid','Partial'],datasets:[{data:[bs.Pending||0,bs.Paid||0,bs.Partially_Paid||0],backgroundColor:['#F59E0B','#10B981','#8B5CF6'],borderWidth:0}]},options:{responsive:true,cutout:'65%',plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:14,font:{size:11,family:'Inter'}}}}}});
+        const rc=document.getElementById('rA');
+        if(!recent.length){rc.innerHTML='<div class="es"><div class="ei"><i class="bi bi-calendar-x"></i></div><div class="et">No appointments yet</div></div>';}
+        else{rc.innerHTML=recent.map(a=>`<div class="ri"><div class="rav"><i class="bi bi-person"></i></div><div class="rif"><div class="rn">${a.patient?.name||'Unknown'}</div><div class="rm">with ${a.doctor?.name||'Unknown'} &middot; ${a.appointmentDate} ${a.appointmentTime}</div></div><span class="bp ${a.status==='Cancelled'?'bd':'bs'}">${a.status}</span></div>`).join('');}
         },60);
       }catch(e){set(errHtml(e));}
     }
 
-    // ── PATIENTS ──────────────────────────────────────
+    // PATIENTS
     async function loadPatients(){
       try{
         const p=await api('/api/patients');
-        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Patients</div><div class="pg-s">${p.length} total records</div></div><button class="btn btn-p" onclick="showAddPatient()"><i class="bi bi-plus-lg"></i> New Patient</button></div>
-    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Name</th><th>Contact</th><th>Gender</th><th>DOB</th><th>Blood</th><th>Actions</th></tr></thead><tbody>${p.length?p.map(x=>`<tr><td><span class="bp bb">#${x.id}</span></td><td class="tn">${x.name}</td><td>${x.contactNumber||'&mdash;'}</td><td>${x.gender}</td><td>${x.dateOfBirth}</td><td><span class="bp bpu">${x.bloodGroup||'&mdash;'}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="showEditPatient(${x.id})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deletePatient(${x.id})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-people"></i></div><div class="et">No patients found</div></div></td></tr>`}</tbody></table></div>`);
+        set(`<div class="ph"><div class="ph-l"><div class="pg-t">Patients</div><div class="pg-s">${p.length} total records</div></div><button class="btn btn-p" onclick="showAddPatient()"><i class="bi bi-plus-lg"></i> New Patient</button></div><div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Name</th><th>Contact</th><th>Gender</th><th>DOB</th><th>Blood</th><th>Actions</th></tr></thead><tbody>${p.length?p.map(x=>`<tr><td><span class="bp bb">#${x.id}</span></td><td class="tn">${x.name}</td><td>${x.contactNumber||'&mdash;'}</td><td>${x.gender}</td><td>${x.dateOfBirth}</td><td><span class="bp bpu">${x.bloodGroup||'&mdash;'}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="showEditPatient(${x.id})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deletePatient(${x.id})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-people"></i></div><div class="et">No patients found</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
+
     function showAddPatient(){
       set(`<div class="ph"><div class="ph-l"><div class="pg-t">New Patient</div><div class="pg-s">Fill in patient details</div></div><button class="btn btn-o btn-sm" onclick="loadPatients()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><div class="ft">Personal Information</div><form id="pF"><div class="rg g2">
-    <div><label class="fl">Full Name *</label><input class="fc" id="pNm" placeholder="e.g. Kamal Perera" required></div>
-    <div><label class="fl">Contact</label><input class="fc" id="pCt" placeholder="+94 71 234 5678"></div>
-    <div><label class="fl">Date of Birth</label><input type="date" class="fc" id="pDb"></div>
-    <div><label class="fl">Gender</label><select class="fsel" id="pGn"><option>Male</option><option>Female</option><option>Other</option></select></div>
-    <div><label class="fl">Blood Group</label><input class="fc" id="pBl" placeholder="e.g. O+"></div>
-    <div><label class="fl">Emergency Contact</label><input class="fc" id="pEc"></div>
-    </div><div style="margin-top:14px"><label class="fl">Address</label><input class="fc" id="pAd" placeholder="Street, City"></div>
-    <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadPatients()">Cancel</button></div>
-    </form></div>`);
+      <div class="fs"><div class="ft">Personal Information</div><form id="pF"><div class="rg g2">
+      <div><label class="fl">Full Name *</label><input class="fc" id="pNm" placeholder="e.g. Kamal Perera" required></div>
+      <div><label class="fl">Contact</label><input class="fc" id="pCt" placeholder="+94 71 234 5678"></div>
+      <div><label class="fl">Date of Birth</label><input type="date" class="fc" id="pDb"></div>
+      <div><label class="fl">Gender</label><select class="fsel" id="pGn"><option>Male</option><option>Female</option><option>Other</option></select></div>
+      <div><label class="fl">Blood Group</label><input class="fc" id="pBl" placeholder="e.g. O+"></div>
+      <div><label class="fl">Emergency Contact</label><input class="fc" id="pEc"></div>
+      </div><div style="margin-top:14px"><label class="fl">Address</label><input class="fc" id="pAd" placeholder="Street, City"></div>
+      <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadPatients()">Cancel</button></div>
+      </form></div>`);
+
       document.getElementById('pF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/patients','POST',{name:document.getElementById('pNm').value,contactNumber:document.getElementById('pCt').value,dateOfBirth:document.getElementById('pDb').value,gender:document.getElementById('pGn').value,address:document.getElementById('pAd').value,bloodGroup:document.getElementById('pBl').value,emergencyContact:document.getElementById('pEc').value});toast('Patient added!');loadPatients();}catch(e){toast(e.message,'er');}});
     }
+
     async function showEditPatient(id){
       try{
         const p=await api(`/api/patients/${id}`);
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Edit Patient</div><div class="pg-s">Record #${id}</div></div><button class="btn btn-o btn-sm" onclick="loadPatients()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><form id="epF"><div class="rg g2">
-    <div><label class="fl">Name *</label><input class="fc" id="epNm" value="${p.name}" required></div>
-    <div><label class="fl">Contact</label><input class="fc" id="epCt" value="${p.contactNumber||''}"></div>
-    <div><label class="fl">DOB</label><input type="date" class="fc" id="epDb" value="${p.dateOfBirth}"></div>
-    <div><label class="fl">Gender</label><select class="fsel" id="epGn"><option ${p.gender==='Male'?'selected':''}>Male</option><option ${p.gender==='Female'?'selected':''}>Female</option><option ${p.gender==='Other'?'selected':''}>Other</option></select></div>
-    <div><label class="fl">Blood</label><input class="fc" id="epBl" value="${p.bloodGroup||''}"></div>
-    <div><label class="fl">Emergency</label><input class="fc" id="epEc" value="${p.emergencyContact||''}"></div>
-    </div><div style="margin-top:14px"><label class="fl">Address</label><input class="fc" id="epAd" value="${p.address||''}"></div>
-    <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Update</button><button type="button" class="btn btn-o" onclick="loadPatients()">Cancel</button></div>
-    </form></div>`);
+        <div class="fs"><form id="epF"><div class="rg g2">
+        <div><label class="fl">Name *</label><input class="fc" id="epNm" value="${p.name}" required></div>
+        <div><label class="fl">Contact</label><input class="fc" id="epCt" value="${p.contactNumber||''}"></div>
+        <div><label class="fl">DOB</label><input type="date" class="fc" id="epDb" value="${p.dateOfBirth}"></div>
+        <div><label class="fl">Gender</label><select class="fsel" id="epGn"><option ${p.gender==='Male'?'selected':''}>Male</option><option ${p.gender==='Female'?'selected':''}>Female</option><option ${p.gender==='Other'?'selected':''}>Other</option></select></div>
+        <div><label class="fl">Blood</label><input class="fc" id="epBl" value="${p.bloodGroup||''}"></div>
+        <div><label class="fl">Emergency</label><input class="fc" id="epEc" value="${p.emergencyContact||''}"></div>
+        </div><div style="margin-top:14px"><label class="fl">Address</label><input class="fc" id="epAd" value="${p.address||''}"></div>
+        <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Update</button><button type="button" class="btn btn-o" onclick="loadPatients()">Cancel</button></div>
+        </form></div>`);
+
         document.getElementById('epF').addEventListener('submit',async e=>{e.preventDefault();try{await api(`/api/patients/${id}`,'PUT',{name:document.getElementById('epNm').value,contactNumber:document.getElementById('epCt').value,dateOfBirth:document.getElementById('epDb').value,gender:document.getElementById('epGn').value,address:document.getElementById('epAd').value,bloodGroup:document.getElementById('epBl').value,emergencyContact:document.getElementById('epEc').value});toast('Updated!');loadPatients();}catch(e){toast(e.message,'er');}});
       }catch(e){toast(e.message,'er');}
     }
+
     async function deletePatient(id){if(!confirm(`Delete patient #${id}?`))return;try{await api(`/api/patients/${id}`,'DELETE');toast('Deleted');loadPatients();}catch(e){toast(e.message,'er');}}
 
-    // ── DOCTORS ───────────────────────────────────────
+    // DOCTORS
     async function loadDoctors(){
       try{
         const d=await api('/api/doctors');
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Doctors</div><div class="pg-s">${d.length} records</div></div><button class="btn btn-p" onclick="showAddDoctor()"><i class="bi bi-plus-lg"></i> Add Doctor</button></div>
-    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Contact</th><th>Fee</th><th>Actions</th></tr></thead><tbody>${d.length?d.map(x=>`<tr><td><span class="bp bb">#${x.id}</span></td><td class="tn">${x.name}</td><td>${x.specialization}</td><td>${x.contactNumber}</td><td><span class="bp bs">$${x.consultationFee}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="showEditDoctor(${x.id})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteDoctor(${x.id})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="es"><div class="ei"><i class="bi bi-person-badge"></i></div><div class="et">No doctors</div></div></td></tr>`}</tbody></table></div>`);
+        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Contact</th><th>Fee</th><th>Actions</th></tr></thead><tbody>${d.length?d.map(x=>`<tr><td><span class="bp bb">#${x.id}</span></td><td class="tn">${x.name}</td><td>${x.specialization}</td><td>${x.contactNumber}</td><td><span class="bp bs">$${x.consultationFee}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="showEditDoctor(${x.id})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteDoctor(${x.id})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="es"><div class="ei"><i class="bi bi-person-badge"></i></div><div class="et">No doctors</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
+
     function showAddDoctor(){
       set(`<div class="ph"><div class="ph-l"><div class="pg-t">Add Doctor</div></div><button class="btn btn-o btn-sm" onclick="loadDoctors()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><form id="dF"><div class="rg g2">
-    <div><label class="fl">Name *</label><input class="fc" id="dNm" required></div>
-    <div><label class="fl">Contact</label><input class="fc" id="dCt"></div>
-    <div><label class="fl">Qualification</label><input class="fc" id="dQl" placeholder="MBBS, MD"></div>
-    <div><label class="fl">Specialization</label><input class="fc" id="dSp"></div>
-    <div><label class="fl">Fee ($)</label><input type="number" step="0.01" class="fc" id="dFe"></div>
-    <div><label class="fl">Dept ID</label><input class="fc" id="dDp"></div>
-    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadDoctors()">Cancel</button></div>
-    </form></div>`);
+      <div class="fs"><form id="dF"><div class="rg g2">
+      <div><label class="fl">Name *</label><input class="fc" id="dNm" required></div>
+      <div><label class="fl">Contact</label><input class="fc" id="dCt"></div>
+      <div><label class="fl">Qualification</label><input class="fc" id="dQl" placeholder="MBBS, MD"></div>
+      <div><label class="fl">Specialization</label><input class="fc" id="dSp"></div>
+      <div><label class="fl">Fee ($)</label><input type="number" step="0.01" class="fc" id="dFe"></div>
+      <div><label class="fl">Dept ID</label><input class="fc" id="dDp"></div>
+      </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadDoctors()">Cancel</button></div>
+      </form></div>`);
+
       document.getElementById('dF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/doctors','POST',{name:document.getElementById('dNm').value,contactNumber:document.getElementById('dCt').value,qualification:document.getElementById('dQl').value,specialization:document.getElementById('dSp').value,consultationFee:parseFloat(document.getElementById('dFe').value)||0,department:{departmentId:parseInt(document.getElementById('dDp').value)||null}});toast('Doctor added!');loadDoctors();}catch(e){toast(e.message,'er');}});
     }
+
     async function showEditDoctor(id){
       try{
         const d=await api(`/api/doctors/${id}`);
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Edit Doctor</div><div class="pg-s">Record #${id}</div></div><button class="btn btn-o btn-sm" onclick="loadDoctors()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><form id="edF"><div class="rg g2">
-    <div><label class="fl">Name *</label><input class="fc" id="edNm" value="${d.name}" required></div>
-    <div><label class="fl">Contact</label><input class="fc" id="edCt" value="${d.contactNumber||''}"></div>
-    <div><label class="fl">Qualification</label><input class="fc" id="edQl" value="${d.qualification||''}"></div>
-    <div><label class="fl">Specialization</label><input class="fc" id="edSp" value="${d.specialization||''}"></div>
-    <div><label class="fl">Fee ($)</label><input type="number" step="0.01" class="fc" id="edFe" value="${d.consultationFee}"></div>
-    <div><label class="fl">Dept ID</label><input class="fc" id="edDp" value="${d.department?.departmentId||''}"></div>
-    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Update</button><button type="button" class="btn btn-o" onclick="loadDoctors()">Cancel</button></div>
-    </form></div>`);
+        <div class="fs"><form id="edF"><div class="rg g2">
+        <div><label class="fl">Name *</label><input class="fc" id="edNm" value="${d.name}" required></div>
+        <div><label class="fl">Contact</label><input class="fc" id="edCt" value="${d.contactNumber||''}"></div>
+        <div><label class="fl">Qualification</label><input class="fc" id="edQl" value="${d.qualification||''}"></div>
+        <div><label class="fl">Specialization</label><input class="fc" id="edSp" value="${d.specialization||''}"></div>
+        <div><label class="fl">Fee ($)</label><input type="number" step="0.01" class="fc" id="edFe" value="${d.consultationFee}"></div>
+        <div><label class="fl">Dept ID</label><input class="fc" id="edDp" value="${d.department?.departmentId||''}"></div>
+        </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Update</button><button type="button" class="btn btn-o" onclick="loadDoctors()">Cancel</button></div>
+        </form></div>`);
+
         document.getElementById('edF').addEventListener('submit',async e=>{e.preventDefault();try{await api(`/api/doctors/${id}`,'PUT',{name:document.getElementById('edNm').value,contactNumber:document.getElementById('edCt').value,qualification:document.getElementById('edQl').value,specialization:document.getElementById('edSp').value,consultationFee:parseFloat(document.getElementById('edFe').value)||0,department:{departmentId:parseInt(document.getElementById('edDp').value)||null}});toast('Updated!');loadDoctors();}catch(e){toast(e.message,'er');}});
       }catch(e){toast(e.message,'er');}
     }
+
     async function deleteDoctor(id){if(!confirm(`Delete doctor #${id}?`))return;try{await api(`/api/doctors/${id}`,'DELETE');toast('Deleted');loadDoctors();}catch(e){toast(e.message,'er');}}
 
-    // ── APPOINTMENTS ──────────────────────────────────
+    // APPOINTMENTS
     function showBookAppointment(){
       nav('nv-ap');
       set(`<div class="ph"><div class="ph-l"><div class="pg-t">Book Appointment</div></div><button class="btn btn-o btn-sm" onclick="loadAppointments()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><form id="aF"><div class="rg g2">
-    <div><label class="fl">Patient ID *</label><input class="fc" id="aPt" required></div>
-    <div><label class="fl">Doctor ID *</label><input class="fc" id="aDc" required></div>
-    <div><label class="fl">Date *</label><input type="date" class="fc" id="aDt" required></div>
-    <div><label class="fl">Time *</label><input type="time" class="fc" id="aTm" required></div>
-    <div><label class="fl">Room ID (optional)</label><input class="fc" id="aRm"></div>
-    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-s"><i class="bi bi-calendar-check"></i> Book</button><button type="button" class="btn btn-o" onclick="loadAppointments()">Cancel</button></div>
-    </form></div>`);
+      <div class="fs"><form id="aF"><div class="rg g2">
+      <div><label class="fl">Patient ID *</label><input class="fc" id="aPt" required></div>
+      <div><label class="fl">Doctor ID *</label><input class="fc" id="aDc" required></div>
+      <div><label class="fl">Date *</label><input type="date" class="fc" id="aDt" required></div>
+      <div><label class="fl">Time *</label><input type="time" class="fc" id="aTm" required></div>
+      <div><label class="fl">Room ID (optional)</label><input class="fc" id="aRm"></div>
+      </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-s"><i class="bi bi-calendar-check"></i> Book</button><button type="button" class="btn btn-o" onclick="loadAppointments()">Cancel</button></div>
+      </form></div>`);
+
       document.getElementById('aF').addEventListener('submit',async e=>{e.preventDefault();const pid=document.getElementById('aPt').value,did=document.getElementById('aDc').value,dt=document.getElementById('aDt').value,tm=document.getElementById('aTm').value,rm=document.getElementById('aRm').value;const url=`/api/appointments/book?patientId=${pid}&doctorId=${did}&date=${dt}&time=${tm}${rm?'&roomId='+rm:''}`;try{const r=await fetch(url,{method:'POST'});if(r.status===409){const j=await r.json();toast('Conflict: '+j.message,'er');}else if(r.ok){toast('Booked!');loadAppointments();}else{const t=await r.text();toast(t,'er');}}catch(e){toast(e.message,'er');}});
     }
+
     async function loadAppointments(){
       try{
         const a=await api('/api/appointments');
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Appointments</div><div class="pg-s">${a.length} records</div></div><button class="btn btn-s" onclick="showBookAppointment()"><i class="bi bi-plus-lg"></i> Book</button></div>
-    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr></thead><tbody>${a.length?a.map(x=>`<tr><td><span class="bp bb">#${x.appointmentId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.doctor?.name||'N/A'}</td><td>${x.appointmentDate}</td><td>${x.appointmentTime}</td><td><span class="bp ${x.status==='Cancelled'?'bd':'bs'}">${x.status}</span></td><td>${x.status!=='Cancelled'?`<button class="btn btn-d btn-sm" onclick="cancelAppt(${x.appointmentId})"><i class="bi bi-x-circle"></i> Cancel</button>`:'-'}</td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-calendar-x"></i></div><div class="et">No appointments</div></div></td></tr>`}</tbody></table></div>`);
+        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Action</th></tr></thead><tbody>${a.length?a.map(x=>`<tr><td><span class="bp bb">#${x.appointmentId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.doctor?.name||'N/A'}</td><td>${x.appointmentDate}</td><td>${x.appointmentTime}</td><td><span class="bp ${x.status==='Cancelled'?'bd':'bs'}">${x.status}</span></td><td>${x.status!=='Cancelled'?`<button class="btn btn-d btn-sm" onclick="cancelAppt(${x.appointmentId})"><i class="bi bi-x-circle"></i> Cancel</button>`:'-'}</td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-calendar-x"></i></div><div class="et">No appointments</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
+
     async function cancelAppt(id){if(!confirm(`Cancel #${id}?`))return;try{await api(`/api/appointments/${id}/cancel`,'PUT');toast('Cancelled');loadAppointments();}catch(e){toast(e.message,'er');}}
 
-    // ── ADMISSIONS ────────────────────────────────────
+    // ADMISSIONS
     function showAdmitPatient(){
       nav('nv-ad');
       set(`<div class="ph"><div class="ph-l"><div class="pg-t">Admit Patient</div></div><button class="btn btn-o btn-sm" onclick="loadAdmissions()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><form id="admF"><div class="rg g2">
-    <div><label class="fl">Patient ID *</label><input class="fc" id="admPt" required></div>
-    <div><label class="fl">Room ID *</label><input class="fc" id="admRm" required></div>
-    <div><label class="fl">Admit Date *</label><input type="date" class="fc" id="admDt" required></div>
-    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-hospital"></i> Admit</button><button type="button" class="btn btn-o" onclick="loadAdmissions()">Cancel</button></div>
-    </form></div>`);
+      <div class="fs"><form id="admF"><div class="rg g2">
+      <div><label class="fl">Patient ID *</label><input class="fc" id="admPt" required></div>
+      <div><label class="fl">Room ID *</label><input class="fc" id="admRm" required></div>
+      <div><label class="fl">Admit Date *</label><input type="date" class="fc" id="admDt" required></div>
+      </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-hospital"></i> Admit</button><button type="button" class="btn btn-o" onclick="loadAdmissions()">Cancel</button></div>
+      </form></div>`);
+
       document.getElementById('admF').addEventListener('submit',async e=>{e.preventDefault();try{await api(`/api/admissions/admit?patientId=${document.getElementById('admPt').value}&roomId=${document.getElementById('admRm').value}&admitDate=${document.getElementById('admDt').value}`,'POST');toast('Admitted!');loadAdmissions();}catch(e){toast(e.message,'er');}});
     }
+
     async function loadAdmissions(){
       try{
         const a=await api('/api/admissions');
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Admissions</div><div class="pg-s">${a.length} records</div></div><button class="btn btn-p" onclick="showAdmitPatient()"><i class="bi bi-plus-lg"></i> Admit</button></div>
-    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Room</th><th>Admit</th><th>Discharge</th><th>Status</th><th>Action</th></tr></thead><tbody>${a.length?a.map(x=>`<tr><td><span class="bp bb">#${x.admissionId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.room?.roomNumber||'N/A'}</td><td>${x.admitDate}</td><td>${x.dischargeDate||'&mdash;'}</td><td><span class="bp ${x.dischargeDate?'bs':'bw'}">${x.dischargeDate?'Discharged':'Admitted'}</span></td><td>${!x.dischargeDate?`<button class="btn btn-w btn-sm" onclick="dischargePatient(${x.admissionId})"><i class="bi bi-check2-circle"></i> Discharge</button>`:'-'}</td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-hospital"></i></div><div class="et">No admissions</div></div></td></tr>`}</tbody></table></div>`);
+        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Room</th><th>Admit</th><th>Discharge</th><th>Status</th><th>Action</th></tr></thead><tbody>${a.length?a.map(x=>`<tr><td><span class="bp bb">#${x.admissionId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.room?.roomNumber||'N/A'}</td><td>${x.admitDate}</td><td>${x.dischargeDate||'&mdash;'}</td><td><span class="bp ${x.dischargeDate?'bs':'bw'}">${x.dischargeDate?'Discharged':'Admitted'}</span></td><td>${!x.dischargeDate?`<button class="btn btn-w btn-sm" onclick="dischargePatient(${x.admissionId})"><i class="bi bi-check2-circle"></i> Discharge</button>`:'-'}</td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-hospital"></i></div><div class="et">No admissions</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
+
     async function dischargePatient(id){const dt=prompt('Discharge date (YYYY-MM-DD):',new Date().toISOString().split('T')[0]);if(!dt)return;try{await api(`/api/admissions/${id}/discharge?dischargeDate=${dt}`,'PUT');toast('Discharged');loadAdmissions();}catch(e){toast(e.message,'er');}}
 
-    // ── TREATMENTS ────────────────────────────────────
+    // TREATMENTS
     async function loadTreatments(){
       try{
         const t=await api('/api/treatments');
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Treatments</div><div class="pg-s">${t.length} records</div></div><button class="btn btn-p" onclick="showAddTreatment()"><i class="bi bi-plus-lg"></i> Add</button></div>
-    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Diagnosis</th><th>Date</th><th>Action</th></tr></thead><tbody>${t.length?t.map(x=>`<tr><td><span class="bp bb">#${x.treatmentId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.doctor?.name||'N/A'}</td><td>${x.diagnosis}</td><td>${x.treatmentDate}</td><td><button class="btn btn-d btn-sm btn-ic" onclick="deleteTreatment(${x.treatmentId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="es"><div class="ei"><i class="bi bi-prescription"></i></div><div class="et">No treatments</div></div></td></tr>`}</tbody></table></div>`);
+        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Diagnosis</th><th>Date</th><th>Action</th></tr></thead><tbody>${t.length?t.map(x=>`<tr><td><span class="bp bb">#${x.treatmentId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.doctor?.name||'N/A'}</td><td>${x.diagnosis}</td><td>${x.treatmentDate}</td><td><button class="btn btn-d btn-sm btn-ic" onclick="deleteTreatment(${x.treatmentId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="es"><div class="ei"><i class="bi bi-prescription"></i></div><div class="et">No treatments</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
+
     function showAddTreatment(){
       set(`<div class="ph"><div class="ph-l"><div class="pg-t">Add Treatment</div></div><button class="btn btn-o btn-sm" onclick="loadTreatments()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><form id="tF"><div class="rg g2">
-    <div><label class="fl">Patient ID *</label><input class="fc" id="txPt" required></div>
-    <div><label class="fl">Doctor ID *</label><input class="fc" id="txDc" required></div>
-    <div><label class="fl">Date *</label><input type="date" class="fc" id="txDt" required></div>
-    <div><label class="fl">Diagnosis *</label><input class="fc" id="txDg" required></div>
-    </div><div style="margin-top:14px"><label class="fl">Prescription</label><textarea class="fc" id="txPr" rows="2"></textarea></div>
-    <div style="margin-top:12px"><label class="fl">Notes</label><textarea class="fc" id="txNo" rows="2"></textarea></div>
-    <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadTreatments()">Cancel</button></div>
-    </form></div>`);
+      <div class="fs"><form id="tF"><div class="rg g2">
+      <div><label class="fl">Patient ID *</label><input class="fc" id="txPt" required></div>
+      <div><label class="fl">Doctor ID *</label><input class="fc" id="txDc" required></div>
+      <div><label class="fl">Date *</label><input type="date" class="fc" id="txDt" required></div>
+      <div><label class="fl">Diagnosis *</label><input class="fc" id="txDg" required></div>
+      </div><div style="margin-top:14px"><label class="fl">Prescription</label><textarea class="fc" id="txPr" rows="2"></textarea></div>
+      <div style="margin-top:12px"><label class="fl">Notes</label><textarea class="fc" id="txNo" rows="2"></textarea></div>
+      <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadTreatments()">Cancel</button></div>
+      </form></div>`);
+
       document.getElementById('tF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/treatments','POST',{patient:{id:parseInt(document.getElementById('txPt').value)},doctor:{id:parseInt(document.getElementById('txDc').value)},diagnosis:document.getElementById('txDg').value,prescription:document.getElementById('txPr').value,treatmentNotes:document.getElementById('txNo').value,treatmentDate:document.getElementById('txDt').value});toast('Treatment added!');loadTreatments();}catch(e){toast(e.message,'er');}});
     }
+
     async function deleteTreatment(id){if(!confirm(`Delete #${id}?`))return;try{await api(`/api/treatments/${id}`,'DELETE');toast('Deleted');loadTreatments();}catch(e){toast(e.message,'er');}}
 
-    // ── LAB TESTS ─────────────────────────────────────
+    // LAB TESTS
     async function loadLabTests(){
       try{
         const l=await api('/api/labtests');
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Lab Tests</div><div class="pg-s">${l.length} records</div></div><button class="btn btn-p" onclick="showAddLabTest()"><i class="bi bi-plus-lg"></i> Add</button></div>
-    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Test</th><th>Date</th><th>Status</th><th>Result</th><th>Actions</th></tr></thead><tbody>${l.length?l.map(x=>`<tr><td><span class="bp bb">#${x.labTestId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.testName}</td><td>${x.testDate}</td><td><span class="bp ${x.testStatus==='Completed'?'bs':'bw'}">${x.testStatus}</span></td><td>${x.testResult||'&mdash;'}</td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="updateLabResult(${x.labTestId})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteLabTest(${x.labTestId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-flask"></i></div><div class="et">No lab tests</div></div></td></tr>`}</tbody></table></div>`);
+        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Test</th><th>Date</th><th>Status</th><th>Result</th><th>Actions</th></tr></thead><tbody>${l.length?l.map(x=>`<tr><td><span class="bp bb">#${x.labTestId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>${x.testName}</td><td>${x.testDate}</td><td><span class="bp ${x.testStatus==='Completed'?'bs':'bw'}">${x.testStatus}</span></td><td>${x.testResult||'&mdash;'}</td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="updateLabResult(${x.labTestId})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteLabTest(${x.labTestId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="7"><div class="es"><div class="ei"><i class="bi bi-flask"></i></div><div class="et">No lab tests</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
+
     function showAddLabTest(){
       set(`<div class="ph"><div class="ph-l"><div class="pg-t">Add Lab Test</div></div><button class="btn btn-o btn-sm" onclick="loadLabTests()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><form id="lF"><div class="rg g2">
-    <div><label class="fl">Patient ID *</label><input class="fc" id="lbPt" required></div>
-    <div><label class="fl">Test Name *</label><input class="fc" id="lbNm" required></div>
-    <div><label class="fl">Date *</label><input type="date" class="fc" id="lbDt" required></div>
-    <div><label class="fl">Technician *</label><input class="fc" id="lbTc" required></div>
-    </div><div style="margin-top:14px"><label class="fl">Result</label><textarea class="fc" id="lbRs" rows="2"></textarea></div>
-    <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadLabTests()">Cancel</button></div>
-    </form></div>`);
+      <div class="fs"><form id="lF"><div class="rg g2">
+      <div><label class="fl">Patient ID *</label><input class="fc" id="lbPt" required></div>
+      <div><label class="fl">Test Name *</label><input class="fc" id="lbNm" required></div>
+      <div><label class="fl">Date *</label><input type="date" class="fc" id="lbDt" required></div>
+      <div><label class="fl">Technician *</label><input class="fc" id="lbTc" required></div>
+      </div><div style="margin-top:14px"><label class="fl">Result</label><textarea class="fc" id="lbRs" rows="2"></textarea></div>
+      <div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadLabTests()">Cancel</button></div>
+      </form></div>`);
+
       document.getElementById('lF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/labtests','POST',{patient:{id:parseInt(document.getElementById('lbPt').value)},testName:document.getElementById('lbNm').value,testDate:document.getElementById('lbDt').value,technicianName:document.getElementById('lbTc').value,testResult:document.getElementById('lbRs').value});toast('Lab test added!');loadLabTests();}catch(e){toast(e.message,'er');}});
     }
+
     async function updateLabResult(id){const r=prompt('Result:');if(r===null)return;const s=confirm('Mark Completed?')?'Completed':'Pending';try{await api(`/api/labtests/${id}/result?result=${encodeURIComponent(r)}&status=${s}`,'PUT');toast('Updated');loadLabTests();}catch(e){toast(e.message,'er');}}
+
     async function deleteLabTest(id){if(!confirm(`Delete #${id}?`))return;try{await api(`/api/labtests/${id}`,'DELETE');toast('Deleted');loadLabTests();}catch(e){toast(e.message,'er');}}
 
-    // ── BILLS ─────────────────────────────────────────
+    // BILLS
     async function loadBills(){
       try{
         const b=await api('/api/bills');
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Bills &amp; Fees</div><div class="pg-s">${b.length} records</div></div><button class="btn btn-p" onclick="showAddBill()"><i class="bi bi-plus-lg"></i> Generate Bill</button></div>
-    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Consult</th><th>Room</th><th>Lab</th><th>Meds</th><th>Total</th><th>Status</th><th>Method</th><th>Actions</th></tr></thead><tbody>${b.length?b.map(x=>`<tr><td><span class="bp bb">#${x.billId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>$${x.consultationCharge||0}</td><td>$${x.roomCharge||0}</td><td>$${x.labCharge||0}</td><td>$${x.medicineCharge||0}</td><td><strong>$${x.totalAmount}</strong></td><td><span class="bp ${x.paymentStatus==='Paid'?'bs':'bw'}">${x.paymentStatus}</span></td><td>${x.paymentMethod||'&mdash;'}</td><td style="display:flex;gap:6px"><button class="btn btn-s btn-sm btn-ic" onclick="updateBillPayment(${x.billId})"><i class="bi bi-credit-card"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteBill(${x.billId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="10"><div class="es"><div class="ei"><i class="bi bi-receipt"></i></div><div class="et">No bills</div></div></td></tr>`}</tbody></table></div>`);
+        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Consult</th><th>Room</th><th>Lab</th><th>Meds</th><th>Total</th><th>Status</th><th>Method</th><th>Actions</th></tr></thead><tbody>${b.length?b.map(x=>`<tr><td><span class="bp bb">#${x.billId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>$${x.consultationCharge||0}</td><td>$${x.roomCharge||0}</td><td>$${x.labCharge||0}</td><td>$${x.medicineCharge||0}</td><td><strong>$${x.totalAmount}</strong></td><td><span class="bp ${x.paymentStatus==='Paid'?'bs':'bw'}">${x.paymentStatus}</span></td><td>${x.paymentMethod||'&mdash;'}</td><td style="display:flex;gap:6px"><button class="btn btn-s btn-sm btn-ic" onclick="updateBillPayment(${x.billId})"><i class="bi bi-credit-card"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteBill(${x.billId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="10"><div class="es"><div class="ei"><i class="bi bi-receipt"></i></div><div class="et">No bills</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
+
     function showAddBill(){
       set(`<div class="ph"><div class="ph-l"><div class="pg-t">Generate Bill</div></div><button class="btn btn-o btn-sm" onclick="loadBills()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><div class="ft">Billing Details</div><form id="bF"><div class="rg g2">
-    <div><label class="fl">Patient ID *</label><input class="fc" id="bPt" required></div>
-    <div><label class="fl">Consultation ($)</label><input type="number" step="0.01" class="fc" id="bCo" value="0"></div>
-    <div><label class="fl">Room ($)</label><input type="number" step="0.01" class="fc" id="bRo" value="0"></div>
-    <div><label class="fl">Lab ($)</label><input type="number" step="0.01" class="fc" id="bLa" value="0"></div>
-    <div><label class="fl">Medicine ($)</label><input type="number" step="0.01" class="fc" id="bMe" value="0"></div>
-    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-receipt"></i> Generate</button><button type="button" class="btn btn-o" onclick="loadBills()">Cancel</button></div>
-    </form></div>`);
+      <div class="fs"><div class="ft">Billing Details</div><form id="bF"><div class="rg g2">
+      <div><label class="fl">Patient ID *</label><input class="fc" id="bPt" required></div>
+      <div><label class="fl">Consultation ($)</label><input type="number" step="0.01" class="fc" id="bCo" value="0"></div>
+      <div><label class="fl">Room ($)</label><input type="number" step="0.01" class="fc" id="bRo" value="0"></div>
+      <div><label class="fl">Lab ($)</label><input type="number" step="0.01" class="fc" id="bLa" value="0"></div>
+      <div><label class="fl">Medicine ($)</label><input type="number" step="0.01" class="fc" id="bMe" value="0"></div>
+      </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-receipt"></i> Generate</button><button type="button" class="btn btn-o" onclick="loadBills()">Cancel</button></div>
+      </form></div>`);
+
       document.getElementById('bF').addEventListener('submit',async e=>{e.preventDefault();try{await fetch(`/api/bills/generate?patientId=${document.getElementById('bPt').value}&consultation=${parseFloat(document.getElementById('bCo').value)||0}&room=${parseFloat(document.getElementById('bRo').value)||0}&lab=${parseFloat(document.getElementById('bLa').value)||0}&medicine=${parseFloat(document.getElementById('bMe').value)||0}`,{method:'POST'});toast('Bill generated!');loadBills();}catch(e){toast(e.message,'er');}});
     }
+
     async function updateBillPayment(id){const m=prompt('Method (Cash/Card/Online):','Cash');if(!m)return;const s=confirm('Mark Paid?')?'Paid':'Pending';try{await api(`/api/bills/${id}/payment?status=${s}&method=${m}`,'PUT');toast('Payment updated');loadBills();}catch(e){toast(e.message,'er');}}
+
     async function deleteBill(id){if(!confirm(`Delete bill #${id}?`))return;try{await api(`/api/bills/${id}`,'DELETE');toast('Deleted');loadBills();}catch(e){toast(e.message,'er');}}
 
-    // ── ROOMS ─────────────────────────────────────────
+    // ROOMS
     async function loadRooms(){
       try{
         const r=await api('/api/rooms');
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Rooms</div><div class="pg-s">${r.length} rooms</div></div><button class="btn btn-p" onclick="showAddRoom()"><i class="bi bi-plus-lg"></i> Add Room</button></div>
-    <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Room No.</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody>${r.length?r.map(x=>`<tr><td><span class="bp bb">#${x.roomId}</span></td><td class="tn">${x.roomNumber}</td><td>${x.roomType}</td><td><span class="bp ${x.available?'bs':'bd'}">${x.available?'Available':'Occupied'}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm" onclick="toggleRoom(${x.roomId},${!x.available})"><i class="bi bi-arrow-repeat"></i> Toggle</button><button class="btn btn-d btn-sm btn-ic" onclick="deleteRoom(${x.roomId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="5"><div class="es"><div class="ei"><i class="bi bi-door-open"></i></div><div class="et">No rooms</div></div></td></tr>`}</tbody></table></div>`);
+        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Room No.</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody>${r.length?r.map(x=>`<tr><td><span class="bp bb">#${x.roomId}</span></td><td class="tn">${x.roomNumber}</td><td>${x.roomType}</td><td><span class="bp ${x.available?'bs':'bd'}">${x.available?'Available':'Occupied'}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm" onclick="toggleRoom(${x.roomId},${!x.available})"><i class="bi bi-arrow-repeat"></i> Toggle</button><button class="btn btn-d btn-sm btn-ic" onclick="deleteRoom(${x.roomId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="5"><div class="es"><div class="ei"><i class="bi bi-door-open"></i></div><div class="et">No rooms</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
+
     function showAddRoom(){
       set(`<div class="ph"><div class="ph-l"><div class="pg-t">Add Room</div></div><button class="btn btn-o btn-sm" onclick="loadRooms()"><i class="bi bi-arrow-left"></i> Back</button></div>
-    <div class="fs"><form id="rF"><div class="rg g2">
-    <div><label class="fl">Room Number *</label><input class="fc" id="rmNm" placeholder="e.g. 101" required></div>
-    <div><label class="fl">Type</label><select class="fsel" id="rmTp"><option>General_Ward</option><option>Private_Room</option><option>ICU</option></select></div>
-    </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadRooms()">Cancel</button></div>
-    </form></div>`);
+      <div class="fs"><form id="rF"><div class="rg g2">
+      <div><label class="fl">Room Number *</label><input class="fc" id="rmNm" placeholder="e.g. 101" required></div>
+      <div><label class="fl">Type</label><select class="fsel" id="rmTp"><option>General_Ward</option><option>Private_Room</option><option>ICU</option></select></div>
+      </div><div class="div"></div><div style="display:flex;gap:10px"><button type="submit" class="btn btn-p"><i class="bi bi-check-lg"></i> Save</button><button type="button" class="btn btn-o" onclick="loadRooms()">Cancel</button></div>
+      </form></div>`);
+
       document.getElementById('rF').addEventListener('submit',async e=>{e.preventDefault();try{await api('/api/rooms','POST',{roomNumber:document.getElementById('rmNm').value,roomType:document.getElementById('rmTp').value});toast('Room added!');loadRooms();}catch(e){toast(e.message,'er');}});
     }
+
     async function toggleRoom(id,newStatus){try{const room=await api(`/api/rooms/${id}`);room.available=newStatus;await api(`/api/rooms/${id}`,'PUT',room);toast('Room updated');loadRooms();}catch(e){toast(e.message,'er');}}
+
     async function deleteRoom(id){if(!confirm(`Delete room #${id}?`))return;try{await api(`/api/rooms/${id}`,'DELETE');toast('Deleted');loadRooms();}catch(e){toast(e.message,'er');}}
 
-    // ── INIT ──────────────────────────────────────────
+    // INIT
     window.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{loadDashboard();},2800);});
 </script>
 </body>

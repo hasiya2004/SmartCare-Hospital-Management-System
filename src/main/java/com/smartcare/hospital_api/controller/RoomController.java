@@ -19,13 +19,18 @@ public class RoomController {
     @GetMapping
     public List<Room> getAll(@RequestParam(required = false) Boolean available,
                              @RequestParam(required = false) RoomType type) {
+        List<Room> rooms;
+
         if (available != null && available) {
-            if (type != null) {
-                return roomService.getAvailableRoomsByType(type);
+            rooms = (type != null) ? roomService.getAvailableRoomsByType(type) : roomService.getAvailableRooms();
+        } else {
+            rooms = roomService.getAllRooms();
+            if (available != null && !available) {
+                rooms = rooms.stream().filter(r -> !r.isAvailable()).toList();
             }
-            return roomService.getAvailableRooms();
         }
-        return roomService.getAllRooms();
+
+        return rooms;
     }
 
     @GetMapping("/{id}")

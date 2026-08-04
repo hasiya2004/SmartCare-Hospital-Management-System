@@ -43,7 +43,8 @@ public class AppointmentService {
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
 
-        if (appointmentRepository.existsByDoctorAndAppointmentDateAndAppointmentTime(doctor, date, time)) {
+        if (appointmentRepository.existsByDoctorAndAppointmentDateAndAppointmentTimeAndStatusNot(
+                doctor, date, time, AppointmentStatus.Cancelled)) {
             throw new AppointmentConflictException("Doctor already has an appointment at this date and time.");
         }
 
@@ -84,6 +85,13 @@ public class AppointmentService {
     @Transactional
     public Appointment updateAppointment(Long id, LocalDate date, LocalTime time, Long roomId) {
         Appointment existing = getAppointmentById(id);
+
+        boolean slotChanged = !existing.getAppointmentDate().equals(date) || !existing.getAppointmentTime().equals(time);
+        if (slotChanged && appointmentRepository.existsByDoctorAndAppointmentDateAndAppointmentTimeAndStatusNot(
+                existing.getDoctor(), date, time, AppointmentStatus.Cancelled)) {
+            throw new AppointmentConflictException("Doctor already has an appointment at this date and time.");
+        }
+
         existing.setAppointmentDate(date);
         existing.setAppointmentTime(time);
 

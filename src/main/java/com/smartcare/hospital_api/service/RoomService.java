@@ -22,7 +22,7 @@ public class RoomService {
         return roomRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + id));
     }
-
+    // Room availability verification and allocation service
     public List<Room> getAvailableRooms() {
         return roomRepository.findByAvailableTrue();
     }

@@ -201,7 +201,7 @@
     </div>
     <div class="sp-tag">Hospital Management System</div>
     <div class="sp-bar-w"><div class="sp-bar"></div></div>
-    <div class="sp-dev">Developed by Hasindu Senarathna</div>
+    <div class="sp-dev">Developed by Nukebirds</div>
 </div>
 
 <!-- TOAST -->
@@ -243,7 +243,7 @@
         <div class="s-foot">
             <div class="dev-c">
                 <div class="dev-av">HS</div>
-                <div><div class="dev-nm">Hasindu Senarathna</div><div class="dev-rl">Developer</div></div>
+                <div><div class="dev-nm">Nukebirds</div><div class="dev-rl">Developer</div></div>
                 <div class="s-dot"></div>
             </div>
         </div>
@@ -316,7 +316,7 @@
         const recent=appointments.slice(-5).reverse();
 
         set(`
-        <div class="ph"><div class="ph-l"><div class="pg-t">Good morning, Hasindu &#x1F44B;</div><div class="pg-s">Here&#8217;s what&#8217;s happening in your hospital today.</div></div>
+        <div class="ph"><div class="ph-l"><div class="pg-t">Good morning, &#x1F44B;</div><div class="pg-s">Here&#8217;s what&#8217;s happening in your hospital today.</div></div>
         <button class="btn btn-o btn-sm" onclick="loadDashboard()"><i class="bi bi-arrow-clockwise"></i> Refresh</button></div>
         <div class="sg">
         <div class="sc blue"><div class="si blue"><i class="bi bi-people-fill"></i></div><div class="sn">${patients.length}</div><div class="sl">Patients</div></div>
@@ -402,7 +402,7 @@
       try{
         const d=await api('/api/doctors');
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Doctors</div><div class="pg-s">${d.length} records</div></div><button class="btn btn-p" onclick="showAddDoctor()"><i class="bi bi-plus-lg"></i> Add Doctor</button></div>
-        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Contact</th><th>Fee</th><th>Actions</th></tr></thead><tbody>${d.length?d.map(x=>`<tr><td><span class="bp bb">#${x.id}</span></td><td class="tn">${x.name}</td><td>${x.specialization}</td><td>${x.contactNumber}</td><td><span class="bp bs">$${x.consultationFee}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="showEditDoctor(${x.id})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteDoctor(${x.id})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="es"><div class="ei"><i class="bi bi-person-badge"></i></div><div class="et">No doctors</div></div></td></tr>`}</tbody></table></div>`);
+        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Contact</th><th>Fee</th><th>Actions</th></tr></thead><tbody>${d.length?d.map(x=>`<tr><td><span class="bp bb">#${x.id}</span></td><td class="tn">${x.name}</td><td>${x.specialization}</td><td>${x.contactNumber}</td><td><span class="bp bs">Rs. ${x.consultationFee}</span></td><td style="display:flex;gap:6px"><button class="btn btn-o btn-sm btn-ic" onclick="showEditDoctor(${x.id})"><i class="bi bi-pencil"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteDoctor(${x.id})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="6"><div class="es"><div class="ei"><i class="bi bi-person-badge"></i></div><div class="et">No doctors</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
 
@@ -549,7 +549,11 @@
       try{
         const b=await api('/api/bills');
         set(`<div class="ph"><div class="ph-l"><div class="pg-t">Bills &amp; Fees</div><div class="pg-s">${b.length} records</div></div><button class="btn btn-p" onclick="showAddBill()"><i class="bi bi-plus-lg"></i> Generate Bill</button></div>
-        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Consult</th><th>Room</th><th>Lab</th><th>Meds</th><th>Total</th><th>Status</th><th>Method</th><th>Actions</th></tr></thead><tbody>${b.length?b.map(x=>`<tr><td><span class="bp bb">#${x.billId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>$${x.consultationCharge||0}</td><td>$${x.roomCharge||0}</td><td>$${x.labCharge||0}</td><td>$${x.medicineCharge||0}</td><td><strong>$${x.totalAmount}</strong></td><td><span class="bp ${x.paymentStatus==='Paid'?'bs':'bw'}">${x.paymentStatus}</span></td><td>${x.paymentMethod||'&mdash;'}</td><td style="display:flex;gap:6px"><button class="btn btn-s btn-sm btn-ic" onclick="updateBillPayment(${x.billId})"><i class="bi bi-credit-card"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteBill(${x.billId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="10"><div class="es"><div class="ei"><i class="bi bi-receipt"></i></div><div class="et">No bills</div></div></td></tr>`}</tbody></table></div>`);
+        <div class="tc"><table class="mt"><thead><tr><th>ID</th><th>Patient</th><th>Consult</th><th>Room</th><th>Lab</th><th>Meds</th><th>Total</th><th>Status</th><th>Method</th><th>Actions</th></tr></thead><tbody>${b.length?b.map(x=>`<tr><td><span class="bp bb">#${x.billId}</span></td><td class="tn">${x.patient?.name||'N/A'}</td><td>Rs. ${(x.consultationCharge || 0).toLocaleString()}</td>
+<td>Rs. ${(x.roomCharge || 0).toLocaleString()}</td>
+<td>Rs. ${(x.labCharge || 0).toLocaleString()}</td>
+<td>Rs. ${(x.medicineCharge || 0).toLocaleString()}</td>
+<td><strong>Rs. ${(x.totalAmount || (x.consultationCharge||0) + (x.roomCharge||0) + (x.labCharge||0) + (x.medicineCharge||0)).toLocaleString()}</strong></td></strong></td><td><span class="bp ${x.paymentStatus==='Paid'?'bs':'bw'}">${x.paymentStatus}</span></td><td>${x.paymentMethod||'&mdash;'}</td><td style="display:flex;gap:6px"><button class="btn btn-s btn-sm btn-ic" onclick="updateBillPayment(${x.billId})"><i class="bi bi-credit-card"></i></button><button class="btn btn-d btn-sm btn-ic" onclick="deleteBill(${x.billId})"><i class="bi bi-trash3"></i></button></td></tr>`).join(''):`<tr><td colspan="10"><div class="es"><div class="ei"><i class="bi bi-receipt"></i></div><div class="et">No bills</div></div></td></tr>`}</tbody></table></div>`);
       }catch(e){set(errHtml(e));}
     }
 

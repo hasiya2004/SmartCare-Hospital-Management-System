@@ -1,13 +1,5 @@
 # 🏥 SmartCare HMS · Hospital Management System
 
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![Java](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://www.oracle.com/java/)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-blue.svg)](https://www.mysql.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-An enterprise-grade, Object-Oriented Software Solution for Hospital Management built with **Java Spring Boot**, **Spring Data JPA**, **MySQL**, and an interactive **Single-Page Application (SPA) Web Dashboard**. Designed for Sri Lankan healthcare operations with native **LKR (Sri Lankan Rupee)** billing integration.
-
----
 
 ## 🌟 Key Features
 

@@ -123,7 +123,7 @@ http://localhost:8080
 
 ## 👨‍💻 Author & Contributors
 
-- **Developer:** Hasindu Senarathna ([@hasiya2004](https://github.com/hasiya2004))
+- **Developer:** Hasindu Senarathna ([@hasiya2004](https://github.com/hasiya2004) , nijanthani , kavinu , anjula)
 - **Project Repository:** [SmartCare-Hospital-Management-System](https://github.com/hasiya2004/SmartCare-Hospital-Management-System)
 
 ---
